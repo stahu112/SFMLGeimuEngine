@@ -2,12 +2,12 @@
 
 void Random::init()
 {
-	srand(time(nullptr));
+	srand(time(0));
 }
 
 int Random::intInRange(int low, int high)
 {
-	return rand % (high - low +1) + low;
+	return rand() % (high - low +1) + low;
 }
 
 float Random::floatInRange(float low, float high)
