@@ -8,6 +8,7 @@ namespace Display
 
 	void clear();
 	void display();
+	void draw(sf::Drawable& drawable);
 
 	void checkWindowEvents();
 

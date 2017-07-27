@@ -1,36 +1,32 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
-
+#include <iostream>
 #include <map>
 
-class Texture_Manager
+template<typename Enum, typename Resource>
+class Resource_Manager
 {
+public:
+	const Resource& get(Enum name) const
+	{
+		return m_resources.at(name);
+	}
+
+
+protected:
+	void addResource(Enum name, const std::string& fileName)
+	{
+		Resource res;
+		if (!res.loadFromFile(fileName))
+		{
+			std::cout << "FAILED TO LOAD: " << fileName << " CHECK PATH!" << std::endl;
+		}
+
+		m_resources.insert(std::make_pair(name, res));
+	}
+
 
 private:
-
-
-public:
-
-};
-
-class Sound_Manager
-{
-
-private:
-
-
-public:
-
-};
-
-class Font_Manager
-{
-
-private:
-
-
-public:
+	std::map<Enum, Resource> m_resources;
 
 };

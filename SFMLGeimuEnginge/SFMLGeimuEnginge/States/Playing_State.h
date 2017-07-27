@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Game_State.h"
+#include "../Display.h"
+#include "../Application.h"
 
 namespace State
 {
@@ -14,5 +16,7 @@ namespace State
 		void draw() override;
 
 	private:
+
+		sf::RectangleShape shape;
 	};
 }

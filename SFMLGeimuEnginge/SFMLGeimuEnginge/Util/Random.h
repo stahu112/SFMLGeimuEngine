@@ -1,11 +1,12 @@
 #pragma once
 
-#include <cstdlib>
-#include <cstdio>
+#include <random>
 #include <ctime>
 
 namespace Random
 {
+	std::minstd_rand gen;
+
 	void init();
 
 	int intInRange(int low, int high);

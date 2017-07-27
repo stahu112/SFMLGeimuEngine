@@ -152,6 +152,7 @@
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Display.cpp" />
     <ClCompile Include="Res\Font_Manager.cpp" />
+    <ClCompile Include="Res\Resource_Holder.cpp" />
     <ClCompile Include="Res\Sound_Manager.cpp" />
     <ClCompile Include="Res\Texture_Manager.cpp" />
     <ClCompile Include="Source.cpp" />

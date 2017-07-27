@@ -42,8 +42,3 @@ void Application::changeState(std::unique_ptr<State::Game_State> state)
 	m_states.pop();
 	m_states.push(std::move(state));
 }
-
-const Resource_Holder & Application::getResources() const
-{
-	return m_resources;
-}

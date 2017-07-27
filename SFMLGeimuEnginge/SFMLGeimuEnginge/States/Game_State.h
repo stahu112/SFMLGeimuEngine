@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../Res/Resource_Holder.h"
+
 class Application;
 
 namespace State
@@ -16,6 +18,7 @@ namespace State
 
 	protected:
 		Application* m_p_application;
+
 
 	};
 }

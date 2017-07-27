@@ -1,24 +1,20 @@
 #pragma once
 
 #include <SFML/Audio.hpp>
-
 #include <map>
+
+#include "Resource_Manager.h"
 
 enum class Sound_Name
 {
 
 };
 
-class Sound_Manager
+class Sound_Manager : public Resource_Manager<Sound_Name, sf::SoundBuffer>
 {
 
-	const sf::SoundBuffer& get(Sound_Name name) const;
-
 private:
-	std::map<Sound_Name, sf::SoundBuffer> m_sounds;
-
-	void addResource(Sound_Name name, std::string& filePath);
 
 public:
-
+	Sound_Manager();
 };

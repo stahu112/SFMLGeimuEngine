@@ -39,4 +39,9 @@ namespace Display
 	{
 		return window->isOpen();
 	}
+
+	void draw(sf::Drawable& drawable)
+	{
+		window->draw(drawable);
+	}
 }

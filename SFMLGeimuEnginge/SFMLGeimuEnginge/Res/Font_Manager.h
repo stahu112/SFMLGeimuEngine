@@ -1,7 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-
+#include "Resource_Manager.h"
 #include <map>
 
 enum class Font_Name
@@ -9,15 +9,12 @@ enum class Font_Name
 
 };
 
-class Font_Manager
+class Font_Manager : public Resource_Manager<Font_Name, sf::Font>
 {
 
 private:
-	std::map < Font_Name, sf::Font > m_fonts;
-
-	void addResource(Font_Name name, std::string& filePath);
+	
 
 public:
-
-	const sf::Font& get(Font_Name name);
+	Font_Manager();
 };

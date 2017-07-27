@@ -2,23 +2,18 @@
 
 #include <SFML/Graphics.hpp>
 #include <map>
+#include "Resource_Manager.h"
 
 enum class Texture_Name
 {
-
+	test
 };
 
-class Texture_Manager
+class Texture_Manager : public Resource_Manager<Texture_Name, sf::Texture>
 {
 
 private:
-	std::map<Texture_Name, sf::Texture> m_textures;
 
 public:
 	Texture_Manager();
-
-	const sf::Texture& get(Texture_Name name) const;
-
-	void addResource(Texture_Name name, std::string& filePath);
-
 };
