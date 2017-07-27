@@ -6,7 +6,8 @@
 
 enum class Texture_Name
 {
-	test
+	test,
+	slime
 };
 
 class Texture_Manager : public Resource_Manager<Texture_Name, sf::Texture>

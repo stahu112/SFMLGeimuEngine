@@ -19,6 +19,5 @@ namespace State
 	protected:
 		Application* m_p_application;
 
-
 	};
 }

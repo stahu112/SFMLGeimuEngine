@@ -3,6 +3,7 @@
 #include "Game_State.h"
 #include "../Display.h"
 #include "../Application.h"
+#include "../Animation.h"
 
 namespace State
 {
@@ -18,5 +19,7 @@ namespace State
 	private:
 
 		sf::RectangleShape shape;
+
+		Animation walkAnimation;
 	};
 }
