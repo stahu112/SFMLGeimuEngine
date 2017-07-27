@@ -8,6 +8,8 @@
 #include "States\Game_State.h"
 #include "States\Playing_State.h"
 
+#include "Res\Resource_Holder.h"
+
 class Application
 {
 public:
@@ -22,7 +24,12 @@ public:
 
 	void changeState(std::unique_ptr<State::Game_State> state);
 
+	const Resource_Holder& getResources() const;
+
 private:
 	std::stack<std::unique_ptr<State::Game_State>> m_states;
+
+	Resource_Holder m_resources;
+
 };
 
