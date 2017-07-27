@@ -14,7 +14,7 @@ namespace Display
 
 	bool isOpen();
 
-	const sf::Vector2u screenSize(1280, 720);
+	const sf::Vector2f screenSize(1280, 720);
 	const std::string title = "SFMLGeimu";
 }
 

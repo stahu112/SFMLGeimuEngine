@@ -20,6 +20,7 @@ namespace State
 
 		sf::RectangleShape shape;
 
+		sf::Sound sound;
 		Animation walkAnimation;
 	};
 }

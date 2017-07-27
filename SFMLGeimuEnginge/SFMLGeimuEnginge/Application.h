@@ -6,7 +6,7 @@
 #include <stack>
 
 #include "States\Game_State.h"
-#include "States\Playing_State.h"
+#include "States\Splash_Screen_State.h"
 
 #include "Res\Resource_Holder.h"
 

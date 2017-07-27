@@ -3,7 +3,7 @@
 Application::Application()
 {
 	Display::init();
-	pushState(std::make_unique<State::Playing>(*this));
+	pushState(std::make_unique<State::Splash_Screen>(*this));
 }
 
 
