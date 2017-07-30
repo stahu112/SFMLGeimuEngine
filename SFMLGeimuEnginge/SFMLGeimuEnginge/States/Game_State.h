@@ -1,5 +1,7 @@
 #pragma once
 
+//Bazowa klasa dla GAME STATE'ow
+
 #include "../Res/Resource_Holder.h"
 
 class Application;
@@ -17,6 +19,7 @@ namespace State
 
 
 	protected:
+		//Wskaznik do aplikacji
 		Application* m_p_application;
 
 	};

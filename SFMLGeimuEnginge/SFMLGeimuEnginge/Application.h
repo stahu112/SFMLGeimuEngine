@@ -15,7 +15,6 @@ class Application
 public:
 
 	Application();
-	~Application();
 
 	void runMainLoop();
 
@@ -25,6 +24,7 @@ public:
 	void changeState(std::unique_ptr<State::Game_State> state);
 
 private:
+	//Stos STATE'ow
 	std::stack<std::unique_ptr<State::Game_State>> m_states;
 
 };

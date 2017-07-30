@@ -1,3 +1,5 @@
+//Klasa bazowa dla Game State'ow czyli np MENU, SPLASH, czy PLAYING itd.
+
 #include "Game_State.h"
 
 #include "../Application.h"

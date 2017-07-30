@@ -1,14 +1,14 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include <map>
 #include "Resource_Manager.h"
 
+//Nazwy tekstur
 enum class Texture_Name
 {
 	test,
-	slime,
-	kupa
+	animtest,
+	test2
 };
 
 class Texture_Manager : public Resource_Manager<Texture_Name, sf::Texture>

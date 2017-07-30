@@ -2,7 +2,6 @@
 
 #include <SFML/Graphics.hpp>
 #include "Resource_Manager.h"
-#include <map>
 
 enum class Font_Name
 {

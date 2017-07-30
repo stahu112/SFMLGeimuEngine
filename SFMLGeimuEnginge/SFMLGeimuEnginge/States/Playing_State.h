@@ -1,9 +1,12 @@
 #pragma once
 
+//STATE PLAYING
+
 #include "Game_State.h"
 #include "../Display.h"
 #include "../Application.h"
 #include "../Animation.h"
+#include "../Character.h"
 
 namespace State
 {
@@ -17,10 +20,9 @@ namespace State
 		void draw() override;
 
 	private:
+		//Dodawac obiekty
 
-		sf::RectangleShape shape;
-
-		sf::Sound sound;
-		Animation walkAnimation;
+		Character player;
+		sf::Music music;
 	};
 }
