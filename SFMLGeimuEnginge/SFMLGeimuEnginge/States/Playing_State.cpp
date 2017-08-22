@@ -16,7 +16,6 @@ namespace State
 	}
 
 	//Aktualizuj stany
-	//TODO liczyc dt, liczenie klatek itp.
 	void Playing::update(float dt)
 	{
 		void processLevel();

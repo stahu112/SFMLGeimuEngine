@@ -19,7 +19,7 @@ namespace State
 			level0
 		};
 
-		//TODO Levels, like splashes on splash screen state
+		//TODO Levele jak splashe przy splash screen state
 		class Level
 		{
 			
@@ -34,8 +34,6 @@ namespace State
 
 		void changeLevel(LevelID level);
 		void processLevel();
-
-		void addLevel(LevelID, );
 
 	private:
 		std::map<LevelID, Level> m_levels;
