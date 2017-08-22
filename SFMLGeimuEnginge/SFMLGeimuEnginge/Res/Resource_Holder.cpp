@@ -2,7 +2,7 @@
 
 //Te metody zwracaja referencje do zasobow
 
-//Statyczna metoda, zwraca obiekt z ktorego mozna pobrac zasoby, czytaj SINGLETON PATTERN
+//Zwraca obiekt z ktorego mozna pobrac zasoby
 const Resource_Holder& Resource_Holder::get()
 {
 	static Resource_Holder holder;

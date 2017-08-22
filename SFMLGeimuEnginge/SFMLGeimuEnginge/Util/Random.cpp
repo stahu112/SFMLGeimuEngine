@@ -1,4 +1,4 @@
-//To jest na razie nie uzywane ale zrobilem generator liczb losowych z wybranego przedzialu
+//Generator liczb losowych na podstawie jakiegoœ z internetu
 //Wiadomo do gier sie przydaje
 
 #include "Random.h"

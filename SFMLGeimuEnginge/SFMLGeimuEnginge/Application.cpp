@@ -24,7 +24,7 @@ void Application::runMainLoop()
 	{
 		sf::Time TimeSinceStart = GameClock.getElapsedTime();
 		sf::Time dt = DeltaClock.restart();
-		//Sprawdz EVENTY
+		//EVENTY
 		Display::checkWindowEvents();
 
 		//Wyczysc okno, domyslnie na czarno

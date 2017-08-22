@@ -3,7 +3,7 @@
 //#########################
 
 //Na razie dosc prosty silnik do gier 2D na podstawie biblioteki SFML
-//TODO Zmienic baze na SFML/OpenGL to wtedy 3D tez
+//TODO Jak sie ogarnie opengl to 3D
 
 //MAIN
 
@@ -19,5 +19,5 @@ int main()
 	//Glowna petla
 	app.runMainLoop();
 
-	return EXIT_SUCCESS; //Makro z iostream "0"
+	return EXIT_SUCCESS; 
 }

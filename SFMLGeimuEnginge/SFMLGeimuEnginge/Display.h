@@ -15,6 +15,6 @@ namespace Display
 	bool isOpen();
 
 	const sf::Vector2f screenSize(1280, 720);
-	const std::string title = "SFMLGeimu";
+	const std::string title = "Najlepsza uber gra";
 }
 

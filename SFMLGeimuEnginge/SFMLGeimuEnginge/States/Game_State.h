@@ -19,7 +19,7 @@ namespace State
 
 
 	protected:
-		//Wskaznik do aplikacji
+		//Do apki
 		Application* m_p_application;
 
 	};

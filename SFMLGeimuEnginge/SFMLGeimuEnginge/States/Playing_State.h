@@ -32,8 +32,13 @@ namespace State
 		void update(float dt) override;
 		void draw() override;
 
+		void changeLevel(LevelID level);
+		void processLevel();
+
+		void addLevel(LevelID, );
+
 	private:
-		std::map<std::string, Level> m_levels;
+		std::map<LevelID, Level> m_levels;
 		Level * currentLevel;
 
 	};

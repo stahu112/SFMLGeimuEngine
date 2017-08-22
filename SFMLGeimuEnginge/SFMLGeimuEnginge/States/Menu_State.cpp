@@ -5,7 +5,7 @@ namespace State
 	Menu::Menu(Application & application)
 		: Game_State(application)
 	{
-		//Constructor...
+		//Konstruktor...
 
 	}
 

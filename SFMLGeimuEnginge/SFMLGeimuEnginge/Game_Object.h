@@ -1,5 +1,8 @@
 #pragma once
 
+//Zrobi sie cos jak w unity
+//TODO wykombinowac jak zrobic componenty
+
 #include <SFML/Graphics.hpp>
 
 class Game_Object

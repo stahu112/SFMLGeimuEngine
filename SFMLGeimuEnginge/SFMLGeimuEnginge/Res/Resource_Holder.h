@@ -1,6 +1,6 @@
 #pragma once
 
-//Struktura dla menadzerow
+//Struct dla menadzerow
 
 #include "Texture_Manager.h"
 #include "Sound_Manager.h"
