@@ -25,13 +25,11 @@ namespace State
 	//TODO liczyc dt, liczenie klatek itp.
 	void Playing::update(float dt)
 	{
-		player.update(dt);
 	}
 
 	//Rysuj obiekty
 	void Playing::draw()
 	{
-		Display::draw(player.shape);
 	}
 
 }

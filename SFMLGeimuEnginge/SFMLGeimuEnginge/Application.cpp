@@ -17,12 +17,13 @@ Application::Application()
 void Application::runMainLoop()
 {
 
-	sf::Clock clock;
+	sf::Clock DeltaClock;
+	sf::Clock GameClock;
 	//Kiedy okno jest otwarte
 	while (Display::isOpen())
 	{
-
-		sf::Time dt = clock.restart();
+		sf::Time TimeSinceStart = GameClock.getElapsedTime();
+		sf::Time dt = DeltaClock.restart();
 		//Sprawdz EVENTY
 		Display::checkWindowEvents();
 

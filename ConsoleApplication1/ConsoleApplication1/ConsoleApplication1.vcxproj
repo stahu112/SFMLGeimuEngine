@@ -19,11 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{1bca8078-fa09-41f6-875b-0002b9eb9ee9}</ProjectGuid>
+    <ProjectGuid>{A886DADF-167F-4A71-91FC-02DB698EFD8F}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>SFMLGeimuEnginge</RootNamespace>
+    <RootNamespace>ConsoleApplication1</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
-    <ProjectName>SFMLGeimuEnginge</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -89,13 +88,10 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Sfml\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Sfml\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-system.lib;sfml-window.lib;sfml-graphics.lib;sfml-audio.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -120,15 +116,12 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Sfml\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Sfml\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-system.lib;sfml-window.lib;sfml-graphics.lib;sfml-audio.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -149,32 +142,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Animation.cpp" />
-    <ClCompile Include="Application.cpp" />
-    <ClCompile Include="Display.cpp" />
-    <ClCompile Include="Res\Font_Manager.cpp" />
-    <ClCompile Include="Res\Resource_Holder.cpp" />
-    <ClCompile Include="Res\Sound_Manager.cpp" />
-    <ClCompile Include="Res\Texture_Manager.cpp" />
-    <ClCompile Include="Source.cpp" />
-    <ClCompile Include="States\Game_State.cpp" />
-    <ClCompile Include="States\Playing_State.cpp" />
-    <ClCompile Include="States\Splash_Screen_State.cpp" />
-    <ClCompile Include="Util\Random.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Animation.h" />
-    <ClInclude Include="Application.h" />
-    <ClInclude Include="Display.h" />
-    <ClInclude Include="Res\Font_Manager.h" />
-    <ClInclude Include="Res\Resource_Holder.h" />
-    <ClInclude Include="Res\Resource_Manager.h" />
-    <ClInclude Include="Res\Sound_Manager.h" />
-    <ClInclude Include="Res\Texture_Manager.h" />
-    <ClInclude Include="States\Game_State.h" />
-    <ClInclude Include="States\Playing_State.h" />
-    <ClInclude Include="States\Splash_Screen_State.h" />
-    <ClInclude Include="Util\Random.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
