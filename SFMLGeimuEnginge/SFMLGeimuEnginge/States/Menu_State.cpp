@@ -21,7 +21,7 @@ namespace State
 
 	void Menu::draw()
 	{
-
+		std::cout << "MENU" << std::endl;
 	}
 
 }

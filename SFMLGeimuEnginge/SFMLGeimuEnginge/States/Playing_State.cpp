@@ -8,17 +8,11 @@ namespace State
 	Playing::Playing(Application & application)
 		: Game_State(application)
 	{
-		//Obiekt MUSIC w przeciwienstwie do obiektu SOUND, czyta plik bezposrednio z dysku zeby zaoszczedzic miejsce
-		//Dlatego nie robilem dla niego managera
-		music.openFromFile("Resources/Sound/yam.ogg");
-		music.play();
-
 	}
 
 	//Sterowanie itp.
 	void Playing::input()
 	{
-
 	}
 
 	//Aktualizuj stany
@@ -30,6 +24,7 @@ namespace State
 	//Rysuj obiekty
 	void Playing::draw()
 	{
+		std::cout << "Playing" << std::endl;
 	}
 
 }

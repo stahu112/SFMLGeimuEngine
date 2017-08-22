@@ -51,6 +51,12 @@
     <ClCompile Include="States\Splash_Screen_State.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="States\Menu_State.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game_Object.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Display.h">
@@ -87,6 +93,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="States\Splash_Screen_State.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="States\Menu_State.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game_Object.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

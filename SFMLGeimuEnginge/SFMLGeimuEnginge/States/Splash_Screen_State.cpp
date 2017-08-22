@@ -2,7 +2,7 @@
 
 #include "Splash_Screen_State.h"
 
-#include "Playing_State.h"
+#include "Menu_State.h"
 #include "../Application.h"
 
 namespace State
@@ -92,9 +92,9 @@ namespace State
 				}
 			}
 		}
-		else		//Jesli nie ma wiecej splashy to wepchnij STATE Playing na stos STATE'ow
+		else		//Jesli nie ma wiecej splashy to wepchnij STATE Menu na stos STATE'ow
 		{
-			m_p_application->changeState(std::make_unique<Playing>(*m_p_application));
+			m_p_application->changeState(std::make_unique<Menu>(*m_p_application));
 		}
 	}
 
