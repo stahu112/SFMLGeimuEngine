@@ -5,8 +5,11 @@ namespace State
 	Menu::Menu(Application & application)
 		: Game_State(application)
 	{
-		//Konstruktor...
+		initState();
+	}
 
+	void Menu::initState()
+	{
 	}
 
 	void Menu::input()

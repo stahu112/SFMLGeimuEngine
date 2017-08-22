@@ -57,7 +57,11 @@ namespace State
 	Splash_Screen::Splash_Screen(Application & application)
 		: Game_State(application)
 	{
+		initState();
+	}
 
+	void Splash_Screen::initState()
+	{
 		//Wrzuc splashe na poczatek kolejki
 		m_splashes.emplace(Resource_Holder::get().getTexture(Texture_Name::test),
 			2.0f);
