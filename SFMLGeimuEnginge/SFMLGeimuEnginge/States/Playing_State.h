@@ -22,7 +22,8 @@ namespace State
 		//TODO Levele jak splashe przy splash screen state
 		class Level
 		{
-			
+		public:
+			int test;
 		};
 
 	public:
