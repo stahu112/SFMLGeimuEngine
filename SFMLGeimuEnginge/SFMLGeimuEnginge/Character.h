@@ -3,6 +3,8 @@
 #include "Game_Object.h"
 #include "Animation.h"
 
+class Level;
+
 class Character : public Game_Object
 {
 	
@@ -20,6 +22,8 @@ class Character : public Game_Object
 	};
 
 	State currentState;
+
+	Level* levelHandle;
 
 	sf::Sprite sprite;
 	sf::Vector2f velocity = {0,0};

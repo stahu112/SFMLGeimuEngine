@@ -154,6 +154,7 @@
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="Display.cpp" />
     <ClCompile Include="Game_Object.cpp" />
+    <ClCompile Include="Level.cpp" />
     <ClCompile Include="Res\Font_Manager.cpp" />
     <ClCompile Include="Res\Resource_Holder.cpp" />
     <ClCompile Include="Res\Sound_Manager.cpp" />
@@ -163,6 +164,7 @@
     <ClCompile Include="States\Menu_State.cpp" />
     <ClCompile Include="States\Playing_State.cpp" />
     <ClCompile Include="States\Splash_Screen_State.cpp" />
+    <ClCompile Include="Tile_Map.cpp" />
     <ClCompile Include="Util\Random.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -171,6 +173,7 @@
     <ClInclude Include="Character.h" />
     <ClInclude Include="Display.h" />
     <ClInclude Include="Game_Object.h" />
+    <ClInclude Include="Level.h" />
     <ClInclude Include="Res\Font_Manager.h" />
     <ClInclude Include="Res\Resource_Holder.h" />
     <ClInclude Include="Res\Resource_Manager.h" />
@@ -180,6 +183,7 @@
     <ClInclude Include="States\Menu_State.h" />
     <ClInclude Include="States\Playing_State.h" />
     <ClInclude Include="States\Splash_Screen_State.h" />
+    <ClInclude Include="Tile_Map.h" />
     <ClInclude Include="Util\Random.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

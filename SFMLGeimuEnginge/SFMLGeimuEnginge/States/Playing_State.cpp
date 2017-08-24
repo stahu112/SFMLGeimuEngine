@@ -11,6 +11,16 @@ namespace State
 		initState();
 	}
 
+	void Playing::initState()
+	{
+		initLevels();
+	}
+
+
+	//############################################
+	//############################################
+	//############################################
+
 	//Sterowanie itp.
 	void Playing::input()
 	{
@@ -26,18 +36,13 @@ namespace State
 	//Rysuj obiekty
 	void Playing::draw()
 	{
+		if(currentLevel) currentLevel->drawLevel();
+	}
 	
-	}
-
-	void Playing::initState()
-	{
-		Level level0;
-		level0.test = 1;
-		m_levels.insert(std::make_pair(LevelID::level0, level0));
-
-		changeLevel(LevelID::level0);
-	}
-
+	//############################################
+	//############################################
+	//############################################
+	
 	void Playing::changeLevel(LevelID level)
 	{
 		currentLevel = &m_levels.at(level);
@@ -46,6 +51,20 @@ namespace State
 	void Playing::processLevel()
 	{
 		//TODO Jesli cos tam to zmien level na jakis tam np. jesli wlezie na teleport do levelu las to zmien currentlevel na level las itd.
+	}
+
+	//AddLevel
+	void Playing::addLevel()
+	{
+	}
+
+	//AddLevelFromFile
+	void Playing::addLevel(std::string & path)
+	{
+	}
+
+	void Playing::initLevels()
+	{
 	}
 
 }
