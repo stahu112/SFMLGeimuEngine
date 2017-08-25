@@ -8,7 +8,8 @@ enum class Texture_Name
 {
 	test,
 	animtest,
-	test2
+	test2,
+	tileset
 };
 
 class Texture_Manager : public Resource_Manager<Texture_Name, sf::Texture>

@@ -28,9 +28,8 @@ namespace State
 		
 		//LEVELS
 		void changeLevel(LevelID level);
-		void processLevel();
-		void addLevel();
-		void addLevel(std::string& path);
+		void updateLevel();
+		void addLevel(LevelID id, Level level);
 		void initLevels();
 
 	private:

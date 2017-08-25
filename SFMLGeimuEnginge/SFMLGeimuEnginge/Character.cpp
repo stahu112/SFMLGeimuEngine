@@ -7,6 +7,26 @@ void Character::update(float dt)
 {
 }
 
+void Character::setBaseHitbox(sf::Vector2f size)
+{
+	baseHitbox.left = getPosition().x;
+	baseHitbox.top = getPosition().y;
+
+	baseHitbox.width = size.x;
+	baseHitbox.height = size.y;
+}
+
+void Character::setBaseHitbox()
+{
+	baseHitbox.left = getPosition().x;
+	baseHitbox.top = getPosition().y;
+}
+
+sf::FloatRect Character::getBaseHitbox() const
+{
+	return baseHitbox;
+}
+
 void Character::setLevelHandle(LevelID id, State::Playing& state)
 {
 	levelHandle = state.getCurrentLevel();

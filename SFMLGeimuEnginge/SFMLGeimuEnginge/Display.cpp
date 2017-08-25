@@ -59,4 +59,9 @@ namespace Display
 	{
 		window->draw(drawable);
 	}
+
+	void setView(sf::View& view)
+	{
+		window->setView(view);
+	}
 }

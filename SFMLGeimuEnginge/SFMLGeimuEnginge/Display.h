@@ -10,6 +10,8 @@ namespace Display
 	void display();
 	void draw(sf::Drawable& drawable);
 
+	void setView(sf::View& view);
+
 	void checkWindowEvents();
 
 	bool isOpen();

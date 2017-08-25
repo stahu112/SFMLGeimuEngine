@@ -1,20 +1,49 @@
 #include "Level.h"
 
-bool Level::assignBackground(std::string & path)
+void Level::setView()
 {
-	return false;
+	resetView();
+	Display::setView(this->levelView);
+}
+
+sf::View Level::getView() const
+{
+	return levelView;
+}
+
+void Level::resetView()
+{
+	levelView.reset(sf::FloatRect(0, 0, this->size.x*this->tileSize.x,this->size.y*this->tileSize.y));
+}
+
+void Level::assignBackgroundTex(Texture_Name name)
+{
+	backgroundTexture.setTexture(&Resource_Holder::get().getTexture(name));
+	backgroundTexture.setSize(sf::Vector2f(sf::Vector2u(this->size.x*this->tileSize.x, this->size.y*this->tileSize.y)));
+}
+
+void Level::updateAnim()
+{
+	backgroundTexture.setTextureRect(backgroundAnimation.getFrame());
 }
 
 void Level::drawLevel()
 {
-	for (unsigned i = 0; i < m_backgroundLayers.size(); i++)
-	{
-		Display::draw(m_backgroundLayers.at(i));
-	}
-
+	if (isAnimated) updateAnim();
+	Display::draw(backgroundTexture);
 	Display::draw(tileMap);
 }
 
-Level::Level()
+Level::Level(
+	Texture_Name TileSet,
+	Texture_Name BackgroundTextureName,
+	sf::Vector2u LevelSize,
+	const int* LevelDesign,
+	bool isAnimated = false) :
+	isAnimated(isAnimated),
+	size(LevelSize)
 {
+	setView();
+	assignBackgroundTex(BackgroundTextureName);
+	tileMap.load(TileSet, tileSize, LevelDesign, LevelSize.x, LevelSize.y);
 }
