@@ -152,6 +152,7 @@
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Character.cpp" />
+    <ClCompile Include="Character_Candy.cpp" />
     <ClCompile Include="Display.cpp" />
     <ClCompile Include="Game_Object.cpp" />
     <ClCompile Include="Level.cpp" />
@@ -171,6 +172,7 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Character.h" />
+    <ClInclude Include="Character_Candy.h" />
     <ClInclude Include="Display.h" />
     <ClInclude Include="Game_Object.h" />
     <ClInclude Include="Level.h" />

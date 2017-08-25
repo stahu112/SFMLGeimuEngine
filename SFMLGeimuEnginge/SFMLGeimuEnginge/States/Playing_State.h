@@ -20,6 +20,7 @@ namespace State
 		Playing(Application& application);
 
 		void initState() override;
+		Level * getCurrentLevel() const;
 		
 		void input() override;
 		void update(float dt) override;
@@ -35,8 +36,6 @@ namespace State
 	private:
 		std::map<LevelID, Level> m_levels;
 		Level * currentLevel = nullptr;
-
-		Character chara;
 
 	};
 }

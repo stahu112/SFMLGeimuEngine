@@ -16,6 +16,11 @@ namespace State
 		initLevels();
 	}
 
+	Level * Playing::getCurrentLevel() const
+	{
+		return currentLevel;
+	}
+
 
 	//############################################
 	//############################################
@@ -30,7 +35,6 @@ namespace State
 	void Playing::update(float dt)
 	{
 		void processLevel();
-		chara.update(dt);
 	}
 
 	//Rysuj obiekty

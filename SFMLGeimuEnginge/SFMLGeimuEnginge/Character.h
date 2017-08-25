@@ -1,50 +1,43 @@
 #pragma once
 
 #include "Game_Object.h"
-#include "Animation.h"
 
 class Level;
+namespace State { class Playing; };
+enum class LevelID;
 
 class Character : public Game_Object
 {
 	
-	enum class State
+	struct baseStats
 	{
-		Idle,
-		WalkRight,
-		WalkLeft,
-		Jumping
+		unsigned HP;
+		unsigned Level;
+		unsigned EXP;
 	};
 
-	enum class AnimationID
-	{
-
-	};
-
-	State currentState;
-
+	baseStats baseStats;
 	Level* levelHandle;
 
-	sf::Sprite sprite;
+	sf::Sprite spriteSheet;
 	sf::Vector2f velocity = {0,0};
 
-	//Animation Component
-	std::map<AnimationID, Animation> m_animations;
-
 public:
-	void setAnimations();
-	sf::IntRect getFrame(AnimationID id);
 	
+	void setLevelHandle(LevelID id, State::Playing& state);
+	void setVelocity(sf::Vector2f newVel);
+	sf::Vector2f getVelocity() const;
+
+
 	//Physics Component
-	void applyPhysics(float dt);
 
 	//Input Component
-	void handleInput();
+	virtual void handleInput() = 0;
 
 	//State manager
-	void processStates();
+	virtual void processStates() = 0;
 
-	void update(float dt) override;
+	virtual void update(float dt);
 
 	Character();
 
