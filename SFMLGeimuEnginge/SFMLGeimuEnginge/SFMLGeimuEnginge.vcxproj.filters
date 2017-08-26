@@ -125,5 +125,8 @@
     <ClInclude Include="Character_Candy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="LevelsDes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

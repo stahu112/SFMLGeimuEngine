@@ -2,14 +2,10 @@
 
 #include "Game_Object.h"
 
-class Level;
-namespace State { class Playing; };
-enum class LevelID;
-
 class Character : public Game_Object
 {
 	
-	struct baseStats
+	struct BaseStats
 	{
 		std::string ID = "Xamindar";
 		unsigned BaseHP = 1;
@@ -19,8 +15,7 @@ class Character : public Game_Object
 
 	sf::FloatRect baseHitbox;
 
-	baseStats baseStats;
-	Level* levelHandle = nullptr;
+	BaseStats baseStats;
 
 	sf::Sprite spriteSheet;
 	sf::Vector2f charSize;
@@ -33,8 +28,11 @@ public:
 	void setBaseHitbox();
 	//Returns baseHitbox
 	sf::FloatRect getBaseHitbox() const;
+	
+	//
+	BaseStats getBaseStats() const;
+	void setBaseStats(std::string ID, unsigned BaseHP, unsigned Level);
 
-	void setLevelHandle(LevelID id, State::Playing& state);
 	void setVelocity(sf::Vector2f newVel);
 	sf::Vector2f getVelocity() const;
 

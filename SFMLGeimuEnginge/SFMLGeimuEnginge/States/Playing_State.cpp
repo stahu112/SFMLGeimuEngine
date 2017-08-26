@@ -22,6 +22,11 @@ namespace State
 		return currentLevel;
 	}
 
+	Character * Playing::getPlayer() const
+	{
+		return player;
+	}
+
 
 	//############################################
 	//############################################
@@ -75,7 +80,7 @@ namespace State
 		Level level0(
 			Texture_Name::tileset,
 			Texture_Name::test2,
-			sf::Vector2u(10,5),
+			sf::Vector2u(200,10),
 			level0des,
 			false
 		);

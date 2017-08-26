@@ -11,6 +11,7 @@ class Character_Candy : public Character
 
 	struct UniqueStats
 	{
+
 	};
 
 	enum class CState
@@ -45,6 +46,9 @@ class Character_Candy : public Character
 	CState currentState;
 
 public:
+
+	UniqueStats getUniqueStats() const;
+	//void setUniqueStats(); TODO setUniqueStats
 
 	void handleInput() override;
 	

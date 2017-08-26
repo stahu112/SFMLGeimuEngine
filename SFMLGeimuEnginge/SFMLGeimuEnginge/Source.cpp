@@ -2,9 +2,6 @@
 //#MICHAL STANKIEWICZ 2017#
 //#########################
 
-//Na razie dosc prosty silnik do gier 2D na podstawie biblioteki SFML
-//TODO Jak sie ogarnie opengl to 3D
-
 //MAIN
 
 #include <iostream>

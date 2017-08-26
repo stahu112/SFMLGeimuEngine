@@ -1,7 +1,6 @@
 #include "Character.h"
 
 #include <iostream>
-#include "States\Playing_State.h"
 
 void Character::update(float dt)
 {
@@ -27,9 +26,16 @@ sf::FloatRect Character::getBaseHitbox() const
 	return baseHitbox;
 }
 
-void Character::setLevelHandle(LevelID id, State::Playing& state)
+Character::BaseStats Character::getBaseStats() const
 {
-	levelHandle = state.getCurrentLevel();
+	return baseStats;
+}
+
+void Character::setBaseStats(std::string ID, unsigned BaseHP, unsigned Level)
+{
+	this->baseStats.Level = Level;
+	this->baseStats.ID = ID;
+	this->baseStats.BaseHP = BaseHP;
 }
 
 void Character::setVelocity(sf::Vector2f newVel)

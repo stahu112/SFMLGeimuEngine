@@ -4,7 +4,7 @@ Animation::Animation()
 {
 }
 
-Animation::Animation(bool playOnce) :
+Animation::Animation(bool playOnce = false) :
 	playOnce(playOnce)
 {}
 

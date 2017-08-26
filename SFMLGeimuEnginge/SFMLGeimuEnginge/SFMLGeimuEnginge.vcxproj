@@ -176,6 +176,7 @@
     <ClInclude Include="Display.h" />
     <ClInclude Include="Game_Object.h" />
     <ClInclude Include="Level.h" />
+    <ClInclude Include="LevelsDes.h" />
     <ClInclude Include="Res\Font_Manager.h" />
     <ClInclude Include="Res\Resource_Holder.h" />
     <ClInclude Include="Res\Resource_Manager.h" />
