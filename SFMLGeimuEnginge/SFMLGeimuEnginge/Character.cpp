@@ -21,12 +21,12 @@ void Character::setBaseHitbox()
 	baseHitbox.top = getPosition().y;
 }
 
-sf::FloatRect Character::getBaseHitbox()
+sf::FloatRect & Character::getBaseHitbox()
 {
 	return baseHitbox;
 }
 
-sf::Sprite Character::getSprite()
+sf::Sprite & Character::getSprite()
 {
 	return spriteSheet;
 }
@@ -59,6 +59,11 @@ void Character::handleInput()
 
 void Character::processStates()
 {
+}
+
+void Character::draw()
+{
+	Display::draw(getSprite());
 }
 
 Character::Character()

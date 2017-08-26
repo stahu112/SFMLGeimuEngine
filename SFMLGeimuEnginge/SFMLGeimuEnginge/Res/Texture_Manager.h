@@ -7,6 +7,7 @@
 enum class Texture_Name
 {
 	test,
+	test1,
 	animtest,
 	test2,
 	tileset

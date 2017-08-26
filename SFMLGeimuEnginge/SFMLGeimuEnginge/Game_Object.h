@@ -18,6 +18,6 @@ private:
 
 	static unsigned count;
 
-	sf::Vector2f Position;
+	sf::Vector2f Position = {0,0};
 };
 

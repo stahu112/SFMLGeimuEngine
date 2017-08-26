@@ -2,6 +2,7 @@
 
 #include "Character.h"
 #include "Animation.h"
+#include "Res\Resource_Holder.h"
 
 class Character_Candy : public Character
 {

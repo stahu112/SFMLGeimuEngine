@@ -13,6 +13,7 @@ namespace State
 
 	void Playing::initState()
 	{
+		setPlayer(&Candy);
 		initLevels();
 		changeLevel(LevelID::level0);
 	}
@@ -41,6 +42,9 @@ namespace State
 	void Playing::update(float dt)
 	{
 		updateLevel();
+		getPlayer()->getBaseStats().ID = "cos";
+		std::cout << getPlayer()->getBaseStats().ID << " " << getPlayer()->getPosition().y << std::endl;
+		getPlayer()->update(dt);
 	}
 
 	//Rysuj obiekty
@@ -85,6 +89,12 @@ namespace State
 			false
 		);
 		addLevel(LevelID::level0, level0);
+		level0.setPlayerHandle(*this);
+	}
+
+	void Playing::setPlayer(Character * chara)
+	{
+		player = chara;
 	}
 
 }

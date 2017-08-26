@@ -1,7 +1,5 @@
 #include "Character_Candy.h"
 
-
-
 Character_Candy::UniqueStats Character_Candy::getUniqueStats() const
 {
 	return uniqueStats;
@@ -19,11 +17,13 @@ void Character_Candy::update(float dt)
 {
 	//apply physics and shit
 	getSprite().setPosition(getPosition());
+	draw();
 }
 
 Character_Candy::Character_Candy()
 {
 	setBaseStats("Candy",1250,1);
+	getSprite().setTexture(Resource_Holder::get().getTexture(Texture_Name::test1));
 }
 
 void Character_Candy::jump()

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game_Object.h"
+#include "Display.h"
 
 class Character : public Game_Object
 {
@@ -22,14 +23,14 @@ class Character : public Game_Object
 	sf::Vector2f velocity = {0,0};
 
 public:
-	
+
 	//Sets HITBOX in characters position, with or without new size
 	void setBaseHitbox(sf::Vector2f size);
 	void setBaseHitbox();
 	//Returns baseHitbox
-	sf::FloatRect getBaseHitbox();
+	sf::FloatRect & getBaseHitbox();
 
-	sf::Sprite getSprite();
+	sf::Sprite & getSprite();
 	
 	//
 	BaseStats getBaseStats() const;
@@ -45,6 +46,8 @@ public:
 
 	//State manager
 	virtual void processStates() = 0;
+
+	void draw();
 
 	virtual void update(float dt);
 

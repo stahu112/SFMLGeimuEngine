@@ -8,8 +8,11 @@
 #include "../Animation.h"
 #include "../Character.h"
 #include "../Level.h"
+#include "../Character_Candy.h"
 
 #include <map>
+
+static Character_Candy Candy;
 
 namespace State
 {
@@ -33,6 +36,8 @@ namespace State
 		void addLevel(LevelID id, Level level);
 		void initLevels();
 
+		//SET
+		void setPlayer(Character* chara);
 	private:
 		std::map<LevelID, Level> m_levels;
 		Level * currentLevel = nullptr;
