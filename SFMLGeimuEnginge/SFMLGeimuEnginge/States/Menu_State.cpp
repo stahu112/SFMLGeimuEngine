@@ -10,8 +10,11 @@ namespace State
 
 	void Menu::initState()
 	{
+		backgroundTexture.setSize(Display::screenSize);
+		assignBackgroundTex(Texture_Name::test);
 	}
 
+	//##############
 	void Menu::input()
 	{
 
@@ -24,7 +27,21 @@ namespace State
 
 	void Menu::draw()
 	{
-		std::cout << "MENU" << std::endl;
+		if (isAnimated) { updateAnim(); };
+		Display::draw(backgroundTexture);
+
+		
+	}
+
+	//######################
+	void Menu::assignBackgroundTex(Texture_Name name)
+	{
+		backgroundTexture.setTexture(&Resource_Holder::get().getTexture(name));
+	}
+
+	void Menu::updateAnim()
+	{
+		backgroundTexture.setTextureRect(backgroundAnimation.getFrame());
 	}
 
 }

@@ -2,5 +2,5 @@
 
 Font_Manager::Font_Manager()
 {
-
+	addResource(Font_Name::menuFont, "Resources/Fonts/menufont.ttf");
 }

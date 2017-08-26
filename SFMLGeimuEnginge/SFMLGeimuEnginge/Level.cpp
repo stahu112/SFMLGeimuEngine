@@ -48,7 +48,7 @@ void Level::updateAnim()
 //DRAW
 void Level::drawLevel()
 {
-	if (isAnimated) updateAnim();
+	if (isAnimated) { updateAnim(); };
 	Display::draw(backgroundTexture);
 	Display::draw(tileMap);
 }

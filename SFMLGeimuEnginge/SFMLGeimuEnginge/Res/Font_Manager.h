@@ -5,7 +5,7 @@
 
 enum class Font_Name
 {
-
+	menuFont
 };
 
 class Font_Manager : public Resource_Manager<Font_Name, sf::Font>

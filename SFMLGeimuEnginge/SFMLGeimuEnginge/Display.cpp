@@ -22,7 +22,7 @@ namespace Display
 	//Czysc okno
 	void clear()
 	{
-		window->clear();
+		window->clear(sf::Color(255,255,255,255));
 	}
 
 	//Wyswietl rzeczy

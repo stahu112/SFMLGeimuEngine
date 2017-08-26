@@ -9,8 +9,18 @@ namespace State
 {
 	class Menu : public Game_State
 	{
+	private:
+
+		sf::RectangleShape backgroundTexture;
+		Animation backgroundAnimation;
+
+		bool isAnimated = false;
+
 	public:
 		Menu(Application& application);
+
+		void assignBackgroundTex(Texture_Name name);
+		void updateAnim();
 
 		void initState() override;
 		void input() override;
