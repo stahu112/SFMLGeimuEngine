@@ -27,7 +27,9 @@ public:
 	void setBaseHitbox(sf::Vector2f size);
 	void setBaseHitbox();
 	//Returns baseHitbox
-	sf::FloatRect getBaseHitbox() const;
+	sf::FloatRect getBaseHitbox();
+
+	sf::Sprite getSprite();
 	
 	//
 	BaseStats getBaseStats() const;

@@ -21,9 +21,14 @@ void Character::setBaseHitbox()
 	baseHitbox.top = getPosition().y;
 }
 
-sf::FloatRect Character::getBaseHitbox() const
+sf::FloatRect Character::getBaseHitbox()
 {
 	return baseHitbox;
+}
+
+sf::Sprite Character::getSprite()
+{
+	return spriteSheet;
 }
 
 Character::BaseStats Character::getBaseStats() const

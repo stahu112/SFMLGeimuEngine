@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Character.h"
+#include "Animation.h"
 
 class Character_Candy : public Character
 {
@@ -10,6 +11,11 @@ class Character_Candy : public Character
 	};
 
 	struct UniqueStats
+	{
+
+	};
+
+	enum class AnimationID
 	{
 
 	};
@@ -45,6 +51,8 @@ class Character_Candy : public Character
 
 	CState currentState;
 
+	std::map<AnimationID, Animation> m_animations;
+
 public:
 
 	UniqueStats getUniqueStats() const;
@@ -57,5 +65,13 @@ public:
 	void update(float dt) override;
 
 	Character_Candy();
-	
+
+	//Commands
+	void jump();
+	void jump(float vel);
+
+	void walkL();
+	void walkR();
+	void runL();
+	void runR();
 };
