@@ -12,8 +12,6 @@
 
 #include <map>
 
-static Character_Candy Candy;
-
 namespace State
 {
 	class Playing : public Game_State

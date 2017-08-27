@@ -1,53 +1,29 @@
 #include "Tile_Map.h"
 #include "Level.h"
 
-TileMap::TileMap()
-{
-}
-
 void TileMap::load(Texture_Name tileset, sf::Vector2u tileSize, const int* tiles, unsigned int width, unsigned int height, Level lev)
 {
+	for (unsigned int i = 0; i < levelHandle->getSize().x * levelHandle->getSize().y; i++)
+	{
+		m_tileBoxes.emplace_back(TileType::Empty);
+	}
+
+	for (std::vector<TileHitbox>::iterator it = m_tileBoxes.begin(); it != m_tileBoxes.end(); it++)
+	{
+		for (unsigned i = 0; i < levelHandle->getSize().x * levelHandle->getSize().x; i++)
+		{
+			for (unsigned j = 0; j < levelHandle->getSize().x * levelHandle->getSize().x; j++)
+			{
+				it->hitbox.top = i * tileSize.y;
+				it->hitbox.left = j * tileSize.x;
+
+				it->rect.setPosition(i * tileSize.x, j * tileSize.y);
+			}
+		}
+	}
 	setLevelHandle(lev);
+
 	levDes = tiles;
-
-	for (unsigned i = 0; i < levelHandle->getSize().x * levelHandle->getSize().y; i++)
-	{
-		m_tileBoxes.emplace_back();
-	}
-
-	unsigned cyc = 0;
-	unsigned bob = 0;
-	unsigned i = 0;
-	
-	while(bob < m_tileBoxes.size())
-	{
-		while (cyc < levelHandle->getSize().x)
-		{
-			m_tileBoxes[bob].hitbox.left = cyc * 16;
-			m_tileBoxes[bob].hitbox.top = i * 16;
-			m_tileBoxes[bob].rect.setPosition(sf::Vector2f(cyc * 16,i*16));
-			cyc++;
-			bob++;
-		}
-		if(i < levelHandle->getSize().y) i++;
-		else i = 0;
-		cyc = 0;
-	}
-
-	for (unsigned i = 0; i < m_tileBoxes.size();i++)
-	{
-		m_tileBoxes[i].rect.setSize(sf::Vector2f(16, 16));
-		if (tiles[i] == 1)
-		{
-			m_tileBoxes[i].tileType = TileType::Normal;
-			m_tileBoxes[i].rect.setFillColor(sf::Color::Red);
-		}
-		else
-		{
-			m_tileBoxes[i].tileType = TileType::Empty;
-			m_tileBoxes[i].rect.setFillColor(sf::Color::Green);
-		}
-	}
 
 	m_tileset = Resource_Holder::get().getTexture(tileset);
 
@@ -102,4 +78,13 @@ void TileMap::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 	// draw the vertex array
 	target.draw(m_vertices, states);
+}
+
+TileMap::TileHitbox::TileHitbox(TileType type)
+{
+	tileType = type;
+	hitbox.width = 16;
+	hitbox.height = 16;
+	rect.setSize({ 16,16 });
+	rect.setFillColor({ 255,0,0,255 });
 }

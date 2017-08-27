@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+static Character_Candy Candy;
+
 namespace State
 {
 	//Inicjuj STATE, testowo potworzone rozne obiekty, przypisane tekstury, dzwieki itp
@@ -43,8 +45,25 @@ namespace State
 	{
 		updateLevel();
 		getPlayer()->update(dt);
-	}
 
+		for (unsigned i = 0; i < getCurrentLevel()->getTileMap().m_tileBoxes.size(); i++)
+		{
+			//Display::draw(getCurrentLevel()->getTileMap().m_tileBoxes[i].rect);
+
+			if (getPlayer()->getBaseHitbox().intersects(
+				getCurrentLevel()->getTileMap().m_tileBoxes[i].hitbox) &&
+				getCurrentLevel()->getTileMap().m_tileBoxes[i].tileType == TileType::Normal)
+			{
+				getPlayer()->getFlags().onGround = true;
+			}
+			else if (getPlayer()->getBaseHitbox().intersects(
+				getCurrentLevel()->getTileMap().m_tileBoxes[i].hitbox) &&
+				getCurrentLevel()->getTileMap().m_tileBoxes[i].tileType == TileType::Empty)
+			{
+				getPlayer()->getFlags().onGround = false;
+			}
+		}
+	}
 	//Rysuj obiekty
 	void Playing::draw()
 	{
@@ -68,6 +87,7 @@ namespace State
 
 			//DRAW
 			currentLevel->drawLevel();
+			//Display::draw(currentLevel->getTileMap().m_tileBoxes[1].rect);
 		}
 	}
 
@@ -82,7 +102,7 @@ namespace State
 		Level level0(
 			Texture_Name::tileset,
 			Texture_Name::test2,
-			sf::Vector2u(200,10),
+			sf::Vector2u(10,10),
 			level0des,
 			false,
 			*this

@@ -6,10 +6,6 @@
 
 class Character_Candy : public Character
 {
-	struct Flags
-	{
-		bool onGround = true;
-	};
 
 	struct UniqueStats
 	{

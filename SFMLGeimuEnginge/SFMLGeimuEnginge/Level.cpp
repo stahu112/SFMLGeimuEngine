@@ -13,6 +13,16 @@ Character * Level::getPlayerHandle()
 	return PlayerHandle;
 }
 
+sf::Vector2u Level::getSize() const
+{
+	return size;
+}
+
+TileMap & Level::getTileMap()
+{
+	return tileMap;
+}
+
 //USTAW VIEW
 void Level::setView()
 {
@@ -31,17 +41,18 @@ void Level::resetView()
 {
 	if (getPlayerHandle())
 	{
-		if (getPlayerHandle()->getPosition().x < 16 * 4)
+		//levelView.reset(sf::FloatRect(0, 0, Display::screenSize.x, Display::screenSize.y));
+		if (getPlayerHandle()->getPosition().x < (float)tileSize.x * 4)
 		{
-			levelView.reset(sf::FloatRect(0, 0, 16 * 8, 16 * 5));
+			levelView.reset(sf::FloatRect(0, getPlayerHandle()->getPosition().y, (float)tileSize.x * 8, (float)tileSize.x * 6));
 		}
-		else if (getPlayerHandle()->getPosition().x > (size.x - 4) * 16)
+		else if (getPlayerHandle()->getPosition().x > (size.x - 4) * (float)tileSize.x)
 		{
-			levelView.reset(sf::FloatRect((size.x * 16) - 8*16, 0, 16 * 8, 16 * 5));
+			levelView.reset(sf::FloatRect((size.x * (float)tileSize.x) - 8* (float)tileSize.x, getPlayerHandle()->getPosition().y, (float)tileSize.x * 8, (float)tileSize.x * 6));
 		}
 		else
 		{
-			levelView.reset(sf::FloatRect(getPlayerHandle()->getPosition().x - 16*4, getPlayerHandle()->getPosition().y, 16 * 8, 16 * 5));
+			levelView.reset(sf::FloatRect(getPlayerHandle()->getPosition().x - (float)tileSize.x *4, getPlayerHandle()->getPosition().y, (float)tileSize.x * 8, (float)tileSize.x * 6));
 		}
 	}
 }
@@ -50,7 +61,7 @@ void Level::resetView()
 void Level::assignBackgroundTex(Texture_Name name)
 {
 	backgroundTexture.setTexture(&Resource_Holder::get().getTexture(name));
-	backgroundTexture.setSize(sf::Vector2f(sf::Vector2u(this->size.x*this->tileSize.x, this->size.y*this->tileSize.y)));
+	backgroundTexture.setSize(sf::Vector2f(sf::Vector2u(this->size.x*this->tileSize.x, this->size.y*this->tileSize.x)));
 }
 
 //JESLI TLO JEST ANIMOWANE
@@ -81,5 +92,6 @@ Level::Level(
 	setPlayerHandle(state);
 	setView();
 	assignBackgroundTex(BackgroundTextureName);
-	tileMap.load(TileSet, tileSize, LevelDesign, LevelSize.x, LevelSize.y);
+	tileMap.load(TileSet, tileSize, LevelDesign, LevelSize.x, LevelSize.y, *this);
+
 }

@@ -27,7 +27,6 @@ class Level
 	sf::View levelView;
 
 	TileMap tileMap;
-	sf::Vector2u tileSize = { 16,16 };
 
 	Character* PlayerHandle = nullptr;
 
@@ -35,6 +34,12 @@ public:
 	//PlayerHandle
 	void setPlayerHandle(State::Playing state);
 	Character* getPlayerHandle();
+
+	sf::Vector2u tileSize = {16, 16};
+
+	sf::Vector2u getSize() const;
+
+	TileMap & getTileMap();
 
 	//View
 	void setView();

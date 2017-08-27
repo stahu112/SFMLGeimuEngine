@@ -3,12 +3,20 @@
 #include "Game_Object.h"
 #include "Display.h"
 #include "InputHandler.h"
+#include "Level.h"
+
+namespace State { class Playing; };
 
 static InputHandler inputHandler;
 
 class Character : public Game_Object
 {
 	
+	struct Flags
+	{
+		bool onGround = true;
+	};
+
 	struct BaseStats
 	{
 		std::string ID = "Xamindar";
@@ -17,10 +25,15 @@ class Character : public Game_Object
 		unsigned EXP = 0;
 	};
 
-	sf::FloatRect baseHitbox;
+	sf::IntRect baseHitbox;
 
 	BaseStats baseStats;
+	Flags flags;
 
+protected:
+	Level * levelHandle;
+
+private:
 	sf::Sprite spriteSheet;
 	sf::Vector2f charSize;
 	sf::Vector2f velocity = {0,0};
@@ -30,19 +43,21 @@ public:
 	Command* command = nullptr;
 
 	//Sets HITBOX in characters position, with or without new size
-	void setBaseHitbox(sf::Vector2f size);
+	void setBaseHitbox(sf::Vector2i size);
 	void setBaseHitbox();
 	//Returns baseHitbox
-	sf::FloatRect & getBaseHitbox();
+	sf::IntRect & getBaseHitbox();
 
 	sf::Sprite & getSprite();
 	
-	//
+	//Stuff
+	Flags & getFlags();
+
 	BaseStats getBaseStats() const;
 	void setBaseStats(std::string ID, unsigned BaseHP, unsigned Level);
 
 	void setVelocity(sf::Vector2f newVel);
-	sf::Vector2f getVelocity() const;
+	sf::Vector2f & getVelocity();
 
 	//Physics Component
 
@@ -58,7 +73,8 @@ public:
 
 	Character();
 
-	void reset();
+	void resetX();
+	void resetY();
 
 	//Commands
 	void jump();
