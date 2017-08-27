@@ -67,12 +67,4 @@ public:
 
 	Character_Candy();
 
-	//Commands
-	void jump();
-	void jump(float vel);
-
-	void walkL();
-	void walkR();
-	void runL();
-	void runR();
 };

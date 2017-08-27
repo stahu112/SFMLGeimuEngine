@@ -2,6 +2,9 @@
 
 #include "Game_Object.h"
 #include "Display.h"
+#include "InputHandler.h"
+
+static InputHandler inputHandler;
 
 class Character : public Game_Object
 {
@@ -23,6 +26,8 @@ class Character : public Game_Object
 	sf::Vector2f velocity = {0,0};
 
 public:
+
+	Command* command = nullptr;
 
 	//Sets HITBOX in characters position, with or without new size
 	void setBaseHitbox(sf::Vector2f size);
@@ -52,6 +57,15 @@ public:
 	virtual void update(float dt);
 
 	Character();
+
+	//Commands
+	void jump();
+	
+	void walkL();
+	void walkR();
+	
+	void runL();
+	void runR();
 
 
 };

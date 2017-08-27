@@ -69,3 +69,29 @@ void Character::draw()
 Character::Character()
 {	
 }
+
+//Commands
+void Character::jump()
+{
+	setVelocity(sf::Vector2f(getVelocity().x, -10));
+}
+
+void Character::walkL()
+{
+	setVelocity(sf::Vector2f(-5, getVelocity().y));
+}
+
+void Character::walkR()
+{
+	setVelocity(sf::Vector2f(5, getVelocity().y));
+}
+
+void Character::runL()
+{
+	setVelocity(sf::Vector2f(-15, getVelocity().y));
+}
+
+void Character::runR()
+{
+	setVelocity(sf::Vector2f(15, getVelocity().y));
+}

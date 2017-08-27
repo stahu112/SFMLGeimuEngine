@@ -42,8 +42,6 @@ namespace State
 	void Playing::update(float dt)
 	{
 		updateLevel();
-		getPlayer()->getBaseStats().ID = "cos";
-		std::cout << getPlayer()->getBaseStats().ID << " " << getPlayer()->getPosition().y << std::endl;
 		getPlayer()->update(dt);
 	}
 
