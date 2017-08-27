@@ -33,8 +33,8 @@ class Level
 
 public:
 	//PlayerHandle
-	void setPlayerHandle(State::Playing& state);
-	Character* getPlayerHandle() const;
+	void setPlayerHandle(State::Playing state);
+	Character* getPlayerHandle();
 
 	//View
 	void setView();
@@ -48,5 +48,5 @@ public:
 	//Draw
 	void drawLevel();
 
-	Level(Texture_Name tileset, Texture_Name background, sf::Vector2u levelsize, const int* levelarray, bool animated);
+	Level(Texture_Name tileset, Texture_Name background, sf::Vector2u levelsize, const int* levelarray, bool animated, State::Playing & state);
 };

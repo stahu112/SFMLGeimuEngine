@@ -15,6 +15,7 @@ namespace Display
 	void checkWindowEvents();
 
 	bool isOpen();
+	bool pollEvents(sf::Event e);
 
 	const sf::Vector2f screenSize(1280, 720);
 	const std::string title = "Najlepsza uber gra";

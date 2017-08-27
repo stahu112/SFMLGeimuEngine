@@ -1,4 +1,5 @@
 #include "InputHandler.h"
+#include "Display.h"
 
 static JumpCommand jumpCommand;
 static WalkLCommand walkLCommand;
@@ -9,21 +10,19 @@ static RunRCommand runRCommand;
 InputHandler::InputHandler()
 {
 	W = &jumpCommand;
-	A = &walkRCommand;
-	D = &walkLCommand;
+	A = &walkLCommand;
+	D = &walkRCommand;
+
+	LShiftA = &runLCommand;
+	LShiftD = &runRCommand;
 }
 
 Command* InputHandler::handleInput()
 {
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) return W;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) return A;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) return S;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) return D;
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad4)) return button1;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad8)) return button2;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad2)) return button3;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad6)) return button4;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) return W;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) return A;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) return S;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) return D;
 
 	return nullptr;
 }

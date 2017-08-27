@@ -2,13 +2,13 @@
 #include "States\Playing_State.h"
 
 //USTAW PLAYERHANDLE
-void Level::setPlayerHandle(State::Playing & state)
+void Level::setPlayerHandle(State::Playing state)
 {
 	PlayerHandle = state.getPlayer();
 }
 
 //ZWRACA PLAYERHANDLE
-Character * Level::getPlayerHandle() const
+Character * Level::getPlayerHandle()
 {
 	return PlayerHandle;
 }
@@ -16,7 +16,7 @@ Character * Level::getPlayerHandle() const
 //USTAW VIEW
 void Level::setView()
 {
-	resetView();
+	if(getPlayerHandle()) resetView();
 	Display::setView(this->levelView);
 }
 
@@ -29,7 +29,21 @@ sf::View Level::getView() const
 //RESETUJ VIEW
 void Level::resetView()
 {
-	levelView.reset(sf::FloatRect(0, 0, this->size.x*this->tileSize.x,this->size.y*this->tileSize.y));
+	if (getPlayerHandle())
+	{
+		if (getPlayerHandle()->getPosition().x < 16 * 4)
+		{
+			levelView.reset(sf::FloatRect(0, 0, 16 * 8, 16 * 5));
+		}
+		else if (getPlayerHandle()->getPosition().x > (size.x - 4) * 16)
+		{
+			levelView.reset(sf::FloatRect((size.x * 16) - 8*16, 0, 16 * 8, 16 * 5));
+		}
+		else
+		{
+			levelView.reset(sf::FloatRect(getPlayerHandle()->getPosition().x - 16*4, getPlayerHandle()->getPosition().y, 16 * 8, 16 * 5));
+		}
+	}
 }
 
 //PRZYDZIEL TLO I ZMIEN JEGO ROZMIAR TAK ZEBY OBEJMOWAL CALY POZIOM
@@ -48,7 +62,7 @@ void Level::updateAnim()
 //DRAW
 void Level::drawLevel()
 {
-	if (isAnimated) { updateAnim(); };
+	if (isAnimated) { updateAnim(); }
 	Display::draw(backgroundTexture);
 	Display::draw(tileMap);
 }
@@ -59,10 +73,12 @@ Level::Level(
 	Texture_Name BackgroundTextureName,
 	sf::Vector2u LevelSize,
 	const int* LevelDesign,
-	bool isAnimated = false) :
+	bool isAnimated,
+	State::Playing & state) :
 	isAnimated(isAnimated),
 	size(LevelSize)
 {
+	setPlayerHandle(state);
 	setView();
 	assignBackgroundTex(BackgroundTextureName);
 	tileMap.load(TileSet, tileSize, LevelDesign, LevelSize.x, LevelSize.y);

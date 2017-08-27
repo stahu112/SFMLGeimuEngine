@@ -84,10 +84,10 @@ namespace State
 			Texture_Name::test2,
 			sf::Vector2u(200,10),
 			level0des,
-			false
+			false,
+			*this
 		);
 		addLevel(LevelID::level0, level0);
-		level0.setPlayerHandle(*this);
 	}
 
 	void Playing::setPlayer(Character * chara)

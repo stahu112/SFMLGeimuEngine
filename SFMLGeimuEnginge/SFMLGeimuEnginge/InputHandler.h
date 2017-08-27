@@ -10,6 +10,9 @@ class InputHandler
 	Command* A;
 	Command* S;
 	Command* D;
+
+	Command* LShiftA;
+	Command* LShiftD;
 	
 	Command* button1;
 	Command* button2;

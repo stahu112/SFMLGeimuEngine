@@ -58,6 +58,8 @@ public:
 
 	Character();
 
+	void reset();
+
 	//Commands
 	void jump();
 	

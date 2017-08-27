@@ -70,6 +70,11 @@ Character::Character()
 {	
 }
 
+void Character::reset()
+{
+	setVelocity({ 0,0 });
+}
+
 //Commands
 void Character::jump()
 {
@@ -78,12 +83,12 @@ void Character::jump()
 
 void Character::walkL()
 {
-	setVelocity(sf::Vector2f(-5, getVelocity().y));
+	setVelocity(sf::Vector2f(-1000, getVelocity().y));
 }
 
 void Character::walkR()
 {
-	setVelocity(sf::Vector2f(5, getVelocity().y));
+	setVelocity(sf::Vector2f(1000, getVelocity().y));
 }
 
 void Character::runL()

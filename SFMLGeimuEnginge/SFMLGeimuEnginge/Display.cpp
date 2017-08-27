@@ -8,7 +8,7 @@ namespace Display
 {
 	//Wskaznik do okna
 	std::unique_ptr<sf::RenderWindow> window;
-
+	
 	//Stworz okno
 	void init()
 	{
@@ -29,6 +29,11 @@ namespace Display
 	void display()
 	{
 		window->display();
+	}
+
+	bool pollEvents(sf::Event e)
+	{
+		return window->pollEvent(e);
 	}
 
 	//Sprawdz eventy
