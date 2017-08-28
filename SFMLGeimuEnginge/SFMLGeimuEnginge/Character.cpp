@@ -7,26 +7,6 @@ void Character::update(float dt)
 {
 }
 
-void Character::setBaseHitbox(sf::Vector2i size)
-{
-	baseHitbox.left = getPosition().x;
-	baseHitbox.top = getPosition().y;
-
-	baseHitbox.width = size.x;
-	baseHitbox.height = size.y;
-}
-
-void Character::setBaseHitbox()
-{
-	baseHitbox.left = getPosition().x;
-	baseHitbox.top = getPosition().y;
-}
-
-sf::IntRect & Character::getBaseHitbox()
-{
-	return baseHitbox;
-}
-
 sf::Sprite & Character::getSprite()
 {
 	return spriteSheet;

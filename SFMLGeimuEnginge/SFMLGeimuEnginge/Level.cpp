@@ -18,11 +18,6 @@ sf::Vector2u Level::getSize() const
 	return size;
 }
 
-TileMap & Level::getTileMap()
-{
-	return tileMap;
-}
-
 //USTAW VIEW
 void Level::setView()
 {
@@ -42,17 +37,17 @@ void Level::resetView()
 	if (getPlayerHandle())
 	{
 		//levelView.reset(sf::FloatRect(0, 0, Display::screenSize.x, Display::screenSize.y));
-		if (getPlayerHandle()->getPosition().x < (float)tileSize.x * 4)
+		if (getPlayerHandle()->getPosition().x + 8 < (float)tileSize.x * 4)
 		{
-			levelView.reset(sf::FloatRect(0, getPlayerHandle()->getPosition().y, (float)tileSize.x * 8, (float)tileSize.x * 6));
+			levelView.reset(sf::FloatRect(0, getPlayerHandle()->getPosition().y - 2*16, (float)tileSize.x * 8, (float)tileSize.x * 6));
 		}
-		else if (getPlayerHandle()->getPosition().x > (size.x - 4) * (float)tileSize.x)
+		else if (getPlayerHandle()->getPosition().x > (size.x - 4) * (float)tileSize.x -8)
 		{
-			levelView.reset(sf::FloatRect((size.x * (float)tileSize.x) - 8* (float)tileSize.x, getPlayerHandle()->getPosition().y, (float)tileSize.x * 8, (float)tileSize.x * 6));
+			levelView.reset(sf::FloatRect((size.x * (float)tileSize.x) - 8* (float)tileSize.x, getPlayerHandle()->getPosition().y - 2*16, (float)tileSize.x * 8, (float)tileSize.x * 6));
 		}
 		else
 		{
-			levelView.reset(sf::FloatRect(getPlayerHandle()->getPosition().x - (float)tileSize.x *4, getPlayerHandle()->getPosition().y, (float)tileSize.x * 8, (float)tileSize.x * 6));
+			levelView.reset(sf::FloatRect(getPlayerHandle()->getPosition().x - (float)tileSize.x *4+8, getPlayerHandle()->getPosition().y - 2*16, (float)tileSize.x * 8, (float)tileSize.x * 6));
 		}
 	}
 }
@@ -75,23 +70,18 @@ void Level::drawLevel()
 {
 	if (isAnimated) { updateAnim(); }
 	Display::draw(backgroundTexture);
-	Display::draw(tileMap);
 }
 
 //CONSTRUCTOR
 Level::Level(
-	Texture_Name TileSet,
 	Texture_Name BackgroundTextureName,
 	sf::Vector2u LevelSize,
-	const int* LevelDesign,
 	bool isAnimated,
 	State::Playing & state) :
 	isAnimated(isAnimated),
 	size(LevelSize)
 {
 	setPlayerHandle(state);
-	setView();
 	assignBackgroundTex(BackgroundTextureName);
-	tileMap.load(TileSet, tileSize, LevelDesign, LevelSize.x, LevelSize.y, *this);
-
+	setView();
 }

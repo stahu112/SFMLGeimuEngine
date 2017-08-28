@@ -46,23 +46,6 @@ namespace State
 		updateLevel();
 		getPlayer()->update(dt);
 
-		for (unsigned i = 0; i < getCurrentLevel()->getTileMap().m_tileBoxes.size(); i++)
-		{
-			//Display::draw(getCurrentLevel()->getTileMap().m_tileBoxes[i].rect);
-
-			if (getPlayer()->getBaseHitbox().intersects(
-				getCurrentLevel()->getTileMap().m_tileBoxes[i].hitbox) &&
-				getCurrentLevel()->getTileMap().m_tileBoxes[i].tileType == TileType::Normal)
-			{
-				getPlayer()->getFlags().onGround = true;
-			}
-			else if (getPlayer()->getBaseHitbox().intersects(
-				getCurrentLevel()->getTileMap().m_tileBoxes[i].hitbox) &&
-				getCurrentLevel()->getTileMap().m_tileBoxes[i].tileType == TileType::Empty)
-			{
-				getPlayer()->getFlags().onGround = false;
-			}
-		}
 	}
 	//Rysuj obiekty
 	void Playing::draw()
@@ -83,11 +66,8 @@ namespace State
 	{
 		if (currentLevel)
 		{
-			currentLevel->setView();
-
-			//DRAW
 			currentLevel->drawLevel();
-			//Display::draw(currentLevel->getTileMap().m_tileBoxes[1].rect);
+			currentLevel->setView();
 		}
 	}
 
@@ -97,13 +77,11 @@ namespace State
 		m_levels.insert(std::make_pair(id, level));
 	}
 
-	void Playing::initLevels()	//TODO Wczytywac levele z pliku
+	void Playing::initLevels()
 	{
 		Level level0(
-			Texture_Name::tileset,
 			Texture_Name::test2,
 			sf::Vector2u(10,10),
-			level0des,
 			false,
 			*this
 		);
