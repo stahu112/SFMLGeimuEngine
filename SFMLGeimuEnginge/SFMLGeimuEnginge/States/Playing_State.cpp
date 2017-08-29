@@ -46,10 +46,6 @@ namespace State
 		updateLevel();
 		getPlayer()->update(dt);
 
-		getPlayer()->setVelocity(sf::Vector2f(
-			InputHandler::getAxisPosition(sf::Joystick::Axis::X),
-			InputHandler::getAxisPosition(sf::Joystick::Axis::Y)));
-
 	}
 	//Rysuj obiekty
 	void Playing::draw()

@@ -78,6 +78,9 @@ void InputHandler::connectJoy()
 
 float InputHandler::getAxisPosition(sf::Joystick::Axis jAxis)
 {
+	if(jAxis == sf::Joystick::Axis::PovY) return -sf::Joystick::getAxisPosition(joyId, jAxis);
+	else if(jAxis == sf::Joystick::Axis::V || jAxis == sf::Joystick::Axis::U) return 100 + sf::Joystick::getAxisPosition(joyId, jAxis);
+
 	return sf::Joystick::getAxisPosition(joyId, jAxis);
 }
 
