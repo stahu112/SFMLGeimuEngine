@@ -12,6 +12,7 @@ Animation::Animation(bool playOnce = false) :
 void Animation::addFrames(const sf::IntRect & rect, float timeToNextFrame)
 {
 	m_frames.emplace_back(rect, timeToNextFrame);
+	animLength += timeToNextFrame;
 }
 
 sf::IntRect Animation::getFrame()
@@ -46,4 +47,9 @@ void Animation::setPlayed(bool stat)
 void Animation::setPlayOnce(bool stat)
 {
 	playOnce = stat;
+}
+
+float Animation::getLength() const
+{
+	return animLength;
 }

@@ -30,11 +30,15 @@ public:
 	void setPlayed(bool stat);
 	void setPlayOnce(bool stat);
 
+	float getLength() const;
+
 private:
 
 	bool playOnce = false;
 
 	bool played = false;
+	
+	float animLength = 0;
 
 	//Vector klatek
 	std::vector<Frame> m_frames;

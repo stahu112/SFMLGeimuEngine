@@ -2,6 +2,7 @@
 
 #include <memory>
 
+InputHandler inputHandler;
 
 //Przestrzen nazw dla okna
 namespace Display
@@ -17,6 +18,8 @@ namespace Display
 
 		//Ograniczenie fps do 60 metoda okna z biblioteki SFML
 		window->setFramerateLimit(60);
+
+		window->setKeyRepeatEnabled(false);
 	}
 
 	//Czysc okno
@@ -44,6 +47,7 @@ namespace Display
 		while (window->pollEvent(e))
 		{
 
+			InputHandler::updateInput(e);
 			//Jesli event = proba zamkniecia okna to zamknij
 			//TODO komunikat czy chcesz zamknac, jakis zapis save'a itp.
 			if (e.type == sf::Event::Closed)

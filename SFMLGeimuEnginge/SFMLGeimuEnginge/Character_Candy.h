@@ -17,33 +17,6 @@ class Character_Candy : public Character
 
 	};
 
-	enum class CState
-	{
-		//Standing
-		StandingL,
-		StandingR,
-
-		//Crouching
-		CrouchingL,
-		CrouchingR,
-
-		//Walking, Running, Dashing
-		WalkL,
-		WalkR,
-		RunL,
-		RunR,
-		DashL,
-		DashR,
-
-		//Jumping, Diving
-		JumpingN,
-		DivingN,
-		JumpingL,
-		DivingL,
-		JumpingR,
-		DivingR
-	};
-
 	UniqueStats uniqueStats;
 
 	CState currentState;

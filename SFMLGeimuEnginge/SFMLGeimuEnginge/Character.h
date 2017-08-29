@@ -8,6 +8,8 @@ namespace State { class Playing; };
 class Character : public Game_Object
 {
 	
+protected:
+
 	struct Flags
 	{
 		bool onGround = true;
@@ -21,10 +23,36 @@ class Character : public Game_Object
 		unsigned EXP = 0;
 	};
 
+	enum class CState
+	{
+		//Standing
+		StandingL,
+		StandingR,
+
+		//Crouching
+		CrouchingL,
+		CrouchingR,
+
+		//Walking, Running, Dashing
+		WalkL,
+		WalkR,
+		RunL,
+		RunR,
+		DashL,
+		DashR,
+
+		//Jumping, Diving
+		JumpingN,
+		DivingN,
+		JumpingL,
+		DivingL,
+		JumpingR,
+		DivingR
+	};
+
 	BaseStats baseStats;
 	Flags flags;
 
-private:
 	sf::Sprite spriteSheet;
 	sf::Vector2f velocity = {0,0};
 

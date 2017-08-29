@@ -45,7 +45,7 @@ namespace State
 	{
 		updateLevel();
 		getPlayer()->update(dt);
-
+		
 	}
 	//Rysuj obiekty
 	void Playing::draw()
