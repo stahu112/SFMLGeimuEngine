@@ -45,15 +45,10 @@ namespace State
 	{
 		updateLevel();
 		getPlayer()->update(dt);
-		
-		if (InputHandler::checkJDown(8))
-		{
-			std::cout << "1 Pressed" << std::endl;
-		}
-		if (InputHandler::checkJUp(9))
-		{
-			std::cout << "1 Released" << std::endl;
-		}
+
+		getPlayer()->setVelocity(sf::Vector2f(
+			InputHandler::getAxisPosition(sf::Joystick::Axis::X),
+			InputHandler::getAxisPosition(sf::Joystick::Axis::Y)));
 
 	}
 	//Rysuj obiekty

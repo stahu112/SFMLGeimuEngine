@@ -76,6 +76,11 @@ void InputHandler::connectJoy()
 		}
 }
 
+float InputHandler::getAxisPosition(sf::Joystick::Axis jAxis)
+{
+	return sf::Joystick::getAxisPosition(joyId, jAxis);
+}
+
 bool InputHandler::checkJDown(unsigned butt)
 {
 	if (jDown)

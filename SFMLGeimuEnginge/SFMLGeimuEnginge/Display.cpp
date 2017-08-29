@@ -19,6 +19,8 @@ namespace Display
 		window->setFramerateLimit(60);
 
 		window->setKeyRepeatEnabled(false);
+
+		window->setJoystickThreshold(1);
 	}
 
 	//Czysc okno

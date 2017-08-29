@@ -25,6 +25,8 @@ public:
 
 	static void connectJoy();
 
+	static float getAxisPosition(sf::Joystick::Axis jAxis);
+
 	static bool checkJDown(unsigned butt);
 	static bool checkJUp(unsigned butt);
 
