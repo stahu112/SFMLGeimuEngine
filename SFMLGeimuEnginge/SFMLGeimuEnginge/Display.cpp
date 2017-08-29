@@ -1,8 +1,7 @@
 #include "Display.h"
 
+#include <iostream>
 #include <memory>
-
-InputHandler inputHandler;
 
 //Przestrzen nazw dla okna
 namespace Display
@@ -43,10 +42,8 @@ namespace Display
 	void checkWindowEvents()
 	{
 		sf::Event e;
-
 		while (window->pollEvent(e))
 		{
-
 			InputHandler::updateInput(e);
 			//Jesli event = proba zamkniecia okna to zamknij
 			//TODO komunikat czy chcesz zamknac, jakis zapis save'a itp.

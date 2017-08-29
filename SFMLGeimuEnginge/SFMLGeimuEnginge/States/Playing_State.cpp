@@ -46,6 +46,15 @@ namespace State
 		updateLevel();
 		getPlayer()->update(dt);
 		
+		if (InputHandler::checkJDown(8))
+		{
+			std::cout << "1 Pressed" << std::endl;
+		}
+		if (InputHandler::checkJUp(9))
+		{
+			std::cout << "1 Released" << std::endl;
+		}
+
 	}
 	//Rysuj obiekty
 	void Playing::draw()

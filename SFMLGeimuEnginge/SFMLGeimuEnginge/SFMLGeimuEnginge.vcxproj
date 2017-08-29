@@ -157,6 +157,7 @@
     <ClCompile Include="Game_Object.cpp" />
     <ClCompile Include="InputHandler.cpp" />
     <ClCompile Include="Level.cpp" />
+    <ClCompile Include="Platform.cpp" />
     <ClCompile Include="Res\Font_Manager.cpp" />
     <ClCompile Include="Res\Resource_Holder.cpp" />
     <ClCompile Include="Res\Sound_Manager.cpp" />
@@ -177,6 +178,7 @@
     <ClInclude Include="Game_Object.h" />
     <ClInclude Include="InputHandler.h" />
     <ClInclude Include="Level.h" />
+    <ClInclude Include="Platform.h" />
     <ClInclude Include="Res\Font_Manager.h" />
     <ClInclude Include="Res\Resource_Holder.h" />
     <ClInclude Include="Res\Resource_Manager.h" />

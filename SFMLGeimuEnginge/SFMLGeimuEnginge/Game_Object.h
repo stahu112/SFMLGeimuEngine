@@ -22,6 +22,8 @@ private:
 
 	static unsigned count;
 
+protected:
+
 	sf::Vector2f size = {1, 1};
 
 	sf::Vector2f Position = {0,0};

@@ -35,7 +35,8 @@ void Application::runMainLoop()
 		m_states.top()->update(dt.asSeconds());	//Aktualizuj stany obiektow
 		m_states.top()->draw();			//Rysuj obiekty
 
-		if(!InputHandler::down) InputHandler::key = sf::Keyboard::Unknown;
+		if (!InputHandler::down) InputHandler::key = sf::Keyboard::Unknown;
+		if (!InputHandler::jDown) InputHandler::jKey = -1;
 
 		Display::display();		//Wyswietl rzeczy
 	}
