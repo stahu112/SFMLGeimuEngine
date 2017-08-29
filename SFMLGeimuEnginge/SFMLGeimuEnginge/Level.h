@@ -4,6 +4,7 @@
 #include "Animation.h"
 #include "Res\Resource_Holder.h"
 #include "Character.h"
+#include "Platform.h"
 
 namespace State { class Playing; };
 
@@ -26,6 +27,9 @@ class Level
 	//TEST
 	sf::View levelView;
 
+	//Platforms
+	std::vector<Platform> m_platforms;
+
 	//PlayerHandle
 	Character* PlayerHandle = nullptr;
 
@@ -34,7 +38,11 @@ public:
 	void setPlayerHandle(State::Playing state);
 	Character* getPlayerHandle();
 
+	//TileSize
 	sf::Vector2u tileSize = { 16, 16 };
+
+	//GET PLATFORMS VECTOR
+	std::vector<Platform> * getPlatforms();
 
 	//GetSize
 	sf::Vector2u getSize() const;

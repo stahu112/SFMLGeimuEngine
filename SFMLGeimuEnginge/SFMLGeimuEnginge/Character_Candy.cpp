@@ -35,7 +35,8 @@ Character_Candy::Character_Candy()
 {
 	setBaseStats("Candy",1250,1);
 	setPosition(sf::Vector2f(50, 20));
-	getSprite().setTexture(Resource_Holder::get().getTexture(Texture_Name::test1));
+	getSprite().setTexture(Resource_Holder::get().getTexture(Texture_Name::test));
+	//getSprite().setColor(sf::Color::Green);
 	setSize({ 16,32 });
 	getSprite().setScale(
 		getSize().x / getSprite().getLocalBounds().width,

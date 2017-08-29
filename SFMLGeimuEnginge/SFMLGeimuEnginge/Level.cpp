@@ -13,6 +13,11 @@ Character * Level::getPlayerHandle()
 	return PlayerHandle;
 }
 
+std::vector<Platform> * Level::getPlatforms()
+{
+	return &m_platforms;
+}
+
 sf::Vector2u Level::getSize() const
 {
 	return size;
@@ -70,6 +75,11 @@ void Level::drawLevel()
 {
 	if (isAnimated) { updateAnim(); }
 	Display::draw(backgroundTexture);
+
+	for (int i = 0; i < m_platforms.size(); i++)
+	{
+		Display::draw(m_platforms[i].getShape());
+	}
 }
 
 //CONSTRUCTOR
