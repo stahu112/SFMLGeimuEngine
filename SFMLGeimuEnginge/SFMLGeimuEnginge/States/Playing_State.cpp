@@ -48,10 +48,25 @@ namespace State
 		updateLevel();
 		getPlayer()->update(dt);
 
-		getPlayer()->setVelocity(sf::Vector2f(
-			InputHandler::getAxisPosition(sf::Joystick::Axis::X),
-			getPlayer()->getVelocity().y
-		));
+		if (getPlayer()->getFlags().onGround)
+		{
+			if (!getPlayer()->getFlags().dashing)
+			{
+				getPlayer()->setVelocity(sf::Vector2f(
+					InputHandler::getAxisPosition(sf::Joystick::Axis::X),
+					getPlayer()->getVelocity().y
+				));
+			}
+
+			if (InputHandler::checkJDown(10)) { getPlayer()->getFlags().dashing = true; getPlayer()->dash(); }
+			else if (InputHandler::getAxisPosition(sf::Joystick::Axis::X)
+				< InputHandler::deadZone &&
+				InputHandler::getAxisPosition(sf::Joystick::Axis::X)
+				> -InputHandler::deadZone)
+			{
+				getPlayer()->getFlags().dashing = false;
+			}
+		}
 
 		if (InputHandler::checkJDown(1)) getPlayer()->jump();
 

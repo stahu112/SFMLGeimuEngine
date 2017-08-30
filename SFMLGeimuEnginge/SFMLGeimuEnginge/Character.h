@@ -50,6 +50,7 @@ protected:
 	struct Flags
 	{
 		bool onGround = false;
+		bool dashing = false;
 	};
 
 	struct BaseStats
@@ -58,6 +59,10 @@ protected:
 		unsigned BaseHP = 1;
 		unsigned Level = 1;
 		unsigned EXP = 0;
+
+		int walkSpeed = 40;
+		int runSpeed = 100;
+		int dashSpeed = 250;
 	};
 
 	BaseStats baseStats;
@@ -105,6 +110,8 @@ public:
 
 	//Commands
 	void jump();
+
+	void dash();
 	
 };
 

@@ -18,6 +18,8 @@ public:
 	sf::Vector2f getPosition() const;
 	sf::Vector2f getSize() const;
 
+	void move(sf::Vector2f moveo);
+
 private:
 
 	static unsigned count;

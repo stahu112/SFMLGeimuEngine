@@ -29,3 +29,9 @@ sf::Vector2f Game_Object::getSize() const
 {
 	return size;
 }
+
+void Game_Object::move(sf::Vector2f moveo)
+{
+	Position.x += moveo.x;
+	Position.y += moveo.y;
+}

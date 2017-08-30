@@ -49,14 +49,14 @@ void Character_Candy::processStates()
 	//WALKR
 	case CState::WalkR:
 
-		if ((velocity.x > 0 && velocity.x < 40) && velocity.y == 0) currentState = CState::WalkR;
+		if ((velocity.x > 0 && velocity.x < baseStats.walkSpeed) && velocity.y == 0) currentState = CState::WalkR;
 
 		//Walk/Stand
 		else if (velocity.x == 0 && velocity.y == 0) currentState = CState::StandingR;
 		else if (velocity.x < 0 && velocity.y == 0) currentState = CState::WalkL;
 
 		//Run
-		else if (velocity.x > 40) currentState = CState::RunR;
+		else if (velocity.x > baseStats.walkSpeed) currentState = CState::RunR;
 
 		//Jump
 		else if (velocity.y < 0)
@@ -70,14 +70,14 @@ void Character_Candy::processStates()
 	//WALKL
 	case CState::WalkL:
 
-		if ((velocity.x < 0 && velocity.x >= -40) && velocity.y == 0) currentState = CState::WalkL;
+		if ((velocity.x < 0 && velocity.x >= -baseStats.walkSpeed) && velocity.y == 0) currentState = CState::WalkL;
 
 		//Walk/Stand
 		else if (velocity.x == 0 && velocity.y == 0) currentState = CState::StandingL;
 		else if (velocity.x > 0 && velocity.y == 0) currentState = CState::WalkR;
 
 		//Run
-		else if (velocity.x < -40) currentState = CState::RunL;
+		else if (velocity.x < -baseStats.walkSpeed) currentState = CState::RunL;
 
 		//Jump
 		else if (velocity.y < 0)
@@ -91,10 +91,10 @@ void Character_Candy::processStates()
 	//RUNS
 	case CState::RunL:
 
-		if ((velocity.x < -40 && velocity.x > -91) && velocity.y == 0) currentState = CState::RunL;
+		if ((velocity.x < -baseStats.walkSpeed && velocity.x >= -baseStats.runSpeed) && velocity.y == 0) currentState = CState::RunL;
 
-		else if (velocity.x < -91 && velocity.y == 0) currentState = CState::DashL;
-		else if (velocity.x >= -40 && velocity.y == 0) currentState = CState::WalkL;
+		else if (velocity.x < -baseStats.runSpeed && velocity.y == 0) currentState = CState::DashL;
+		else if (velocity.x >= -baseStats.walkSpeed && velocity.y == 0) currentState = CState::WalkL;
 
 		//Jump
 		else if (velocity.y < 0)
@@ -107,10 +107,10 @@ void Character_Candy::processStates()
 
 	case CState::RunR:
 
-		if ((velocity.x > 40 && velocity.x < 91) && velocity.y == 0) currentState = CState::RunR;
+		if ((velocity.x > baseStats.walkSpeed && velocity.x <= baseStats.runSpeed) && velocity.y == 0) currentState = CState::RunR;
 
-		else if (velocity.x > 91 && velocity.y == 0) currentState = CState::DashR;
-		else if (velocity.x <= 40 && velocity.y == 0) currentState = CState::WalkR;
+		else if (velocity.x > baseStats.runSpeed && velocity.y == 0) currentState = CState::DashR;
+		else if (velocity.x <= baseStats.walkSpeed && velocity.y == 0) currentState = CState::WalkR;
 
 		//Jump
 		else if (velocity.y < 0)
@@ -124,9 +124,9 @@ void Character_Candy::processStates()
 	//Dashes
 	case CState::DashL:
 
-		if (velocity.x < -91 && velocity.y == 0) currentState = CState::DashL;
+		if (velocity.x <= -baseStats.dashSpeed && velocity.y == 0) currentState = CState::DashL;
 		
-		else if (velocity.x >= -91 && velocity.y == 0) currentState = CState::RunL;
+		else if (velocity.x > -baseStats.dashSpeed && velocity.y == 0) currentState = CState::RunL;
 
 		//DashJump
 		else if (velocity.y < 0)
@@ -139,9 +139,9 @@ void Character_Candy::processStates()
 
 	case CState::DashR:
 
-		if (velocity.x > 91 && velocity.y == 0) currentState = CState::DashR;
+		if (velocity.x > baseStats.dashSpeed && velocity.y == 0) currentState = CState::DashR;
 
-		else if (velocity.x <= 91 && velocity.y == 0) currentState = CState::RunR;
+		else if (velocity.x <= baseStats.dashSpeed && velocity.y == 0) currentState = CState::RunR;
 
 		//DashJump
 		else if (velocity.y < 0)

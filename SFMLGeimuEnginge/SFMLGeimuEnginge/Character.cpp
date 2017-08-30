@@ -27,7 +27,7 @@ void Character::setHitboxes()
 	higherHitbox.top = Position.y;
 
 	lowerHitbox.width = size.x;
-	lowerHitbox.height = size.y / 2;
+	lowerHitbox.height = (size.y / 2);
 
 	lowerHitbox.left = Position.x;
 	lowerHitbox.top = Position.y + size.y /2;
@@ -81,5 +81,18 @@ Character::Character()
 //Commands
 void Character::jump()
 {
-	setVelocity(sf::Vector2f(getVelocity().x, -100));
+	if (flags.onGround) velocity.y = -300;
+}
+
+void Character::dash()
+{
+	if (flags.dashing)
+	{
+		if (currentState == CState::RunL)
+			velocity.x = -baseStats.dashSpeed;
+		else if (currentState == CState::RunR)
+			velocity.x = baseStats.dashSpeed;
+		else return;
+	}
+	return;
 }
