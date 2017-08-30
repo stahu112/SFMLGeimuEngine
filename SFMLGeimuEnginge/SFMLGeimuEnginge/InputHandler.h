@@ -19,6 +19,7 @@ public:
 	//JOYSTICK
 	static bool joyConnected;
 	static unsigned joyId;
+	static float deadZone;
 
 	static unsigned jKey;
 	static bool jDown;

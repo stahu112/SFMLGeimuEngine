@@ -47,19 +47,10 @@ namespace State
 		getPlayer()->update(dt);
 
 		getPlayer()->setVelocity(sf::Vector2f(
-			InputHandler::getAxisPosition(sf::Joystick::Axis::X),
-			InputHandler::getAxisPosition(sf::Joystick::Axis::Y)
+			InputHandler::getAxisPosition(sf::Joystick::Axis::X) * 3,
+			InputHandler::getAxisPosition(sf::Joystick::Axis::Y) * 3
 			));
 
-		if (getPlayer()->getSprite().getGlobalBounds().intersects(
-			currentLevel->getPlatforms()->at(0).baseD))
-		{
-			std::cout << "HIT" << std::endl;
-		}
-		else
-		{
-			std::cout << "NOHIT" << std::endl;
-		}
 	}
 	//Rysuj obiekty
 	void Playing::draw()
@@ -95,7 +86,7 @@ namespace State
 	{
 		Level level0(
 			Texture_Name::test2,
-			sf::Vector2u(10,10),
+			sf::Vector2u(100,50),
 			false,
 			*this
 		);

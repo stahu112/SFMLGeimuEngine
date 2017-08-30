@@ -42,17 +42,17 @@ void Level::resetView()
 	if (getPlayerHandle())
 	{
 		//levelView.reset(sf::FloatRect(0, 0, Display::screenSize.x, Display::screenSize.y));
-		if (getPlayerHandle()->getPosition().x + 8 < (float)tileSize.x * 4)
+		if (getPlayerHandle()->getPosition().x + viewPort.x < tileSize.x * viewPort.x/2)
 		{
-			levelView.reset(sf::FloatRect(0, getPlayerHandle()->getPosition().y - 2*16, (float)tileSize.x * 8, (float)tileSize.x * 6));
+			levelView.reset(sf::FloatRect(0, getPlayerHandle()->getPosition().y - 2*tileSize.y, tileSize.x * viewPort.x, tileSize.x * viewPort.y));
 		}
-		else if (getPlayerHandle()->getPosition().x > (size.x - 4) * (float)tileSize.x -8)
+		else if (getPlayerHandle()->getPosition().x > (size.x - viewPort.x / 2) * tileSize.x - viewPort.x)
 		{
-			levelView.reset(sf::FloatRect((size.x * (float)tileSize.x) - 8* (float)tileSize.x, getPlayerHandle()->getPosition().y - 2*16, (float)tileSize.x * 8, (float)tileSize.x * 6));
+			levelView.reset(sf::FloatRect((size.x * tileSize.x) - viewPort.x * tileSize.x, getPlayerHandle()->getPosition().y - 2 * tileSize.x, tileSize.x * viewPort.x, tileSize.x * viewPort.y));
 		}
 		else
 		{
-			levelView.reset(sf::FloatRect(getPlayerHandle()->getPosition().x - (float)tileSize.x *4+8, getPlayerHandle()->getPosition().y - 2*16, (float)tileSize.x * 8, (float)tileSize.x * 6));
+			levelView.reset(sf::FloatRect(getPlayerHandle()->getPosition().x - tileSize.x * viewPort.x/2 + viewPort.x, getPlayerHandle()->getPosition().y - 2*tileSize.x, tileSize.x * viewPort.x, tileSize.x * viewPort.y));
 		}
 	}
 }
@@ -61,7 +61,7 @@ void Level::resetView()
 void Level::assignBackgroundTex(Texture_Name name)
 {
 	backgroundTexture.setTexture(&Resource_Holder::get().getTexture(name));
-	backgroundTexture.setSize(sf::Vector2f(sf::Vector2u(this->size.x*this->tileSize.x, this->size.y*this->tileSize.x)));
+	backgroundTexture.setSize(sf::Vector2f(sf::Vector2u(size.x * tileSize.x, size.y * tileSize.x)));
 }
 
 //JESLI TLO JEST ANIMOWANE
@@ -76,7 +76,7 @@ void Level::drawLevel()
 	if (isAnimated) { updateAnim(); }
 	Display::draw(backgroundTexture);
 
-	for (int i = 0; i < m_platforms.size(); i++)
+	for (unsigned i = 0; i < m_platforms.size(); i++)
 	{
 		Display::draw(m_platforms[i].getShape());
 	}

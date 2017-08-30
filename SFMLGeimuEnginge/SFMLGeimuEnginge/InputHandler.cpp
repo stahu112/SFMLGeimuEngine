@@ -10,6 +10,7 @@ bool InputHandler::joyConnected = false;
 unsigned InputHandler::jKey = -1;
 bool InputHandler::jDown = false;
 unsigned InputHandler::joyId = -1;
+float InputHandler::deadZone = 10.f;
 
 void InputHandler::updateInput(sf::Event e)
 {
@@ -80,8 +81,8 @@ float InputHandler::getAxisPosition(sf::Joystick::Axis jAxis)
 {
 	if(jAxis == sf::Joystick::Axis::PovY) return -sf::Joystick::getAxisPosition(joyId, jAxis);
 	else if(jAxis == sf::Joystick::Axis::V || jAxis == sf::Joystick::Axis::U) return 100 + sf::Joystick::getAxisPosition(joyId, jAxis);
-
-	return sf::Joystick::getAxisPosition(joyId, jAxis);
+	else if (sf::Joystick::getAxisPosition(joyId, jAxis) < deadZone && sf::Joystick::getAxisPosition(joyId, jAxis) > -deadZone) return 0.f;
+	else return sf::Joystick::getAxisPosition(joyId, jAxis);
 }
 
 bool InputHandler::checkJDown(unsigned butt)
