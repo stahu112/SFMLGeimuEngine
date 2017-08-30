@@ -18,6 +18,8 @@ namespace State
 		setPlayer(&Candy);
 		initLevels();
 		changeLevel(LevelID::level0);
+		currentLevel->getPlatforms()->emplace_back(sf::Vector2f(0, currentLevel->getSize().y * currentLevel->tileSize.x), sf::Vector2f(currentLevel->getSize().x * currentLevel->tileSize.x, 8), Texture_Name::test);
+
 	}
 
 	Level * Playing::getCurrentLevel() const
@@ -47,9 +49,25 @@ namespace State
 		getPlayer()->update(dt);
 
 		getPlayer()->setVelocity(sf::Vector2f(
-			InputHandler::getAxisPosition(sf::Joystick::Axis::X) * 3,
-			InputHandler::getAxisPosition(sf::Joystick::Axis::Y) * 3
+			InputHandler::getAxisPosition(sf::Joystick::Axis::X),
+			getPlayer()->getVelocity().y
+		));
+
+		if (InputHandler::checkJDown(1)) getPlayer()->jump();
+
+		if (Collision::collisionWithPlat(
+			getPlayer(),
+			HitId::L,
+			currentLevel->getPlatforms()->at(0),
+			HitIdPlat::baseU))
+		{
+			getPlayer()->getFlags().onGround = true;
+			getPlayer()->setPosition(sf::Vector2f(
+				getPlayer()->getPosition().x,
+				currentLevel->getPlatforms()->at(0).getPosition().y - getPlayer()->getSize().y
 			));
+		}
+		std::cout << (int)getPlayer()->getCurrentState() << std::endl;
 
 	}
 	//Rysuj obiekty
@@ -90,10 +108,8 @@ namespace State
 			false,
 			*this
 		);
-
-		level0.getPlatforms()->emplace_back(sf::Vector2f(64,64),sf::Vector2f(64,16),Texture_Name::test);
-		
 		addLevel(LevelID::level0, level0);
+		
 	}
 
 	void Playing::setPlayer(Character * chara)

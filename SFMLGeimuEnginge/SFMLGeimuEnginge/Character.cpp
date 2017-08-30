@@ -7,6 +7,32 @@ void Character::update(float dt)
 {
 }
 
+CState Character::getCurrentState()
+{
+	return currentState;
+}
+
+sf::FloatRect Character::getHitbox(HitId box) const
+{
+	if (box == HitId::H) return higherHitbox;
+	else if (box == HitId::L) return lowerHitbox;
+}
+
+void Character::setHitboxes()
+{
+	higherHitbox.width = size.x;
+	higherHitbox.height = size.y / 2;
+
+	higherHitbox.left = Position.x;
+	higherHitbox.top = Position.y;
+
+	lowerHitbox.width = size.x;
+	lowerHitbox.height = size.y / 2;
+
+	lowerHitbox.left = Position.x;
+	lowerHitbox.top = Position.y + size.y /2;
+}
+
 sf::Sprite & Character::getSprite()
 {
 	return spriteSheet;
@@ -39,10 +65,6 @@ sf::Vector2f & Character::getVelocity()
 	return velocity;
 }
 
-void Character::handleInput()
-{
-}
-
 void Character::processStates()
 {
 }
@@ -56,20 +78,10 @@ Character::Character()
 {	
 }
 
-void Character::resetX()
-{
-	setVelocity({ 0,getVelocity().y });
-}
-
-void Character::resetY()
-{
-	setVelocity({getVelocity().x,0});
-}
-
 //Commands
 void Character::jump()
 {
-	setVelocity(sf::Vector2f(getVelocity().x, -50));
+	setVelocity(sf::Vector2f(getVelocity().x, -100));
 }
 
 void Character::walkL()

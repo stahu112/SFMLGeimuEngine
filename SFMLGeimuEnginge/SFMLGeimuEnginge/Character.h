@@ -5,6 +5,43 @@
 
 namespace State { class Playing; };
 
+enum class HitId
+{
+	L,
+	H
+};
+
+enum class CState
+{
+	//Standing
+	StandingL,
+	StandingR,
+
+	//Crouching
+	CrouchingL,
+	CrouchingR,
+
+	//Walking, Running, Dashing
+	WalkL,
+	WalkR,
+	RunL,
+	RunR,
+	DashL,
+	DashR,
+
+	//Jumping, Diving
+	JumpingL,
+	DivingL,
+	JumpingR,
+	DivingR,
+
+	//DASHJUMP
+	DashJumpL,
+	DashJumpR,
+	DashDiveL,
+	DashDiveR
+};
+
 class Character : public Game_Object
 {
 	
@@ -12,7 +49,7 @@ protected:
 
 	struct Flags
 	{
-		bool onGround = true;
+		bool onGround = false;
 	};
 
 	struct BaseStats
@@ -23,43 +60,26 @@ protected:
 		unsigned EXP = 0;
 	};
 
-	enum class CState
-	{
-		//Standing
-		StandingL,
-		StandingR,
-
-		//Crouching
-		CrouchingL,
-		CrouchingR,
-
-		//Walking, Running, Dashing
-		WalkL,
-		WalkR,
-		RunL,
-		RunR,
-		DashL,
-		DashR,
-
-		//Jumping, Diving
-		JumpingN,
-		DivingN,
-		JumpingL,
-		DivingL,
-		JumpingR,
-		DivingR
-	};
-
 	BaseStats baseStats;
 	Flags flags;
 
+	sf::FloatRect lowerHitbox;
+	sf::FloatRect higherHitbox;
+
 	sf::Sprite spriteSheet;
 	sf::Vector2f velocity = {0,0};
+
+	CState currentState = CState::StandingR;
 
 public:
 
 	//Sets HITBOX in characters position, with or without new size
 	//Returns baseHitbox
+
+	CState getCurrentState();
+
+	sf::FloatRect getHitbox(HitId box) const;
+	void setHitboxes();
 
 	sf::Sprite & getSprite();
 	
@@ -74,9 +94,6 @@ public:
 
 	//Physics Component
 
-	//Input Component
-	virtual void handleInput() = 0;
-
 	//State manager
 	virtual void processStates() = 0;
 
@@ -85,9 +102,6 @@ public:
 	virtual void update(float dt);
 
 	Character();
-
-	void resetX();
-	void resetY();
 
 	//Commands
 	void jump();

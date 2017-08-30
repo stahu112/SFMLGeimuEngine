@@ -19,7 +19,7 @@ class Character_Candy : public Character
 
 	UniqueStats uniqueStats;
 
-	CState currentState;
+	Animation * currentAnim = nullptr;
 
 	std::map<AnimationID, Animation> m_animations;
 
@@ -27,8 +27,6 @@ public:
 
 	UniqueStats getUniqueStats() const;
 	//void setUniqueStats(); TODO setUniqueStats
-
-	void handleInput() override;
 	
 	void processStates() override;
 	

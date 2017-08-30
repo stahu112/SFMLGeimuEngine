@@ -3,6 +3,14 @@
 #include "Game_Object.h"
 #include "Res\Resource_Holder.h"
 
+enum class HitIdPlat
+{
+	edgeL,
+	edgeR,
+	baseU,
+	baseD
+};
+
 class Platform : public Game_Object
 {
 
@@ -12,12 +20,14 @@ protected:
 
 	unsigned step = 3;
 
-public:
-
 	sf::FloatRect edgeL;
 	sf::FloatRect edgeR;
 	sf::FloatRect baseU;
 	sf::FloatRect baseD;
+
+public:
+
+	sf::FloatRect getHitbox(HitIdPlat box) const;
 
 	Platform();
 	Platform(sf::Vector2f platPos, sf::Vector2f platSize, Texture_Name texName);

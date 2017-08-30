@@ -2,6 +2,14 @@
 
 
 
+sf::FloatRect Platform::getHitbox(HitIdPlat box) const
+{
+	if (box == HitIdPlat::baseD) return baseD;
+	if (box == HitIdPlat::baseU) return baseU;
+	if (box == HitIdPlat::edgeL) return edgeL;
+	if (box == HitIdPlat::edgeR) return edgeR;
+}
+
 Platform::Platform()
 {
 }

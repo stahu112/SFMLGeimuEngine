@@ -44,15 +44,15 @@ void Level::resetView()
 		//levelView.reset(sf::FloatRect(0, 0, Display::screenSize.x, Display::screenSize.y));
 		if (getPlayerHandle()->getPosition().x + viewPort.x < tileSize.x * viewPort.x/2)
 		{
-			levelView.reset(sf::FloatRect(0, getPlayerHandle()->getPosition().y - 2*tileSize.y, tileSize.x * viewPort.x, tileSize.x * viewPort.y));
+			levelView.reset(sf::FloatRect(0, getPlayerHandle()->getPosition().y - 4 * tileSize.y, tileSize.x * viewPort.x, tileSize.x * viewPort.y));
 		}
 		else if (getPlayerHandle()->getPosition().x > (size.x - viewPort.x / 2) * tileSize.x - viewPort.x)
 		{
-			levelView.reset(sf::FloatRect((size.x * tileSize.x) - viewPort.x * tileSize.x, getPlayerHandle()->getPosition().y - 2 * tileSize.x, tileSize.x * viewPort.x, tileSize.x * viewPort.y));
+			levelView.reset(sf::FloatRect((size.x * tileSize.x) - viewPort.x * tileSize.x, getPlayerHandle()->getPosition().y - 4 * tileSize.x, tileSize.x * viewPort.x, tileSize.x * viewPort.y));
 		}
 		else
 		{
-			levelView.reset(sf::FloatRect(getPlayerHandle()->getPosition().x - tileSize.x * viewPort.x/2 + viewPort.x, getPlayerHandle()->getPosition().y - 2*tileSize.x, tileSize.x * viewPort.x, tileSize.x * viewPort.y));
+			levelView.reset(sf::FloatRect(getPlayerHandle()->getPosition().x - tileSize.x * viewPort.x/2 + viewPort.x, getPlayerHandle()->getPosition().y - 4 * tileSize.x, tileSize.x * viewPort.x, tileSize.x * viewPort.y));
 		}
 	}
 }
