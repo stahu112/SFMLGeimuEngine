@@ -83,23 +83,3 @@ void Character::jump()
 {
 	setVelocity(sf::Vector2f(getVelocity().x, -100));
 }
-
-void Character::walkL()
-{
-	setVelocity(sf::Vector2f(-20, getVelocity().y));
-}
-
-void Character::walkR()
-{
-	setVelocity(sf::Vector2f(20, getVelocity().y));
-}
-
-void Character::runL()
-{
-	setVelocity(sf::Vector2f(-50, getVelocity().y));
-}
-
-void Character::runR()
-{
-	setVelocity(sf::Vector2f(50, getVelocity().y));
-}

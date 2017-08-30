@@ -106,12 +106,5 @@ public:
 	//Commands
 	void jump();
 	
-	void walkL();
-	void walkR();
-	
-	void runL();
-	void runR();
-
-
 };
 
