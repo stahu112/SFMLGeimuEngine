@@ -41,7 +41,9 @@ public:
 	//TileSize
 	sf::Vector2u tileSize = { 16, 16 };
 
-	sf::Vector2f viewPort = { 20, 11 };
+	float yFactor = 3;
+
+	sf::Vector2f viewPort = { 16, 8 };
 
 	//GET PLATFORMS VECTOR
 	std::vector<Platform> * getPlatforms();

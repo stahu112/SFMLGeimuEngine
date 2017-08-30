@@ -28,8 +28,6 @@ public:
 	UniqueStats getUniqueStats() const;
 	//void setUniqueStats(); TODO setUniqueStats
 	
-	void processStates() override;
-	
 	void update(float dt) override;
 
 	Character_Candy();

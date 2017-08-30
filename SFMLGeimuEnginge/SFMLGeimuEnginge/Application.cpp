@@ -11,8 +11,6 @@ Application::Application()
 	pushState(std::make_unique<State::Splash_Screen>(*this));
 }
 
-//TODO Liczyc dt zeby gameplay byl niezalezny od framerate'u
-
 //GLOWNA PETLA
 void Application::runMainLoop()
 {

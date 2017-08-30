@@ -27,6 +27,8 @@ namespace State
 		void input() override;
 		void update(float dt) override;
 		void draw() override;
+
+		void resolveCollisions();
 		
 		//LEVELS
 		void changeLevel(LevelID level);

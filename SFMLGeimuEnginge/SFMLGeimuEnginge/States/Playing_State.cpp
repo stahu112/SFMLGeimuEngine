@@ -32,14 +32,16 @@ namespace State
 		return player;
 	}
 
-
-	//############################################
-	//############################################
-	//############################################
-
 	//Sterowanie itp.
 	void Playing::input()
 	{
+		//While On Ground
+		if (getPlayer()->getFlags().onGround)
+		{
+			getPlayer()->getVelocity().x = InputHandler::getAxisPosition(sf::Joystick::Axis::X);
+
+			if (InputHandler::checkJDown(0)) getPlayer()->jump();
+		}
 	}
 
 	//Aktualizuj stany
@@ -48,52 +50,38 @@ namespace State
 		updateLevel();
 		getPlayer()->update(dt);
 
-		if (getPlayer()->getFlags().onGround)
-		{
-			if (!getPlayer()->getFlags().dashing)
-			{
-				getPlayer()->setVelocity(sf::Vector2f(
-					InputHandler::getAxisPosition(sf::Joystick::Axis::X),
-					getPlayer()->getVelocity().y
-				));
-			}
-
-			if (InputHandler::checkJDown(10)) { getPlayer()->getFlags().dashing = true; getPlayer()->dash(); }
-			else if (InputHandler::getAxisPosition(sf::Joystick::Axis::X)
-				< InputHandler::deadZone &&
-				InputHandler::getAxisPosition(sf::Joystick::Axis::X)
-				> -InputHandler::deadZone)
-			{
-				getPlayer()->getFlags().dashing = false;
-			}
-		}
-
-		if (InputHandler::checkJDown(1)) getPlayer()->jump();
-
-		if (Collision::collisionWithPlat(
-			getPlayer(),
-			HitId::L,
-			currentLevel->getPlatforms()->at(0),
-			HitIdPlat::baseU))
-		{
-			getPlayer()->getFlags().onGround = true;
-			getPlayer()->setPosition(sf::Vector2f(
-				getPlayer()->getPosition().x,
-				currentLevel->getPlatforms()->at(0).getPosition().y - getPlayer()->getSize().y
-			));
-		}
-		std::cout << (int)getPlayer()->getCurrentState() << std::endl;
-
+		resolveCollisions();
 	}
-	//Rysuj obiekty
+
+
+	//Rysuj obiekty UI
 	void Playing::draw()
 	{
 		
 	}
+
+	void Playing::resolveCollisions()
+	{
+		for (unsigned i = 0; i < currentLevel->getPlatforms()->size(); i++)
+		{
+
+			//Land on platform
+			if (Collision::collisionWithPlat(
+				getPlayer(),
+				HitId::L,
+				currentLevel->getPlatforms()->at(i),
+				HitIdPlat::baseU))
+			{
+				getPlayer()->getFlags().onGround = true;
+				getPlayer()->setPosition(sf::Vector2f(
+					getPlayer()->getPosition().x,
+					currentLevel->getPlatforms()->at(i).getPosition().y - getPlayer()->getSize().y
+				));
+			}
+		}
+	}
 	
-	//############################################
-	//############################################
-	//############################################
+
 	
 	void Playing::changeLevel(LevelID level)
 	{

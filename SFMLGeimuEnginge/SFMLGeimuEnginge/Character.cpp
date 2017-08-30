@@ -7,11 +7,6 @@ void Character::update(float dt)
 {
 }
 
-CState Character::getCurrentState()
-{
-	return currentState;
-}
-
 sf::FloatRect Character::getHitbox(HitId box) const
 {
 	if (box == HitId::H) return higherHitbox;
@@ -65,10 +60,6 @@ sf::Vector2f & Character::getVelocity()
 	return velocity;
 }
 
-void Character::processStates()
-{
-}
-
 void Character::draw()
 {
 	Display::draw(getSprite());
@@ -81,18 +72,5 @@ Character::Character()
 //Commands
 void Character::jump()
 {
-	if (flags.onGround) velocity.y = -300;
-}
-
-void Character::dash()
-{
-	if (flags.dashing)
-	{
-		if (currentState == CState::RunL)
-			velocity.x = -baseStats.dashSpeed;
-		else if (currentState == CState::RunR)
-			velocity.x = baseStats.dashSpeed;
-		else return;
-	}
-	return;
+	velocity.y = -300;
 }
