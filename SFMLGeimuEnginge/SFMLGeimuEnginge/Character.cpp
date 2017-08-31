@@ -50,16 +50,6 @@ void Character::setBaseStats(std::string ID, unsigned BaseHP, unsigned Level)
 	this->baseStats.BaseHP = BaseHP;
 }
 
-void Character::setVelocity(sf::Vector2f newVel)
-{
-	velocity = newVel;
-}
-
-sf::Vector2f & Character::getVelocity()
-{
-	return velocity;
-}
-
 void Character::draw()
 {
 	Display::draw(getSprite());

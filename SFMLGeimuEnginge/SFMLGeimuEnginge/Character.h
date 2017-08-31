@@ -36,7 +36,6 @@ protected:
 	sf::FloatRect higherHitbox;
 
 	sf::Sprite spriteSheet;
-	sf::Vector2f velocity = {0,0};
 
 public:
 
@@ -50,10 +49,6 @@ public:
 
 	BaseStats getBaseStats() const;
 	void setBaseStats(std::string ID, unsigned BaseHP, unsigned Level);
-
-	//Vel
-	void setVelocity(sf::Vector2f newVel);
-	sf::Vector2f & getVelocity();
 
 	//Physics Component
 

@@ -35,3 +35,13 @@ void Game_Object::move(sf::Vector2f moveo)
 	Position.x += moveo.x;
 	Position.y += moveo.y;
 }
+
+sf::Vector2f & Game_Object::getVelocity()
+{
+	return velocity;
+}
+
+float & Game_Object::getMass()
+{
+	return mass;
+}

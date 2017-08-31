@@ -1,7 +1,5 @@
 #include "Playing_State.h"
 
-#include <cmath>
-
 #define macDEFINE_FLOOR sf::Vector2f(0, currentLevel->getSize().y * currentLevel->tileSize.y), sf::Vector2f(currentLevel->getSize().x * currentLevel->tileSize.x, currentLevel->tileSize.y)
 
 #include <iostream>
@@ -20,8 +18,10 @@ namespace State
 	void Playing::initState()
 	{
 		setPlayer(&Candy);
+		player->setPosition(sf::Vector2f(0, 0));
 		initLevels();
 		changeLevel(LevelID::level0);
+
 //TODO zgranie z pliku
 		currentLevel->getPlatforms()->emplace_back(macDEFINE_FLOOR, Texture_Name::test);
 
@@ -52,6 +52,8 @@ namespace State
 	{
 		updateLevel();
 		player->update(dt);
+
+		std::cout << "VelX: " << player->getVelocity().x << " VelY: " << player->getVelocity().y << std::endl;
 
 		resolveCollisions();
 	}
