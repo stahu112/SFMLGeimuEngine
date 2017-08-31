@@ -7,5 +7,4 @@ Texture_Manager::Texture_Manager()
 	addResource(Texture_Name::test1, "Resources/Textures/test.png");
 	addResource(Texture_Name::animtest, "Resources/Textures/animtest.png");
 	addResource(Texture_Name::test2, "Resources/Textures/test2.jpg");
-	addResource(Texture_Name::tileset, "Resources/Textures/tileset.png");
 }

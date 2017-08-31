@@ -65,6 +65,7 @@ public:
 
 	//Commands
 	void jump();
+	void jump(float d);
 	
 };
 

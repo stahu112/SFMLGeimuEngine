@@ -10,7 +10,7 @@ bool InputHandler::joyConnected = false;
 unsigned InputHandler::jKey = -1;
 bool InputHandler::jDown = false;
 unsigned InputHandler::joyId = -1;
-float InputHandler::deadZone = 10.f;
+float InputHandler::deadZone = 2.f;
 
 void InputHandler::updateInput(sf::Event e)
 {

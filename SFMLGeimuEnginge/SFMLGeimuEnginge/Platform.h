@@ -18,7 +18,7 @@ protected:
 	sf::RectangleShape shape;
 	sf::Vector2f size = {16, 16};
 
-	unsigned step = 3;
+	unsigned step = 7;
 
 	sf::FloatRect edgeL;
 	sf::FloatRect edgeR;

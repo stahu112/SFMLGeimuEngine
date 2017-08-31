@@ -72,5 +72,12 @@ Character::Character()
 //Commands
 void Character::jump()
 {
-	velocity.y = -300;
+	velocity.y = -250;
+	flags.onGround = false;
+}
+
+void Character::jump(float d)
+{
+	velocity.y = -d;
+	flags.onGround = false;
 }

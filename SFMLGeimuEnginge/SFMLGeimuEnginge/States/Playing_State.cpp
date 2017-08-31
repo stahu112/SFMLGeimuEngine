@@ -1,5 +1,9 @@
 #include "Playing_State.h"
 
+#include <cmath>
+
+#define macDEFINE_FLOOR sf::Vector2f(0, currentLevel->getSize().y * currentLevel->tileSize.y), sf::Vector2f(currentLevel->getSize().x * currentLevel->tileSize.x, currentLevel->tileSize.y)
+
 #include <iostream>
 
 static Character_Candy Candy;
@@ -12,14 +16,19 @@ namespace State
 	{
 		initState();
 	}
-
+	
 	void Playing::initState()
 	{
 		setPlayer(&Candy);
 		initLevels();
 		changeLevel(LevelID::level0);
-		currentLevel->getPlatforms()->emplace_back(sf::Vector2f(0, currentLevel->getSize().y * currentLevel->tileSize.x), sf::Vector2f(currentLevel->getSize().x * currentLevel->tileSize.x, 8), Texture_Name::test);
+//TODO zgranie z pliku
+		currentLevel->getPlatforms()->emplace_back(macDEFINE_FLOOR, Texture_Name::test);
 
+		currentLevel->getPlatforms()->emplace_back(sf::Vector2f(
+			currentLevel->tileSize.x*2, currentLevel->getSize().y*currentLevel->tileSize.x - currentLevel->tileSize.y*2),
+			sf::Vector2f(currentLevel->tileSize.x * 10, currentLevel->tileSize.y),
+			Texture_Name::test);
 	}
 
 	Level * Playing::getCurrentLevel() const
@@ -35,20 +44,14 @@ namespace State
 	//Sterowanie itp.
 	void Playing::input()
 	{
-		//While On Ground
-		if (getPlayer()->getFlags().onGround)
-		{
-			getPlayer()->getVelocity().x = InputHandler::getAxisPosition(sf::Joystick::Axis::X);
-
-			if (InputHandler::checkJDown(0)) getPlayer()->jump();
-		}
+	
 	}
 
 	//Aktualizuj stany
 	void Playing::update(float dt)
 	{
 		updateLevel();
-		getPlayer()->update(dt);
+		player->update(dt);
 
 		resolveCollisions();
 	}
@@ -57,28 +60,12 @@ namespace State
 	//Rysuj obiekty UI
 	void Playing::draw()
 	{
-		
+		player->draw();
 	}
 
 	void Playing::resolveCollisions()
 	{
-		for (unsigned i = 0; i < currentLevel->getPlatforms()->size(); i++)
-		{
-
-			//Land on platform
-			if (Collision::collisionWithPlat(
-				getPlayer(),
-				HitId::L,
-				currentLevel->getPlatforms()->at(i),
-				HitIdPlat::baseU))
-			{
-				getPlayer()->getFlags().onGround = true;
-				getPlayer()->setPosition(sf::Vector2f(
-					getPlayer()->getPosition().x,
-					currentLevel->getPlatforms()->at(i).getPosition().y - getPlayer()->getSize().y
-				));
-			}
-		}
+		
 	}
 	
 
