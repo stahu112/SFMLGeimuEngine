@@ -17,11 +17,15 @@ void Application::runMainLoop()
 
 	sf::Clock DeltaClock;
 	sf::Clock GameClock;
+
 	//Kiedy okno jest otwarte
 	while (Display::isOpen())
 	{
 		sf::Time TimeSinceStart = GameClock.getElapsedTime();
 		sf::Time dt = DeltaClock.restart();
+
+		float fps = 1.f / (dt.asSeconds());
+
 		//EVENTY
 		Display::checkWindowEvents();
 

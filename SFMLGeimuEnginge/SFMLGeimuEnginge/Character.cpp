@@ -3,10 +3,6 @@
 #include <iostream>
 #include "States\Playing_State.h"
 
-void Character::update(float dt)
-{
-}
-
 sf::FloatRect Character::getHitbox(HitId box) const
 {
 	if (box == HitId::H) return higherHitbox;

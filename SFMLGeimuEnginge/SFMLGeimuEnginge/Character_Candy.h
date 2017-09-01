@@ -25,6 +25,8 @@ class Character_Candy : public Character
 
 public:
 
+	void processStates() override;
+
 	UniqueStats getUniqueStats() const;
 	//void setUniqueStats(); TODO setUniqueStats
 	
