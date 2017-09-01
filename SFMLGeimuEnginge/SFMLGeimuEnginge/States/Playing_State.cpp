@@ -1,7 +1,5 @@
 #include "Playing_State.h"
 
-#define macDEFINE_FLOOR sf::Vector2f(0, currentLevel->getSize().y * currentLevel->tileSize.y), sf::Vector2f(currentLevel->getSize().x * currentLevel->tileSize.x, currentLevel->tileSize.y)
-
 #include <iostream>
 
 static Character_Candy Candy;
@@ -21,24 +19,30 @@ namespace State
 		player->setPosition(sf::Vector2f(0, 0));
 		initLevels();
 		changeLevel(LevelID::level0);
+	}
 
-//TODO zgranie z pliku
-		currentLevel->getPlatforms()->emplace_back(macDEFINE_FLOOR, Texture_Name::test);
+	void Playing::initLevels()
+	{
+		Level level0(
+			Texture_Name::test2,
+			sf::Vector2u(100, 50),
+			false,
+			*this
+		);
 
-		currentLevel->getPlatforms()->emplace_back(sf::Vector2f(
-			currentLevel->tileSize.x*2, currentLevel->getSize().y*currentLevel->tileSize.x - currentLevel->tileSize.y*2),
-			sf::Vector2f(currentLevel->tileSize.x * 10, currentLevel->tileSize.y),
+		//TODO zgranie z pliku
+		level0.getPlatforms()->emplace_back(
+			sf::Vector2f(0, level0.getSize().y * level0.tileSize.y),
+			sf::Vector2f(level0.getSize().x * level0.tileSize.x, level0.tileSize.y),
 			Texture_Name::test);
-	}
 
-	Level * Playing::getCurrentLevel() const
-	{
-		return currentLevel;
-	}
+		level0.getPlatforms()->emplace_back(sf::Vector2f(
+			level0.tileSize.x * 2, level0.getSize().y*level0.tileSize.x - level0.tileSize.y * 2),
+			sf::Vector2f(level0.tileSize.x * 10, level0.tileSize.y),
+			Texture_Name::test);
 
-	Character * Playing::getPlayer() const
-	{
-		return player;
+		addLevel(LevelID::level0, level0);
+
 	}
 
 	//Sterowanie itp.
@@ -52,8 +56,6 @@ namespace State
 	{
 		updateLevel();
 		player->update(dt);
-
-		std::cout << "VelX: " << player->getVelocity().x << " VelY: " << player->getVelocity().y << std::endl;
 
 		resolveCollisions();
 	}
@@ -92,21 +94,18 @@ namespace State
 		m_levels.insert(std::make_pair(id, level));
 	}
 
-	void Playing::initLevels()
-	{
-		Level level0(
-			Texture_Name::test2,
-			sf::Vector2u(100,50),
-			false,
-			*this
-		);
-		addLevel(LevelID::level0, level0);
-		
-	}
-
 	void Playing::setPlayer(Character * chara)
 	{
 		player = chara;
 	}
 
+	Level * Playing::getCurrentLevel() const
+	{
+		return currentLevel;
+	}
+
+	Character * Playing::getPlayer() const
+	{
+		return player;
+	}
 }

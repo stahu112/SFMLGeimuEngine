@@ -20,6 +20,11 @@ void Game_Object::setSize(sf::Vector2f newsize)
 	size = newsize;
 }
 
+const unsigned Game_Object::getCount()
+{
+	return count;
+}
+
 sf::Vector2f Game_Object::getPosition() const
 {
 	return Position;

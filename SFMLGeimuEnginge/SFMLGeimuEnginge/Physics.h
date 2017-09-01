@@ -16,5 +16,4 @@ public:
 	static void applyGravity(Game_Object & obj, float dt);
 
 	Physics();
-	~Physics();
 };

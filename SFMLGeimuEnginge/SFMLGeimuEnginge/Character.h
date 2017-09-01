@@ -18,7 +18,7 @@ protected:
 
 	struct Flags
 	{
-		bool onGround = false;
+		
 	};
 
 	struct BaseStats

@@ -14,8 +14,3 @@ void Physics::applyGravity(Game_Object & obj, float dt)
 Physics::Physics()
 {
 }
-
-
-Physics::~Physics()
-{
-}

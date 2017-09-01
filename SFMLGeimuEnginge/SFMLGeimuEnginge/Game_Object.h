@@ -15,6 +15,8 @@ public:
 	void setSize(sf::Vector2f newsize);
 
 	//Getters
+	const static unsigned getCount();
+
 	sf::Vector2f getPosition() const;
 	sf::Vector2f getSize() const;
 	sf::Vector2f & getVelocity();
