@@ -37,10 +37,24 @@ namespace State
 			Texture_Name::test);
 
 		level0.getPlatforms()->emplace_back(sf::Vector2f(
-			level0.tileSize.x * 2, level0.getSize().y*level0.tileSize.x - level0.tileSize.y * 2),
+			0, level0.getSize().y*level0.tileSize.x - level0.tileSize.y * 4),
 			sf::Vector2f(level0.tileSize.x * 10, level0.tileSize.y),
 			Texture_Name::test);
 
+		level0.getPlatforms()->emplace_back(sf::Vector2f(
+			level0.tileSize.x * 2, level0.getSize().y*level0.tileSize.x - level0.tileSize.y * 8),
+			sf::Vector2f(level0.tileSize.x * 10, level0.tileSize.y),
+			Texture_Name::test);
+
+		level0.getPlatforms()->emplace_back(sf::Vector2f(
+			0, level0.getSize().y*level0.tileSize.x - level0.tileSize.y * 12),
+			sf::Vector2f(level0.tileSize.x * 10, level0.tileSize.y),
+			Texture_Name::test);
+
+		level0.getPlatforms()->emplace_back(sf::Vector2f(
+			level0.tileSize.x * 2, level0.getSize().y*level0.tileSize.x - level0.tileSize.y * 16),
+			sf::Vector2f(level0.tileSize.x * 10, level0.tileSize.y),
+			Texture_Name::test);
 		addLevel(LevelID::level0, level0);
 
 	}
@@ -63,7 +77,6 @@ namespace State
 	void Playing::update(float dt)
 	{
 		updateLevel();
-		resolveCollisions();
 		player->update(dt);
 		if (player->getFlags().inAir)
 		{
@@ -73,6 +86,7 @@ namespace State
 		{
 			player->getVelocity().y = 0;
 		}
+		resolveCollisions();
 	}
 
 

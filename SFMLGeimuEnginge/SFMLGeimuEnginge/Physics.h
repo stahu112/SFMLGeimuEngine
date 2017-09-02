@@ -11,6 +11,8 @@ class Physics
 
 	static float drag;
 
+	static float maxYVelocity;
+
 public:
 
 	static void applyGravity(Game_Object & obj, float dt);
