@@ -11,20 +11,6 @@ enum class HitId
 	L
 };
 
-enum class CharState
-{
-	StandingL,
-	StandingR,
-	WalkL,
-	WalkR,
-	RunL,
-	RunR,
-	JumpL,
-	JumpR,
-	DiveL,
-	DiveR
-};
-
 class Character : public Game_Object
 {
 	
@@ -32,10 +18,7 @@ protected:
 
 	struct Flags
 	{
-		bool walkToggle = true;
-		unsigned JumpCount = 0;
-		bool onGround = false;
-		bool collidedPlat = false;
+		bool inAir = false;
 	};
 
 	struct BaseStats
@@ -46,7 +29,6 @@ protected:
 		unsigned EXP = 0;
 		unsigned Jumps = 1;
 
-		int walkFactor = 50;
 		int runFactor = 100;
 		int jumpFactor = 170;
 	};
@@ -65,8 +47,6 @@ public:
 	void setHitboxes();
 
 	sf::Sprite & getSprite();
-	
-	CharState currentState = CharState::DiveR;
 
 	//Stuff
 	Flags & getFlags();
@@ -79,13 +59,8 @@ public:
 	void draw();
 
 	virtual void update(float dt) = 0;
-	virtual void processStates() = 0;
 
 	Character();
 
-	//Commands
-	void jump();
-	void jump(float d);
-	
 };
 

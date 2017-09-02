@@ -16,7 +16,7 @@ namespace State
 	void Playing::initState()
 	{
 		setPlayer(&Candy);
-		player->setPosition(sf::Vector2f(0, 48*16));
+		player->setPosition(sf::Vector2f(0, 0));
 		initLevels();
 		changeLevel(LevelID::level0);
 	}
@@ -33,7 +33,7 @@ namespace State
 		//TODO zgranie z pliku
 		level0.getPlatforms()->emplace_back(
 			sf::Vector2f(0, level0.getSize().y * level0.tileSize.y),
-			sf::Vector2f(level0.getSize().x * level0.tileSize.x, level0.tileSize.y),
+			sf::Vector2f(level0.getSize().x * level0.tileSize.x, level0.tileSize.y*10),
 			Texture_Name::test);
 
 		level0.getPlatforms()->emplace_back(sf::Vector2f(
@@ -48,149 +48,14 @@ namespace State
 	//Sterowanie itp.
 	void Playing::input()
 	{
-		switch (player->currentState)
+		if (InputHandler::checkDown(sf::Keyboard::Space))
 		{
-
-		case CharState::StandingR:
-
-			//SetAnim
-			if (InputHandler::checkDown(sf::Keyboard::Space)) {
-				player->currentState = CharState::JumpR; break;
-			}
-
-			if (player->getFlags().walkToggle)
-			{
-				if (InputHandler::checkDown(sf::Keyboard::D)) {
-					player->currentState = CharState::RunR; break;
-				}
-				if (InputHandler::checkDown(sf::Keyboard::A)) {
-					player->currentState = CharState::RunL; break;
-				}
-			}
-
-			else if (InputHandler::checkDown(sf::Keyboard::D)) {
-				player->currentState = CharState::WalkR; break;
-			}
-			else if (InputHandler::checkDown(sf::Keyboard::A)) {
-				player->currentState = CharState::WalkL; break;
-			}
-			break;
-
-		case CharState::StandingL:
-
-			//SetAnim
-			if (InputHandler::checkDown(sf::Keyboard::Space)) {
-				player->currentState = CharState::JumpL; break;
-			}
-
-			if (player->getFlags().walkToggle)
-			{
-				if (InputHandler::checkDown(sf::Keyboard::D)) {
-					player->currentState = CharState::RunR; break;
-				}
-				if (InputHandler::checkDown(sf::Keyboard::A)) {
-					player->currentState = CharState::RunL; break;
-				}
-			}
-
-			else if (InputHandler::checkDown(sf::Keyboard::D)) {
-				player->currentState = CharState::WalkR; break;
-			}
-			else if (InputHandler::checkDown(sf::Keyboard::A)) {
-				player->currentState = CharState::WalkL; break;
-			}
-			break;
-
-		case CharState::WalkL:
-
-			//SetAnim
-			if (InputHandler::checkDown(sf::Keyboard::Space)) {
-				player->currentState = CharState::JumpL; break;
-			}
-			else if (InputHandler::checkUp(sf::Keyboard::A)) {
-				player->currentState = CharState::StandingL; break;
-			}
-
-			break;
-
-		case CharState::WalkR:
-
-			//SetAnim
-			if (InputHandler::checkDown(sf::Keyboard::Space)) {
-				player->currentState = CharState::JumpR; break;
-			}
-			else if (InputHandler::checkUp(sf::Keyboard::D)) {
-				player->currentState = CharState::StandingR; break;
-			}
-
-			break;
-
-		case CharState::RunL:
-
-			//SetAnim
-			if (InputHandler::checkDown(sf::Keyboard::Space)) {
-				player->currentState = CharState::JumpL; break;
-			}
-			else if (InputHandler::checkUp(sf::Keyboard::A)) {
-				player->currentState = CharState::StandingL; break;
-			}
-
-			break;
-
-		case CharState::RunR:
-
-			//SetAnim
-			if (InputHandler::checkDown(sf::Keyboard::Space)) {
-				player->currentState = CharState::JumpR; break;
-			}
-			else if (InputHandler::checkUp(sf::Keyboard::D)) {
-				player->currentState = CharState::StandingR; break;
-			}
-			break;
-
-		case CharState::JumpL:
-			if (player->getVelocity().y > 0) {
-				player->currentState = CharState::DiveL; break;
-			}
-
-		case CharState::JumpR:
-			if (player->getVelocity().y > 0) {
-				player->currentState = CharState::DiveR; break;
-			}
-
-		case CharState::DiveL:
-
-			if (InputHandler::checkDown(sf::Keyboard::Space)) {
-				InputHandler::key = sf::Keyboard::Unknown;
-			}
-
-			if (player->getVelocity().x == 0) {
-				player->currentState = CharState::StandingL; break;
-			}
-			if (player->getFlags().walkToggle && InputHandler::checkDown(sf::Keyboard::A)) {
-				player->currentState = CharState::RunL; break;
-			}
-			if (InputHandler::checkDown(sf::Keyboard::A)) {
-				player->currentState = CharState::WalkL; break;
-			}
-
-		case CharState::DiveR:
-
-			if (InputHandler::checkDown(sf::Keyboard::Space)) {
-				InputHandler::key = sf::Keyboard::Unknown;
-			}
-
-			if (player->getVelocity().x == 0)
-			{
-				player->currentState = CharState::StandingR; break;
-			}
-			if (player->getFlags().walkToggle && InputHandler::checkDown(sf::Keyboard::D)) {
-				player->currentState = CharState::RunR; break;
-			}
-			if (InputHandler::checkDown(sf::Keyboard::D)) {
-				player->currentState = CharState::WalkR; break;
-			}
+			player->getFlags().inAir = true;
+			player->getVelocity().y = -100;
 		}
+
+		if (InputHandler::checkDown(sf::Keyboard::Right)) player->move(sf::Vector2f(5,0));
+		if (InputHandler::checkDown(sf::Keyboard::Left)) player->move(sf::Vector2f(-5, 0));
 	}
 
 	//Aktualizuj stany
@@ -200,9 +65,14 @@ namespace State
 		updateLevel();
 		resolveCollisions();
 		player->update(dt);
-
-		std::cout << (unsigned)player->currentState << std::endl;
-
+		if (player->getFlags().inAir)
+		{
+			Physics::applyGravity(*player, dt);
+		}
+		else
+		{
+			player->getVelocity().y = 0;
+		}
 	}
 
 
@@ -219,8 +89,20 @@ namespace State
 		{
 			if (Collision::collisionWithPlat(player, HitId::L, currentLevel->getPlatforms()->at(i), HitIdPlat::baseU))
 			{
-				player->getFlags().onGround = true;
-				player->currentState = CharState::DiveR;
+				player->setPosition(sf::Vector2f(
+				player->getPosition().x, currentLevel->getPlatforms()->at(i).getPosition().y - player->getSize().y
+				));
+				player->getFlags().inAir = false;
+				break;
+			}
+			else if (player->getPosition().y == currentLevel->getPlatforms()->at(i).getPosition().y - player->getSize().y)
+			{
+				player->getFlags().inAir = false;
+				break;
+			}
+			else
+			{
+				player->getFlags().inAir = true;
 			}
 		}
 	}

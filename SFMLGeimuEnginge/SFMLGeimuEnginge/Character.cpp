@@ -54,14 +54,3 @@ void Character::draw()
 Character::Character()
 {	
 }
-
-//Commands
-void Character::jump()
-{
-	velocity.y = -250;
-}
-
-void Character::jump(float d)
-{
-	velocity.y = -d;
-}
