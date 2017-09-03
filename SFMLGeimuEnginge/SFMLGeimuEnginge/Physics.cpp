@@ -4,7 +4,7 @@
 float Physics::gravity = 10.f;
 float Physics::drag = 0.f;
 
-float Physics::maxYVelocity = 300.f;
+float Physics::maxYVelocity = 200.f;
 
 //TODO Liczyc predkosc graniczna
 

@@ -14,7 +14,8 @@ class Character_Candy : public Character
 
 	enum class AnimationID
 	{
-
+		RunR,
+		RunL
 	};
 
 	UniqueStats uniqueStats;

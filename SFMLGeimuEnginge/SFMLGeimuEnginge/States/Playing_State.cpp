@@ -25,7 +25,7 @@ namespace State
 	{
 		Level level0(
 			Texture_Name::test2,
-			sf::Vector2u(100, 50),
+			sf::Vector2u(60, 30),
 			false,
 			*this
 		);
@@ -68,8 +68,10 @@ namespace State
 			player->getVelocity().y = -100;
 		}
 
-		if (InputHandler::checkDown(sf::Keyboard::Right)) player->move(sf::Vector2f(5,0));
-		if (InputHandler::checkDown(sf::Keyboard::Left)) player->move(sf::Vector2f(-5, 0));
+		if (InputHandler::checkDown(sf::Keyboard::Right)) player->getVelocity().x = 250;
+		if (InputHandler::checkUp(sf::Keyboard::Right)) player->getVelocity().x = 0;
+		if (InputHandler::checkDown(sf::Keyboard::Left)) player->getVelocity().x = -250;
+		if (InputHandler::checkUp(sf::Keyboard::Left)) player->getVelocity().x = 0;
 	}
 
 	//Aktualizuj stany
@@ -103,14 +105,12 @@ namespace State
 		{
 			if (Collision::collisionWithPlat(player, HitId::L, currentLevel->getPlatforms()->at(i), HitIdPlat::baseU))
 			{
-				player->setPosition(sf::Vector2f(
-				player->getPosition().x, currentLevel->getPlatforms()->at(i).getPosition().y - player->getSize().y
-				));
-				player->getFlags().inAir = false;
-				break;
-			}
-			else if (player->getPosition().y == currentLevel->getPlatforms()->at(i).getPosition().y - player->getSize().y)
-			{
+				if ((currentLevel->getPlatforms()->at(i).getPosition().y - player->getSize().y) - player->getPosition().y < -0.01)
+				{
+					player->setPosition(sf::Vector2f(
+						player->getPosition().x, currentLevel->getPlatforms()->at(i).getPosition().y - player->getSize().y + 0.01
+					));
+				}
 				player->getFlags().inAir = false;
 				break;
 			}
@@ -118,6 +118,7 @@ namespace State
 			{
 				player->getFlags().inAir = true;
 			}
+			
 		}
 	}
 	
