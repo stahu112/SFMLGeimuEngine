@@ -46,16 +46,16 @@ namespace State
 	//Sterowanie itp.
 	void Playing::input()
 	{
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && !player->getFlags().inAir)
 		{
 			player->getFlags().inAir = true;
-			player->getVelocity().y = -100;
+			player->getVelocity().y = -200;
 		}
 
-		if (InputHandler::checkDown(sf::Keyboard::D)) player->getVelocity().x = 100;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) player->getVelocity().x = 100;
 		if (InputHandler::checkUp(sf::Keyboard::D)) player->getVelocity().x = 0;
 
-		if (InputHandler::checkDown(sf::Keyboard::A)) player->getVelocity().x = -100;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) player->getVelocity().x = -100;
 		if (InputHandler::checkUp(sf::Keyboard::A)) player->getVelocity().x = 0;
 
 	}

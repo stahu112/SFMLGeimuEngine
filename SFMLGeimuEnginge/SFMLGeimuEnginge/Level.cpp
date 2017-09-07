@@ -34,24 +34,21 @@ sf::View Level::getView() const
 //RESETUJ VIEW
 void Level::resetView(float dt)
 {
-	dt *= 9;
+	dt *= 6;
 
 	if (playerHandle)
 	{
 		if (playerHandle->getPosition().x + playerHandle->getSize().x/2 - levelView.getSize().x / 2 <= 0)
 		{
-			levelView.setCenter(levelView.getSize().x/2 ,
-				levelView.getCenter().y + (dt * (playerHandle->getPosition().y - levelView.getCenter().y + playerHandle->getSize().y / 2 - yFactor)));
+			levelView.setCenter(levelView.getSize().x/2 , levelView.getCenter().y + (dt * (playerHandle->getPosition().y - levelView.getCenter().y + playerHandle->getSize().y / 2 - yFactor)));
 		}
 		else if (playerHandle->getPosition().x + playerHandle->getSize().x / 2 + levelView.getSize().x / 2 >= size.x * tileSize)
 		{
-			levelView.setCenter(size.x * tileSize - levelView.getSize().x / 2,
-				levelView.getCenter().y + (dt * (playerHandle->getPosition().y - levelView.getCenter().y + playerHandle->getSize().y / 2 - yFactor)));
+			levelView.setCenter(size.x * tileSize - levelView.getSize().x / 2, levelView.getCenter().y + (dt * (playerHandle->getPosition().y - levelView.getCenter().y + playerHandle->getSize().y / 2 - yFactor)));
 		}
 		else
 		//currentPos = currentPos + (fraction * (targetPos - currentPos))
-		levelView.setCenter(playerHandle->getPosition().x + playerHandle->getSize().x / 2,
-			levelView.getCenter().y + (dt * (playerHandle->getPosition().y - levelView.getCenter().y + playerHandle->getSize().y / 2 - yFactor)));
+		levelView.setCenter(playerHandle->getPosition().x + playerHandle->getSize().x / 2, levelView.getCenter().y + (dt * (playerHandle->getPosition().y - levelView.getCenter().y + playerHandle->getSize().y / 2 - yFactor)));
 	}
 }
 
@@ -59,7 +56,7 @@ void Level::resetView(float dt)
 void Level::assignBackgroundTex(Texture_Name name)
 {
 	backgroundTexture.setTexture(&Resource_Holder::get().getTexture(name));
-	backgroundTexture.setSize(sf::Vector2f(sf::Vector2u(size.x * tileSize, size.y * tileSize)));
+	backgroundTexture.setSize(sf::Vector2f(size.x * tileSize, size.y * tileSize));
 }
 
 //JESLI TLO JEST ANIMOWANE

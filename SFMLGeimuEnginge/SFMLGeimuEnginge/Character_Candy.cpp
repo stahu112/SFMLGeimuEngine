@@ -8,6 +8,18 @@ Character_Candy::UniqueStats Character_Candy::getUniqueStats() const
 
 void Character_Candy::update(float dt)
 {
+
+	if (velocity.x > 0)
+	{
+		setCurrentAnim(AnimationID::RunR);
+		spriteSheet.setTexture(Resource_Holder::get().getTexture(Texture_Name::spritesheet));
+	}
+	else if (velocity.x < 0)
+	{
+		setCurrentAnim(AnimationID::RunL);
+		spriteSheet.setTexture(Resource_Holder::get().getTexture(Texture_Name::spritesheet1));
+	}
+
 	setPosition(Position + velocity*dt);
 
 	updateAnim();
@@ -47,5 +59,15 @@ Character_Candy::Character_Candy()
 	RunRAnim.addFrames({ 0,38,20,38 }, 0.1f);
 	RunRAnim.addFrames({ 20,38,20,38 }, 0.1f);
 	m_animations.insert(std::make_pair(AnimationID::RunR, RunRAnim));
+
+	Animation RunLAnim;
+	RunLAnim.addFrames({ 60,0,20,38 }, 0.1f);
+	RunLAnim.addFrames({ 40,0,20,38 }, 0.1f);
+	RunLAnim.addFrames({ 20,0,20,38 }, 0.1f);
+	RunLAnim.addFrames({ 0,0,20,38 }, 0.1f);
+	RunLAnim.addFrames({ 60,38,20,38 }, 0.1f);
+	RunLAnim.addFrames({ 40,38,20,38 }, 0.1f);
+	m_animations.insert(std::make_pair(AnimationID::RunL, RunLAnim));
+
 	setCurrentAnim(AnimationID::RunR);
 }
