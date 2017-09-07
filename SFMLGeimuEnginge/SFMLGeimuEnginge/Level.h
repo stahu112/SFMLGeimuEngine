@@ -40,7 +40,7 @@ public:
 	void setPlayerHandle(State::Playing state);
 	Character* getPlayerHandle();
 
-	float yFactor = 20; //25
+	float yFactor = 0; //25
 
 	sf::Vector2f viewPort = { 16 * tileSize, 10 * tileSize };
 

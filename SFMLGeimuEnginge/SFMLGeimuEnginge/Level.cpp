@@ -36,6 +36,10 @@ void Level::resetView(float dt)
 {
 	dt *= 6;
 
+	// IF FALLING
+	//if (!playerHandle->getFlags().inAir) yFactor = 25;
+	//else yFactor = 0;
+
 	if (playerHandle)
 	{
 		if (playerHandle->getPosition().x + playerHandle->getSize().x/2 - levelView.getSize().x / 2 <= 0)
