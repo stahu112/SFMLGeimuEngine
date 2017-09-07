@@ -1,5 +1,7 @@
 #include "Playing_State.h"
 
+#include <fstream>
+
 #include <iostream>
 
 static Character_Candy Candy;
@@ -16,7 +18,6 @@ namespace State
 	void Playing::initState()
 	{
 		setPlayer(&Candy);
-		player->setPosition(sf::Vector2f(0, 0));
 		initLevels();
 		changeLevel(LevelID::level0);
 	}
@@ -25,60 +26,44 @@ namespace State
 	{
 		Level level0(
 			Texture_Name::test2,
-			sf::Vector2u(60, 30),
+			sf::Vector2u(30, 15),
 			false,
 			*this
 		);
 
-		//TODO zgranie z pliku
-		level0.getPlatforms()->emplace_back(
-			sf::Vector2f(0, level0.getSize().y * level0.tileSize.y),
-			sf::Vector2f(level0.getSize().x * level0.tileSize.x, level0.tileSize.y*10),
-			Texture_Name::test);
-
-		level0.getPlatforms()->emplace_back(sf::Vector2f(
-			0, level0.getSize().y*level0.tileSize.x - level0.tileSize.y * 4),
-			sf::Vector2f(level0.tileSize.x * 10, level0.tileSize.y),
-			Texture_Name::test);
-
-		level0.getPlatforms()->emplace_back(sf::Vector2f(
-			level0.tileSize.x * 2, level0.getSize().y*level0.tileSize.x - level0.tileSize.y * 8),
-			sf::Vector2f(level0.tileSize.x * 10, level0.tileSize.y),
-			Texture_Name::test);
-
-		level0.getPlatforms()->emplace_back(sf::Vector2f(
-			0, level0.getSize().y*level0.tileSize.x - level0.tileSize.y * 12),
-			sf::Vector2f(level0.tileSize.x * 10, level0.tileSize.y),
-			Texture_Name::test);
-
-		level0.getPlatforms()->emplace_back(sf::Vector2f(
-			level0.tileSize.x * 2, level0.getSize().y*level0.tileSize.x - level0.tileSize.y * 16),
-			sf::Vector2f(level0.tileSize.x * 10, level0.tileSize.y),
-			Texture_Name::test);
 		addLevel(LevelID::level0, level0);
+
+		Level level1(
+			Texture_Name::test1,
+			sf::Vector2u(40, 40),
+			false,
+			*this
+		);
+		addLevel(LevelID::level1, level1);
 
 	}
 
 	//Sterowanie itp.
 	void Playing::input()
 	{
-		if (InputHandler::checkDown(sf::Keyboard::Space))
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 		{
 			player->getFlags().inAir = true;
 			player->getVelocity().y = -100;
 		}
 
-		if (InputHandler::checkDown(sf::Keyboard::Right)) player->getVelocity().x = 250;
-		if (InputHandler::checkUp(sf::Keyboard::Right)) player->getVelocity().x = 0;
-		if (InputHandler::checkDown(sf::Keyboard::Left)) player->getVelocity().x = -250;
-		if (InputHandler::checkUp(sf::Keyboard::Left)) player->getVelocity().x = 0;
+		if (InputHandler::checkDown(sf::Keyboard::D)) player->getVelocity().x = 100;
+		if (InputHandler::checkUp(sf::Keyboard::D)) player->getVelocity().x = 0;
+
+		if (InputHandler::checkDown(sf::Keyboard::A)) player->getVelocity().x = -100;
+		if (InputHandler::checkUp(sf::Keyboard::A)) player->getVelocity().x = 0;
+
 	}
 
 	//Aktualizuj stany
-	//CHUJ DUPA CYCKI NIE PAMIETAM CO TO ROBI
 	void Playing::update(float dt)
 	{
-		updateLevel();
+		updateLevel(dt);
 		player->update(dt);
 		if (player->getFlags().inAir)
 		{
@@ -100,41 +85,30 @@ namespace State
 
 	void Playing::resolveCollisions()
 	{
-		//Platforms
-		for (unsigned i = 0; i < currentLevel->getPlatforms()->size(); i++)
+
+		//Stay on ground
+		if (player->getPosition().y >= currentLevel->getSize().y * tileSize - tileSize * 2)
 		{
-			if (Collision::collisionWithPlat(player, HitId::L, currentLevel->getPlatforms()->at(i), HitIdPlat::baseU))
-			{
-				if ((currentLevel->getPlatforms()->at(i).getPosition().y - player->getSize().y) - player->getPosition().y < -0.01)
-				{
-					player->setPosition(sf::Vector2f(
-						player->getPosition().x, currentLevel->getPlatforms()->at(i).getPosition().y - player->getSize().y + 0.01
-					));
-				}
-				player->getFlags().inAir = false;
-				break;
-			}
-			else
-			{
-				player->getFlags().inAir = true;
-			}
-			
+			player->getFlags().inAir = false;
+			player->setPosition(sf::Vector2f(player->getPosition().x, currentLevel->getSize().y * tileSize - tileSize * 2));
 		}
+		else
+			player->getFlags().inAir = true;
 	}
-	
 
 	
 	void Playing::changeLevel(LevelID level)
 	{
 		currentLevel = &m_levels.at(level);
+		player->setPosition(m_levels.at(level).startingPosition);
 	}
 
-	void Playing::updateLevel()
+	void Playing::updateLevel(float dt)
 	{
 		if (currentLevel)
 		{
 			currentLevel->drawLevel();
-			currentLevel->setView();
+			currentLevel->setView(dt);
 		}
 	}
 

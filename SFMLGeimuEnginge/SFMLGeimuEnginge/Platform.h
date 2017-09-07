@@ -15,15 +15,6 @@ class Platform : public Game_Object
 {
 
 protected:
-	sf::RectangleShape shape;
-	sf::Vector2f size = {16, 16};
-
-	unsigned step = 7;
-
-	sf::FloatRect edgeL;
-	sf::FloatRect edgeR;
-	sf::FloatRect baseU;
-	sf::FloatRect baseD;
 
 public:
 
@@ -35,7 +26,4 @@ public:
 	sf::RectangleShape getShape() const;
 
 	void setHitboxes();
-	void changePosition(sf::Vector2f newpos);
-
-};
-
+	void changePosition

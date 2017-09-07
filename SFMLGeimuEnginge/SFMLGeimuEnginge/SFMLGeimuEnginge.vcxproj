@@ -153,13 +153,11 @@
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="Character_Candy.cpp" />
-    <ClCompile Include="Collision.cpp" />
     <ClCompile Include="Display.cpp" />
     <ClCompile Include="Game_Object.cpp" />
     <ClCompile Include="InputHandler.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="Physics.cpp" />
-    <ClCompile Include="Platform.cpp" />
     <ClCompile Include="Res\Font_Manager.cpp" />
     <ClCompile Include="Res\Resource_Holder.cpp" />
     <ClCompile Include="Res\Sound_Manager.cpp" />
@@ -176,13 +174,11 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="Character_Candy.h" />
-    <ClInclude Include="Collision.h" />
     <ClInclude Include="Display.h" />
     <ClInclude Include="Game_Object.h" />
     <ClInclude Include="InputHandler.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Physics.h" />
-    <ClInclude Include="Platform.h" />
     <ClInclude Include="Res\Font_Manager.h" />
     <ClInclude Include="Res\Resource_Holder.h" />
     <ClInclude Include="Res\Resource_Manager.h" />

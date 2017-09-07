@@ -32,7 +32,7 @@ namespace State
 		
 		//LEVELS
 		void changeLevel(LevelID level);
-		void updateLevel();
+		void updateLevel(float dt);
 		void addLevel(LevelID id, Level level);
 		void initLevels();
 

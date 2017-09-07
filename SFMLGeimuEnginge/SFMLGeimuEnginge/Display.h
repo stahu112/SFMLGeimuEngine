@@ -2,7 +2,6 @@
 
 #include <SFML/Graphics.hpp>
 #include "InputHandler.h"
-#include "Collision.h"
 #include "Physics.h"
 
 namespace Display

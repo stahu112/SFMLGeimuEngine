@@ -3,27 +3,6 @@
 #include <iostream>
 #include "States\Playing_State.h"
 
-sf::FloatRect Character::getHitbox(HitId box) const
-{
-	if (box == HitId::H) return higherHitbox;
-	else if (box == HitId::L) return lowerHitbox;
-}
-
-void Character::setHitboxes()
-{
-	higherHitbox.width = size.x;
-	higherHitbox.height = size.y / 2;
-
-	higherHitbox.left = Position.x;
-	higherHitbox.top = Position.y;
-
-	lowerHitbox.width = size.x;
-	lowerHitbox.height = (size.y / 2);
-
-	lowerHitbox.left = Position.x;
-	lowerHitbox.top = Position.y + size.y /2;
-}
-
 sf::Sprite & Character::getSprite()
 {
 	return spriteSheet;
@@ -41,7 +20,6 @@ Character::BaseStats Character::getBaseStats() const
 
 void Character::setBaseStats(std::string ID, unsigned BaseHP, unsigned Level)
 {
-	this->baseStats.Level = Level;
 	this->baseStats.ID = ID;
 	this->baseStats.BaseHP = BaseHP;
 }

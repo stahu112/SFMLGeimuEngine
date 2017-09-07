@@ -4,13 +4,15 @@
 #include "Animation.h"
 #include "Res\Resource_Holder.h"
 #include "Character.h"
-#include "Platform.h"
+
+constexpr float tileSize = 16;
 
 namespace State { class Playing; };
 
 enum class LevelID
 {
-	level0
+	level0,
+	level1
 };
 
 class Level
@@ -27,34 +29,28 @@ class Level
 	//TEST
 	sf::View levelView;
 
-	//Platforms
-	std::vector<Platform> m_platforms;
-
 	//PlayerHandle
-	Character* PlayerHandle = nullptr;
+	Character* playerHandle = nullptr;
 
 public:
+
+	sf::Vector2f startingPosition = {0, 0};
+
 	//PlayerHandle
 	void setPlayerHandle(State::Playing state);
 	Character* getPlayerHandle();
 
-	//TileSize
-	sf::Vector2u tileSize = { 16, 16 };
+	float yFactor = 20; //25
 
-	float yFactor = 2;
-
-	sf::Vector2f viewPort = { 19, 10 };
-
-	//GET PLATFORMS VECTOR
-	std::vector<Platform> * getPlatforms();
+	sf::Vector2f viewPort = { 16 * tileSize, 10 * tileSize };
 
 	//GetSize
 	sf::Vector2u getSize() const;
 
 	//View
-	void setView();
+	void setView(float dt);
 	sf::View getView() const;
-	void resetView();
+	void resetView(float dt);
 
 	//Background
 	void assignBackgroundTex(Texture_Name name);

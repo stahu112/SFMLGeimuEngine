@@ -31,6 +31,10 @@ public:
 	
 	void update(float dt) override;
 
+	void setCurrentAnim(AnimationID id);
+
+	void updateAnim();
+
 	Character_Candy();
 
 };
