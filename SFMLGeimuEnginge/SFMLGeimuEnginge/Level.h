@@ -1,11 +1,16 @@
 #pragma once
 
+#include <vector>
+#include <fstream>
+#include <cctype>
+#include <string>
+
 #include "Display.h"
 #include "Animation.h"
 #include "Res\Resource_Holder.h"
 #include "Character.h"
 
-constexpr float tileSize = 16;
+constexpr float tileSize = 32;
 
 namespace State { class Playing; };
 
@@ -26,6 +31,11 @@ class Level
 	Animation backgroundAnimation;
 	bool isAnimated = false;
 
+	sf::Sprite tile;
+
+	std::vector<sf::Vector2i> tempMap;
+	std::vector<std::vector<sf::Vector2i>> tileMap;
+
 	//TEST
 	sf::View levelView;
 
@@ -40,7 +50,7 @@ public:
 	void setPlayerHandle(State::Playing state);
 	Character* getPlayerHandle();
 
-	float yFactor = 0; //25
+	float yFactor = 16; //20;
 
 	sf::Vector2f viewPort = { 16 * tileSize, 10 * tileSize };
 
@@ -56,8 +66,11 @@ public:
 	void assignBackgroundTex(Texture_Name name);
 	void updateAnim();
 
+	//Setup Tilemap
+	void loadTilemap(const std::string & path);
+
 	//Draw
 	void drawLevel();
 
-	Level(Texture_Name background, sf::Vector2u levelsize, bool animated, State::Playing & state);
+	Level(Texture_Name background, Texture_Name tileSet, const std::string & LevelPath, sf::Vector2u levelsize, bool animated, State::Playing & state);
 };

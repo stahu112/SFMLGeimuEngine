@@ -1,0 +1,15 @@
+3,0 x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x 3,0
+3,0 x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x 3,0
+3,0 x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x 3,0
+3,0 x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x 3,0
+3,0 x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x 3,0
+3,0 x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x 3,0
+3,0 x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x 3,0
+3,0 x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x 3,0
+3,0 x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x 3,0
+3,0 x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x 3,0
+3,0 x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x 3,0
+3,0 x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x 3,0
+3,0 x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x 3,0
+3,0 x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x x,x 3,0
+3,0 3,0 3,0 3,0 3,0 3,0 3,0 3,0 3,0 3,0 3,0 3,0 3,0 3,0 3,0 3,0 3,0 3,0 3,0 3,0

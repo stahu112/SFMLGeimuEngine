@@ -69,23 +69,68 @@ void Level::updateAnim()
 	backgroundTexture.setTextureRect(backgroundAnimation.getFrame());
 }
 
+void Level::loadTilemap(const std::string & path)
+{
+	tileMap.clear();
+	tempMap.clear();
+
+	std::ifstream openFile(path);
+	if (openFile.is_open())
+	{
+		while (!openFile.eof())
+		{
+			std::string str;
+			openFile >> str;
+			char x = str[0], y = str[2];
+			if (!isdigit(x) || !isdigit(y))
+				tempMap.push_back(sf::Vector2i(-1, -1));
+			else
+				tempMap.push_back(sf::Vector2i(x - '0', y - '0'));
+
+			if (openFile.peek() == '\n')
+			{
+				tileMap.push_back(tempMap);
+				tempMap.clear();
+			}
+		}
+		tileMap.push_back(tempMap);
+	}
+}
+
 //DRAW
 void Level::drawLevel()
 {
 	if (isAnimated) { updateAnim(); }
 	Display::draw(backgroundTexture);
+
+	for (int i = 0; i < tileMap.size(); i++)
+	{
+		for (int j = 0; j < tileMap[i].size(); j++)
+		{
+			if (tileMap[i][j].x != -1 && tileMap[i][j].y != -1)
+			{
+				tile.setPosition(j * tileSize, i * tileSize);
+				tile.setTextureRect(sf::IntRect(tileMap[i][j].x * tileSize, tileMap[i][j].y * tileSize, tileSize, tileSize));
+				Display::draw(tile);
+			}
+		}
+	}
 }
 
 //CONSTRUCTOR
 Level::Level(
 	Texture_Name BackgroundTextureName,
+	Texture_Name TileSet,
+	const std::string & LevelPath,
 	sf::Vector2u LevelSize,
 	bool isAnimated,
 	State::Playing & state) :
 	isAnimated(isAnimated),
 	size(LevelSize)
 {
+	tile.setTexture(Resource_Holder::get().getTexture(TileSet));
 	setPlayerHandle(state);
 	assignBackgroundTex(BackgroundTextureName);
+	loadTilemap(LevelPath);
 	levelView.reset(sf::FloatRect(0, 0, viewPort.x, viewPort.y));
 }

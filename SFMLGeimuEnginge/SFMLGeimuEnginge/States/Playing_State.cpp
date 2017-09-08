@@ -25,22 +25,15 @@ namespace State
 	void Playing::initLevels()
 	{
 		Level level0(
-			Texture_Name::test2,
-			sf::Vector2u(30, 15),
+			Texture_Name::test1,
+			Texture_Name::tilemap,
+			"Resources/level.txt",
+			sf::Vector2u(20,15),
 			false,
 			*this
 		);
 
 		addLevel(LevelID::level0, level0);
-
-		Level level1(
-			Texture_Name::test1,
-			sf::Vector2u(40, 40),
-			false,
-			*this
-		);
-		addLevel(LevelID::level1, level1);
-
 	}
 
 	//Sterowanie itp.
@@ -52,10 +45,10 @@ namespace State
 			player->getVelocity().y = -200;
 		}
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) player->getVelocity().x = 100;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) player->getVelocity().x = 500;
 		if (InputHandler::checkUp(sf::Keyboard::D)) player->getVelocity().x = 0;
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) player->getVelocity().x = -100;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) player->getVelocity().x = -500;
 		if (InputHandler::checkUp(sf::Keyboard::A)) player->getVelocity().x = 0;
 
 	}
