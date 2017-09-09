@@ -71,8 +71,9 @@ void Level::updateAnim()
 
 void Level::loadTilemap(const std::string & path)
 {
-	tileMap.clear();
+
 	tempMap.clear();
+	tileMap.clear();
 
 	std::ifstream openFile(path);
 	if (openFile.is_open())

@@ -45,6 +45,8 @@ namespace State
 			player->getVelocity().y = -200;
 		}
 
+		if (InputHandler::checkDown(sf::Keyboard::L)) currentLevel->loadTilemap("Resources/level.txt");
+
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) player->getVelocity().x = 500;
 		if (InputHandler::checkUp(sf::Keyboard::D)) player->getVelocity().x = 0;
 
