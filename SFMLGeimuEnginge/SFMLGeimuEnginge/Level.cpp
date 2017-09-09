@@ -78,6 +78,12 @@ void Level::loadTilemap(const std::string & path)
 	std::ifstream openFile(path);
 	if (openFile.is_open())
 	{
+		std::string sizeStrX, sizeStrY;
+		openFile >> sizeStrX;
+		openFile >> sizeStrY;
+
+		size = sf::Vector2u(std::stoi(sizeStrX), std::stoi(sizeStrY));
+
 		while (!openFile.eof())
 		{
 			std::string str;
@@ -123,15 +129,13 @@ Level::Level(
 	Texture_Name BackgroundTextureName,
 	Texture_Name TileSet,
 	const std::string & LevelPath,
-	sf::Vector2u LevelSize,
 	bool isAnimated,
 	State::Playing & state) :
-	isAnimated(isAnimated),
-	size(LevelSize)
+	isAnimated(isAnimated)
 {
 	tile.setTexture(Resource_Holder::get().getTexture(TileSet));
 	setPlayerHandle(state);
-	assignBackgroundTex(BackgroundTextureName);
 	loadTilemap(LevelPath);
 	levelView.reset(sf::FloatRect(0, 0, viewPort.x, viewPort.y));
+	assignBackgroundTex(BackgroundTextureName);
 }

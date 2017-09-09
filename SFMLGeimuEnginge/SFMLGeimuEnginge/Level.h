@@ -52,7 +52,7 @@ public:
 
 	float yFactor = 16; //20;
 
-	sf::Vector2f viewPort = { 16 * tileSize, 10 * tileSize };
+	sf::Vector2f viewPort = { 20 * tileSize, 15 * tileSize };
 
 	//GetSize
 	sf::Vector2u getSize() const;
@@ -72,5 +72,5 @@ public:
 	//Draw
 	void drawLevel();
 
-	Level(Texture_Name background, Texture_Name tileSet, const std::string & LevelPath, sf::Vector2u levelsize, bool animated, State::Playing & state);
+	Level(Texture_Name background, Texture_Name tileSet, const std::string & LevelPath, bool animated, State::Playing & state);
 };

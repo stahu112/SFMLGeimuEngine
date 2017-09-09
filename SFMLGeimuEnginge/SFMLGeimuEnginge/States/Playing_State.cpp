@@ -28,12 +28,20 @@ namespace State
 			Texture_Name::test1,
 			Texture_Name::tilemap,
 			"Resources/level.txt",
-			sf::Vector2u(20,15),
+			false,
+			*this
+		);
+
+		Level level1(
+			Texture_Name::test,
+			Texture_Name::tilemap,
+			"Resources/level.txt",
 			false,
 			*this
 		);
 
 		addLevel(LevelID::level0, level0);
+		addLevel(LevelID::level1, level1);
 	}
 
 	//Sterowanie itp.
@@ -52,6 +60,8 @@ namespace State
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) player->getVelocity().x = -500;
 		if (InputHandler::checkUp(sf::Keyboard::A)) player->getVelocity().x = 0;
+
+		if (InputHandler::checkDown(sf::Keyboard::Up)) changeLevel(LevelID::level1);
 
 	}
 
