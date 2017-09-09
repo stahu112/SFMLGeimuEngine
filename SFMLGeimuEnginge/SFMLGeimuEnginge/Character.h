@@ -33,6 +33,8 @@ protected:
 
 public:
 
+	sf::Vector2f goalVelocity;
+
 	sf::Sprite & getSprite();
 
 	//Stuff

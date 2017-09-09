@@ -17,5 +17,7 @@ public:
 
 	static void applyGravity(Game_Object & obj, float dt);
 
+	static float approach(float goal, float current, float dt);
+
 	Physics();
 };

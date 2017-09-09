@@ -50,16 +50,16 @@ namespace State
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && !player->getFlags().inAir)
 		{
 			player->getFlags().inAir = true;
-			player->getVelocity().y = -200;
+			player->getVelocity().y = -300;
 		}
 
 		if (InputHandler::checkDown(sf::Keyboard::L)) currentLevel->loadTilemap("Resources/level.txt");
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) player->getVelocity().x = 500;
-		if (InputHandler::checkUp(sf::Keyboard::D)) player->getVelocity().x = 0;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) player->goalVelocity.x = 200;
+		if (InputHandler::checkUp(sf::Keyboard::D)) player->goalVelocity.x = 0;
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) player->getVelocity().x = -500;
-		if (InputHandler::checkUp(sf::Keyboard::A)) player->getVelocity().x = 0;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) player->goalVelocity.x = -200;
+		if (InputHandler::checkUp(sf::Keyboard::A)) player->goalVelocity.x = 0;
 
 		if (InputHandler::checkDown(sf::Keyboard::Up)) changeLevel(LevelID::level1);
 
@@ -69,6 +69,9 @@ namespace State
 	void Playing::update(float dt)
 	{
 		updateLevel(dt);
+
+		player->getVelocity().x = Physics::approach(player->goalVelocity.x, player->getVelocity().x, dt);
+
 		player->update(dt);
 		if (player->getFlags().inAir)
 		{
