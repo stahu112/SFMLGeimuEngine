@@ -18,6 +18,11 @@ sf::Vector2u Level::getSize() const
 	return size;
 }
 
+std::vector<std::vector<int>> Level::getCollisionMap() const
+{
+	return collisionMap;
+}
+
 //USTAW VIEW
 void Level::setView(float dt)
 {
@@ -71,8 +76,7 @@ void Level::updateAnim()
 
 void Level::loadTilemap(const std::string & path)
 {
-
-	tempMap.clear();
+	std::vector<sf::Vector2i> tempMap;
 	tileMap.clear();
 
 	std::ifstream openFile(path);
@@ -104,6 +108,34 @@ void Level::loadTilemap(const std::string & path)
 	}
 }
 
+void Level::loadCollisionmap(const std::string & path)
+{
+	std::vector<int> tempMap;
+	collisionMap.clear();
+
+	std::ifstream openFile(path);
+	if (openFile.is_open())
+	{
+		while (!openFile.eof())
+		{
+			std::string str;
+			openFile >> str;
+			int value = std::stoi(str);
+			if (value)
+				tempMap.push_back(1);
+			else
+				tempMap.push_back(0);
+
+			if (openFile.peek() == '\n')
+			{
+				collisionMap.push_back(tempMap);
+				tempMap.clear();
+			}
+		}
+		collisionMap.push_back(tempMap);
+	}
+}
+
 //DRAW
 void Level::drawLevel()
 {
@@ -129,6 +161,7 @@ Level::Level(
 	Texture_Name BackgroundTextureName,
 	Texture_Name TileSet,
 	const std::string & LevelPath,
+	const std::string & LevelCol,
 	bool isAnimated,
 	State::Playing & state) :
 	isAnimated(isAnimated)
@@ -136,6 +169,7 @@ Level::Level(
 	tile.setTexture(Resource_Holder::get().getTexture(TileSet));
 	setPlayerHandle(state);
 	loadTilemap(LevelPath);
+	loadCollisionmap(LevelCol);
 	levelView.reset(sf::FloatRect(0, 0, viewPort.x, viewPort.y));
 	assignBackgroundTex(BackgroundTextureName);
 }

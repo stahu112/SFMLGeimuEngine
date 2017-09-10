@@ -53,3 +53,8 @@ float Animation::getLength() const
 {
 	return animLength;
 }
+
+void Animation::reset()
+{
+	m_currentFrame = 0;
+}

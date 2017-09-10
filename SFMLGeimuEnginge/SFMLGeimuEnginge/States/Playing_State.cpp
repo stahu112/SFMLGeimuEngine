@@ -25,9 +25,10 @@ namespace State
 	void Playing::initLevels()
 	{
 		Level level0(
-			Texture_Name::test1,
+			Texture_Name::test2,
 			Texture_Name::tilemap,
 			"Resources/level.txt",
+			"Resources/levelCol.txt",
 			false,
 			*this
 		);
@@ -36,6 +37,7 @@ namespace State
 			Texture_Name::test,
 			Texture_Name::tilemap,
 			"Resources/level.txt",
+			"Resources/levelCol.txt",
 			false,
 			*this
 		);
@@ -93,6 +95,31 @@ namespace State
 
 	void Playing::resolveCollisions()
 	{
+		//DZIA£A KURWAAA HAHAHA
+		for (int i = 0; i < currentLevel->getCollisionMap().size(); i++)
+		{
+			for (int j = 0; j < currentLevel->getCollisionMap()[i].size(); j++)
+			{
+				if (currentLevel->getCollisionMap()[i][j] == 1)
+				{
+					int bot, top, left, right;
+					bot = i * 32 + 32;
+					top = i * 32;
+					left = j * 32;
+					right = j * 32 + 32;
+
+					if (player->right < left || player->left > right
+						|| player->top > bot || player->bot < top)
+					{
+						player->getSprite().setColor(sf::Color::Green);//NoCollision
+					}
+					else
+					{
+						player->getSprite().setColor(sf::Color::Red);	//Collision
+					}
+				}
+			}
+		}
 
 		//Stay on ground
 		if (player->getPosition().y >= currentLevel->getSize().y * tileSize - tileSize * 2)

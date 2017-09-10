@@ -9,15 +9,26 @@ Character_Candy::UniqueStats Character_Candy::getUniqueStats() const
 void Character_Candy::update(float dt)
 {
 
+	bot = Position.y + size.y;
+	left = Position.x;
+	right = Position.x + size.x;
+	top = Position.y;
+
 	if (velocity.x > 0)
 	{
+		if (currentAnim != &m_animations.at(AnimationID::RunR)) m_animations.at(AnimationID::RunR).reset();
 		setCurrentAnim(AnimationID::RunR);
 		spriteSheet.setTexture(Resource_Holder::get().getTexture(Texture_Name::spritesheet));
 	}
 	else if (velocity.x < 0)
 	{
+		if (currentAnim != &m_animations.at(AnimationID::RunL)) m_animations.at(AnimationID::RunL).reset();
 		setCurrentAnim(AnimationID::RunL);
 		spriteSheet.setTexture(Resource_Holder::get().getTexture(Texture_Name::spritesheet1));
+	}
+	else
+	{
+		setCurrentAnim(AnimationID::Idle);
 	}
 
 	setPosition(Position + velocity*dt);
@@ -69,5 +80,9 @@ Character_Candy::Character_Candy()
 	RunLAnim.addFrames({ 40,38,20,38 }, 0.1f);
 	m_animations.insert(std::make_pair(AnimationID::RunL, RunLAnim));
 
-	setCurrentAnim(AnimationID::RunR);
+	Animation Idle;
+	Idle.addFrames({ 0,0,20,38 }, 0.f);
+	m_animations.insert(std::make_pair(AnimationID::Idle, Idle));
+
+	setCurrentAnim(AnimationID::Idle);
 }

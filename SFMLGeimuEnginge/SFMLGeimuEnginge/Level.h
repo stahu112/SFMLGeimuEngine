@@ -33,8 +33,8 @@ class Level
 
 	sf::Sprite tile;
 
-	std::vector<sf::Vector2i> tempMap;
 	std::vector<std::vector<sf::Vector2i>> tileMap;
+	std::vector<std::vector<int>> collisionMap;
 
 	//TEST
 	sf::View levelView;
@@ -57,6 +57,8 @@ public:
 	//GetSize
 	sf::Vector2u getSize() const;
 
+	std::vector<std::vector<int>> getCollisionMap() const;
+
 	//View
 	void setView(float dt);
 	sf::View getView() const;
@@ -68,9 +70,10 @@ public:
 
 	//Setup Tilemap
 	void loadTilemap(const std::string & path);
+	void loadCollisionmap(const std::string & path);
 
 	//Draw
 	void drawLevel();
 
-	Level(Texture_Name background, Texture_Name tileSet, const std::string & LevelPath, bool animated, State::Playing & state);
+	Level(Texture_Name background, Texture_Name tileSet, const std::string & LevelPath, const std::string & LevelCol, bool animated, State::Playing & state);
 };

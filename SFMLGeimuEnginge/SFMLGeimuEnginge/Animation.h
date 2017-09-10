@@ -32,6 +32,8 @@ public:
 
 	float getLength() const;
 
+	void reset();
+
 private:
 
 	bool playOnce = false;

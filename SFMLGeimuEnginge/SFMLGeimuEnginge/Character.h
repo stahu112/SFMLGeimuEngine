@@ -32,6 +32,7 @@ protected:
 	sf::Sprite spriteSheet;
 
 public:
+	float top, bot, left, right;
 
 	sf::Vector2f goalVelocity;
 
