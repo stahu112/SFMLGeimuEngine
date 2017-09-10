@@ -111,6 +111,7 @@ void Level::loadTilemap(const std::string & path)
 void Level::loadCollisionmap(const std::string & path)
 {
 	std::vector<int> tempMap;
+	tempMap.clear();
 	collisionMap.clear();
 
 	std::ifstream openFile(path);
@@ -121,7 +122,7 @@ void Level::loadCollisionmap(const std::string & path)
 			std::string str;
 			openFile >> str;
 			int value = std::stoi(str);
-			if (value)
+			if (value == 1)
 				tempMap.push_back(1);
 			else
 				tempMap.push_back(0);

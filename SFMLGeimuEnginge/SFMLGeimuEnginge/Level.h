@@ -52,7 +52,7 @@ public:
 
 	float yFactor = 16; //20;
 
-	sf::Vector2f viewPort = { 20 * tileSize, 15 * tileSize };
+	sf::Vector2f viewPort = { 20 * tileSize, 12 * tileSize };
 
 	//GetSize
 	sf::Vector2u getSize() const;

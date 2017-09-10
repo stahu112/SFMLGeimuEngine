@@ -63,7 +63,16 @@ namespace State
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) player->goalVelocity.x = -200;
 		if (InputHandler::checkUp(sf::Keyboard::A)) player->goalVelocity.x = 0;
 
-		if (InputHandler::checkDown(sf::Keyboard::Up)) changeLevel(LevelID::level1);
+		if (InputHandler::checkDown(sf::Keyboard::O)) changeLevel(LevelID::level1);
+
+		if (InputHandler::checkDown(sf::Keyboard::Up)) player->getVelocity().y = -100;
+		if (InputHandler::checkDown(sf::Keyboard::Down)) player->getVelocity().y = 100;
+		if (InputHandler::checkDown(sf::Keyboard::Left)) player->getVelocity().x = -100;
+		if (InputHandler::checkDown(sf::Keyboard::Right)) player->getVelocity().x = 100;
+		if (InputHandler::checkUp(sf::Keyboard::Up)) player->getVelocity().y = 0;
+		if (InputHandler::checkUp(sf::Keyboard::Down)) player->getVelocity().y = 0;
+		if (InputHandler::checkUp(sf::Keyboard::Left)) player->getVelocity().x = 0;
+		if (InputHandler::checkUp(sf::Keyboard::Right)) player->getVelocity().x = 0;
 
 	}
 
@@ -95,37 +104,40 @@ namespace State
 
 	void Playing::resolveCollisions()
 	{
+		player->getSprite().setColor(sf::Color::Green);
 		//DZIA£A KURWAAA HAHAHA
-		for (int i = 0; i < currentLevel->getCollisionMap().size(); i++)
+		for (unsigned i = 0; i < currentLevel->getCollisionMap().size(); i++)
 		{
-			for (int j = 0; j < currentLevel->getCollisionMap()[i].size(); j++)
+			for (unsigned j = 0; j < currentLevel->getCollisionMap()[i].size(); j++)
 			{
-				if (currentLevel->getCollisionMap()[i][j] == 1)
+				if (currentLevel->getCollisionMap()[i][j])
 				{
 					int bot, top, left, right;
-					bot = i * 32 + 32;
-					top = i * 32;
-					left = j * 32;
-					right = j * 32 + 32;
+					bot = i * tileSize + tileSize;
+					top = i * tileSize;
+					left = j * tileSize;
+					right = j * tileSize + tileSize;
 
 					if (player->right < left || player->left > right
 						|| player->top > bot || player->bot < top)
 					{
-						player->getSprite().setColor(sf::Color::Green);//NoCollision
+						//NoCollision
 					}
 					else
 					{
-						player->getSprite().setColor(sf::Color::Red);	//Collision
+						//Collision
+						player->getSprite().setColor(sf::Color::Red);
+						break;
 					}
 				}
 			}
 		}
-
+		
 		//Stay on ground
-		if (player->getPosition().y >= currentLevel->getSize().y * tileSize - tileSize * 2)
+		if (player->getPosition().y >= currentLevel->getSize().y * tileSize - player->getSize().y)
 		{
 			player->getFlags().inAir = false;
-			player->setPosition(sf::Vector2f(player->getPosition().x, currentLevel->getSize().y * tileSize - tileSize * 2));
+			player->setPosition(sf::Vector2f(player->getPosition().x, currentLevel->getSize().y * tileSize - player->getSize().y));
 		}
 		else
 			player->getFlags().inAir = true;
