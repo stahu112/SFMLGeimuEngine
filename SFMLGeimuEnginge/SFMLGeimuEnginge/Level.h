@@ -76,4 +76,5 @@ public:
 	void drawLevel();
 
 	Level(Texture_Name background, Texture_Name tileSet, const std::string & LevelPath, const std::string & LevelCol, bool animated, State::Playing & state);
+	Level(float width, float height, Texture_Name background, bool animated, State::Playing & state);
 };

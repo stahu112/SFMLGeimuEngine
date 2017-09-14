@@ -10,10 +10,11 @@ void Character_Candy::update(float dt)
 {
 
 	bot = Position.y + size.y;
-	left = Position.x;
-	right = Position.x + size.x;
+	left = Position.x + 5;
+	right = (Position.x + size.x) - 5;
 	top = Position.y;
-
+	
+	//TODO REFACTOR
 	if (velocity.x > 0)
 	{
 		if (currentAnim != &m_animations.at(AnimationID::RunR)) m_animations.at(AnimationID::RunR).reset();
@@ -30,6 +31,9 @@ void Character_Candy::update(float dt)
 	{
 		setCurrentAnim(AnimationID::Idle);
 	}
+
+	velocity.x = Physics::approach(goalVelocity.x, velocity.x, dt);
+	velocity.y = Physics::approach(goalVelocity.y, velocity.y, dt);
 
 	setPosition(Position + velocity*dt);
 

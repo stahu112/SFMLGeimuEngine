@@ -174,3 +174,13 @@ Level::Level(
 	levelView.reset(sf::FloatRect(0, 0, viewPort.x, viewPort.y));
 	assignBackgroundTex(BackgroundTextureName);
 }
+
+Level::Level(float width, float height, Texture_Name background, bool animated, State::Playing & state) :
+	isAnimated(animated)
+{
+	size.x = width;
+	size.y = height;
+	assignBackgroundTex(background);
+	setPlayerHandle(state);
+	levelView.reset(sf::FloatRect(0, 0, viewPort.x, viewPort.y));
+}
