@@ -20,7 +20,7 @@ void Physics::applyGravity(Game_Object & obj, float dt)
 float Physics::approach(float goal, float current, float dt)
 {
 
-	dt *= 1500;
+	dt *= 1150;
 
 	float delta = goal - current;
 

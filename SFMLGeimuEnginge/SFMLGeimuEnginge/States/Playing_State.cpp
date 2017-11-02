@@ -1,7 +1,7 @@
 #include "Playing_State.h"
 
 #include <fstream>
-
+#include <math.h>
 #include <iostream>
 
 static Character_Candy Candy;
@@ -20,54 +20,60 @@ namespace State
 		setPlayer(&Candy);
 		initLevels();
 		changeLevel(LevelID::level0);
+		//currentLevel = &m_levels.at(LevelID::level0);
 	}
 
 	void Playing::initLevels()
 	{
 		Level level0(
-			40,
-			40,
-			Texture_Name::test2,
+			Texture_Name::test,
+			Texture_Name::tilemap,
+			"Resources/level1.txt",
+			"Resources/levelCol1.txt",
 			false,
 			*this
 		);
 
-		/*Level level1(
+		Level level1(
 			Texture_Name::test,
 			Texture_Name::tilemap,
 			"Resources/level.txt",
 			"Resources/levelCol.txt",
 			false,
 			*this
-		);*/
+		);
+
+		level1.startingPosition = { 1 * tileSize, 1 * tileSize };
 
 		addLevel(LevelID::level0, level0);
-		//addLevel(LevelID::level1, level1);
+		addLevel(LevelID::level1, level1);
 	}
 
 	//Sterowanie itp.
 	void Playing::input()
 	{
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) player->getVelocity().y = -200; 
+		//else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) player->goalVelocity.y = 200;
+		
+		//else player->goalVelocity.y = 0;
+
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) player->goalVelocity.x = 200;
-		if (InputHandler::checkUp(sf::Keyboard::D)) player->goalVelocity.x = 0;
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) player->goalVelocity.x = -200;
+		 
+		else player->goalVelocity.x = 0;
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) player->goalVelocity.y = -200;
-		if (InputHandler::checkUp(sf::Keyboard::W)) player->goalVelocity.y = 0;
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) player->goalVelocity.y = 200;
-		if (InputHandler::checkUp(sf::Keyboard::S)) player->goalVelocity.y = 0;
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) player->goalVelocity.x = -200;
-		if (InputHandler::checkUp(sf::Keyboard::A)) player->goalVelocity.x = 0;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) changeLevel(LevelID::level1);
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::R)) changeLevel(LevelID::level0);
+		//if (sf::Keyboard::isKeyPressed(sf::Keyboard::L)) currentLevel->loadTilemap("Resources / levelCol.txt");
 
 	}
 
 	//Aktualizuj stany
 	void Playing::update(float dt)
 	{
-		updateLevel(dt);
-
 		player->update(dt);
+
+		updateLevel(dt);
 
 		resolveCollisions(dt);
 	}
@@ -81,7 +87,89 @@ namespace State
 
 	void Playing::resolveCollisions(float dt)
 	{
+
+		if (isDEBUG)
+		{
+			std::cout << "Fall: " << player->getFlags().falling << std::endl;
+			std::cout << "Jump: " << player->getFlags().jumping << std::endl;
+			std::cout << "VelX: " << player->getVelocity().x << " VelY: " << player->getVelocity().y << std::endl;
+			std::cout << "PosX: " << player->getPosition().x << " PosY: " << player->getPosition().y << std::endl;
+			std::cout << "exPosX: " << player->expPos.x << " exPosY: " << player->expPos.y << std::endl;
+		}
+
 		
+
+		if (currentLevel)
+		{
+
+			player->getSprite().setColor(sf::Color::Green);
+
+			for (int i = 0; i < player->tiles.size(); i++)
+			{
+				if (currentLevel->getCollisionMap()[player->tiles[i].y][player->tiles[i].x] == 1)
+				{
+					player->setPosition(player->getPosition() - player->getVelocity()*dt);
+					player->appGr = false;//sf::Vector2f(player->getPosition().x ,top - player->getSize().y));
+					player->getVelocity().y = 0;
+					break;
+				}
+
+				if (currentLevel->getCollisionMap()[player->tiles[i].y][player->tiles[i].x] == 2)
+				{
+					if (currentLevel == &m_levels.at(LevelID::level1)
+						&& sf::Keyboard::isKeyPressed(sf::Keyboard::E)) changeLevel(LevelID::level0);
+					else if (currentLevel == &m_levels.at(LevelID::level0)
+						&& sf::Keyboard::isKeyPressed(sf::Keyboard::E)) changeLevel(LevelID::level1);
+					break;
+				}
+			}
+
+			//if (player->getPosition() < )
+			//{
+
+			//}
+
+			if (isDEBUG)
+			{
+				//std::cout << currentLevel->getCollisionMap().at(1).at(0) << std::endl;
+				for (int i = 0; i < currentLevel->getCollisionMap().size(); i++)
+				{
+					for (int j = 0; j < currentLevel->getCollisionMap()[i].size(); j++)
+					{
+						if (currentLevel->getCollisionMap()[i][j] == 1)
+						{
+							/*//player->getSprite().setColor(sf::Color::Red);
+							player->setPosition(player->getPosition() - player->getVelocity()*dt);//sf::Vector2f(player->getPosition().x ,top - player->getSize().y));
+							player->appGr = false;
+							player->getVelocity().y = 0;
+							break;*/
+
+							float top = tileSize * i;
+							float bot = (i * tileSize) + tileSize;
+							float left = tileSize * j;
+							float right = (j * tileSize) + tileSize;
+
+							sf::CircleShape sh1(1), sh2(1), sh3(1), sh4(1);
+
+							sh1.setPosition(left - 0.5, top - 0.5);
+							sh2.setPosition(right - 0.5, top - 0.5);
+							sh3.setPosition(left - 0.5, bot - 0.5);
+							sh4.setPosition(right - 0.5, bot - 0.5);
+
+							sh1.setFillColor(sf::Color::Red);
+							sh2.setFillColor(sf::Color::Red);
+							sh3.setFillColor(sf::Color::Red);
+							sh4.setFillColor(sf::Color::Red);
+
+							Display::draw(sh1);
+							Display::draw(sh2);
+							Display::draw(sh3);
+							Display::draw(sh4);
+						}
+					}
+				}
+			}
+		}
 	}
 
 	

@@ -12,7 +12,9 @@ protected:
 
 	struct Flags
 	{
-		bool inAir = true;
+		bool falling = true;
+		bool jumping = false;
+		bool standing = false;
 		bool staggered = false;
 	};
 
@@ -32,7 +34,14 @@ protected:
 	sf::Sprite spriteSheet;
 
 public:
+
 	float top, bot, left, right;
+	sf::Vector2f expPos;
+
+	std::vector<sf::Vector2i> tiles;
+	sf::Vector2i topLeft, topRight, Right, Left, botLeft, botRight;
+
+	bool appGr = true;
 
 	sf::Vector2f goalVelocity;
 

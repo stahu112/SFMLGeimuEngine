@@ -44,7 +44,7 @@ class Level
 
 public:
 
-	sf::Vector2f startingPosition = {0, 0};
+	sf::Vector2f startingPosition = {0,0};
 
 	//PlayerHandle
 	void setPlayerHandle(State::Playing state);

@@ -1,19 +1,15 @@
 #include "Character_Candy.h"
 #include "States\Playing_State.h"
 
+#include <algorithm>
+
 Character_Candy::UniqueStats Character_Candy::getUniqueStats() const
 {
 	return uniqueStats;
 }
 
 void Character_Candy::update(float dt)
-{
-
-	bot = Position.y + size.y;
-	left = Position.x + 5;
-	right = (Position.x + size.x) - 5;
-	top = Position.y;
-	
+{	
 	//TODO REFACTOR
 	if (velocity.x > 0)
 	{
@@ -32,10 +28,36 @@ void Character_Candy::update(float dt)
 		setCurrentAnim(AnimationID::Idle);
 	}
 
+	if (flags.falling || flags.jumping) Physics::applyGravity(*this, dt);
+	else { velocity.y = 0; }
+
 	velocity.x = Physics::approach(goalVelocity.x, velocity.x, dt);
-	velocity.y = Physics::approach(goalVelocity.y, velocity.y, dt);
+	//velocity.y = Physics::approach(goalVelocity.y, velocity.y, dt);
 
 	setPosition(Position + velocity*dt);
+
+	bot = Position.y + size.y;
+	left = Position.x;
+	right = (Position.x + size.x);
+	top = Position.y;
+
+	expPos = Position + velocity * dt;
+
+	topLeft = (sf::Vector2i((int)left / 32, (int)top / 32));
+	topRight = (sf::Vector2i((int)right / 32, (int)top / 32));
+	botLeft = (sf::Vector2i((int)left / 32, (int)bot / 32));
+	botRight = (sf::Vector2i((int)right / 32, (int)bot / 32));
+	//Left = sf::Vector2i(topLeft.x, topLeft.y + 1);
+	//Right = sf::Vector2i(topRight.x, topRight.y + 1);
+
+	tiles.clear();
+
+	tiles.push_back(topLeft);
+	if (std::find(tiles.begin(), tiles.end(), topRight) == tiles.end()) tiles.push_back(topRight);
+	if (std::find(tiles.begin(), tiles.end(), botLeft) == tiles.end()) tiles.push_back(botLeft);
+	if (std::find(tiles.begin(), tiles.end(), botRight) == tiles.end()) tiles.push_back(botRight);
+	//if (std::find(tiles.begin(), tiles.end(), Right) == tiles.end()) tiles.push_back(Right);
+	//if (std::find(tiles.begin(), tiles.end(), Left) == tiles.end()) tiles.push_back(Left);
 
 	updateAnim();
 	getSprite().setPosition(Position);
@@ -60,7 +82,7 @@ Character_Candy::Character_Candy()
 	setBaseStats("Candy",1250,1);
 	spriteSheet.setTexture(Resource_Holder::get().getTexture(Texture_Name::spritesheet));
 	mass = 75;
-	size = { 32,64 };
+	size = { 32,32 };
 	spriteSheet.setScale(
 		size.x / spriteSheet.getLocalBounds().width,
 		size.y / spriteSheet.getLocalBounds().height

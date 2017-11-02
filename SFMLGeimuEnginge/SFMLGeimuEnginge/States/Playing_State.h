@@ -38,7 +38,9 @@ namespace State
 
 		//SET
 		void setPlayer(Character* chara);
+	
 	private:
+
 		std::map<LevelID, Level> m_levels;
 		Level * currentLevel = nullptr;
 		Character * player = nullptr;

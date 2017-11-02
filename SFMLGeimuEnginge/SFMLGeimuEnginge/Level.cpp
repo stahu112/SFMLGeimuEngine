@@ -47,17 +47,24 @@ void Level::resetView(float dt)
 
 	if (playerHandle)
 	{
-		if (playerHandle->getPosition().x + playerHandle->getSize().x/2 - levelView.getSize().x / 2 <= 0)
+		if (size.x * tileSize >= viewPort.x)
 		{
-			levelView.setCenter(levelView.getSize().x/2 , levelView.getCenter().y + (dt * (playerHandle->getPosition().y - levelView.getCenter().y + playerHandle->getSize().y / 2 - yFactor)));
-		}
-		else if (playerHandle->getPosition().x + playerHandle->getSize().x / 2 + levelView.getSize().x / 2 >= size.x * tileSize)
-		{
-			levelView.setCenter(size.x * tileSize - levelView.getSize().x / 2, levelView.getCenter().y + (dt * (playerHandle->getPosition().y - levelView.getCenter().y + playerHandle->getSize().y / 2 - yFactor)));
+			if (playerHandle->getPosition().x + playerHandle->getSize().x / 2 - levelView.getSize().x / 2 <= 0)
+			{
+				levelView.setCenter(levelView.getSize().x / 2, levelView.getCenter().y + (dt * (playerHandle->getPosition().y - levelView.getCenter().y + playerHandle->getSize().y / 2 - yFactor)));
+			}
+			else if (playerHandle->getPosition().x + playerHandle->getSize().x / 2 + levelView.getSize().x / 2 >= size.x * tileSize)
+			{
+				levelView.setCenter(size.x * tileSize - levelView.getSize().x / 2, levelView.getCenter().y + (dt * (playerHandle->getPosition().y - levelView.getCenter().y + playerHandle->getSize().y / 2 - yFactor)));
+			}
+			else
+				//currentPos = currentPos + (fraction * (targetPos - currentPos))
+				levelView.setCenter(playerHandle->getPosition().x + playerHandle->getSize().x / 2, levelView.getCenter().y + (dt * (playerHandle->getPosition().y - levelView.getCenter().y + playerHandle->getSize().y / 2 - yFactor)));
 		}
 		else
-		//currentPos = currentPos + (fraction * (targetPos - currentPos))
-		levelView.setCenter(playerHandle->getPosition().x + playerHandle->getSize().x / 2, levelView.getCenter().y + (dt * (playerHandle->getPosition().y - levelView.getCenter().y + playerHandle->getSize().y / 2 - yFactor)));
+		{
+			levelView.setCenter(size.x/2 * tileSize, size.y/2 * tileSize);
+		}
 	}
 }
 
@@ -122,8 +129,8 @@ void Level::loadCollisionmap(const std::string & path)
 			std::string str;
 			openFile >> str;
 			int value = std::stoi(str);
-			if (value == 1)
-				tempMap.push_back(1);
+			if (value)
+				tempMap.push_back(value);
 			else
 				tempMap.push_back(0);
 

@@ -18,15 +18,24 @@ namespace Display
 		//Ograniczenie fps do 60 metoda okna z biblioteki SFML
 		window->setFramerateLimit(60);
 
+		window->setMouseCursorVisible(false);
+
 		window->setKeyRepeatEnabled(false);
 
 		window->setJoystickThreshold(1);
 	}
 
+	void reInit()
+	{
+		window->close();
+		window->create(sf::VideoMode(800,600), title, sf::Style::Fullscreen | sf::Style::None);
+
+	}
+
 	//Czysc okno
 	void clear()
 	{
-		window->clear(sf::Color(255,255,255,255));
+		window->clear(sf::Color(0,0,0,255));
 	}
 
 	//Wyswietl rzeczy
