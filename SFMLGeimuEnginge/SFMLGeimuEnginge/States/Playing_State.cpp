@@ -97,7 +97,7 @@ namespace State
 			std::cout << "exPosX: " << player->expPos.x << " exPosY: " << player->expPos.y << std::endl;
 		}
 
-		
+		dt *= 1;
 
 		if (currentLevel)
 		{
@@ -106,22 +106,42 @@ namespace State
 
 			for (int i = 0; i < player->tiles.size(); i++)
 			{
+				//POD£OGA/SUFIT
 				if (currentLevel->getCollisionMap()[player->tiles[i].y][player->tiles[i].x] == 1)
 				{
-					player->setPosition(player->getPosition() - player->getVelocity()*dt);
-					player->appGr = false;//sf::Vector2f(player->getPosition().x ,top - player->getSize().y));
-					player->getVelocity().y = 0;
+					player->getSprite().setColor(sf::Color::Red);
+					
+					player->setPosition(sf::Vector2f(player->getPosition().x ,player->getPosition().y - player->getVelocity().y*dt));
+					
+					player->appGr = false;
+					
+					if (!player->getFlags().standing) player->getVelocity().y = 0;
+					player->getFlags().standing = true;
+					
 					break;
 				}
-
+				else
+				{
+					player->getFlags().standing = false;
+				}
+				//ŒCIANY
 				if (currentLevel->getCollisionMap()[player->tiles[i].y][player->tiles[i].x] == 2)
 				{
-					if (currentLevel == &m_levels.at(LevelID::level1)
-						&& sf::Keyboard::isKeyPressed(sf::Keyboard::E)) changeLevel(LevelID::level0);
-					else if (currentLevel == &m_levels.at(LevelID::level0)
-						&& sf::Keyboard::isKeyPressed(sf::Keyboard::E)) changeLevel(LevelID::level1);
-					break;
+					
+					player->setPosition(sf::Vector2f(player->getPosition().x - player->getVelocity().x*dt, player->getPosition().y));
+					player->getVelocity().x = 0;
 				}
+
+				if (currentLevel->getCollisionMap()[player->tiles[i].y][player->tiles[i].x] == 3)
+				{
+					
+					player->setPosition(sf::Vector2f(player->getPosition().x - player->getVelocity().x*dt, player->getPosition().y));
+					player->setPosition(sf::Vector2f(player->getPosition().x, player->getPosition().y - player->getVelocity().y*dt));
+					player->getVelocity().x = 0;
+
+				}
+
+				//currentPos = currentPos + (fraction * (targetPos - currentPos))
 			}
 
 			//if (player->getPosition() < )
@@ -136,7 +156,7 @@ namespace State
 				{
 					for (int j = 0; j < currentLevel->getCollisionMap()[i].size(); j++)
 					{
-						if (currentLevel->getCollisionMap()[i][j] == 1)
+						if (currentLevel->getCollisionMap()[i][j])
 						{
 							/*//player->getSprite().setColor(sf::Color::Red);
 							player->setPosition(player->getPosition() - player->getVelocity()*dt);//sf::Vector2f(player->getPosition().x ,top - player->getSize().y));
@@ -155,11 +175,30 @@ namespace State
 							sh2.setPosition(right - 0.5, top - 0.5);
 							sh3.setPosition(left - 0.5, bot - 0.5);
 							sh4.setPosition(right - 0.5, bot - 0.5);
+				
+							switch (currentLevel->getCollisionMap()[i][j])
+							{
+							case 1:
+								sh1.setFillColor(sf::Color::Red);
+								sh2.setFillColor(sf::Color::Red);
+								sh3.setFillColor(sf::Color::Red);
+								sh4.setFillColor(sf::Color::Red);
+								break;
 
-							sh1.setFillColor(sf::Color::Red);
-							sh2.setFillColor(sf::Color::Red);
-							sh3.setFillColor(sf::Color::Red);
-							sh4.setFillColor(sf::Color::Red);
+							case 2:
+								sh1.setFillColor(sf::Color::Green);
+								sh2.setFillColor(sf::Color::Green);
+								sh3.setFillColor(sf::Color::Green);
+								sh4.setFillColor(sf::Color::Green);
+								break;
+
+							case 3:
+								sh1.setFillColor(sf::Color::Blue);
+								sh2.setFillColor(sf::Color::Blue);
+								sh3.setFillColor(sf::Color::Blue);
+								sh4.setFillColor(sf::Color::Blue);
+								break;
+							}
 
 							Display::draw(sh1);
 							Display::draw(sh2);

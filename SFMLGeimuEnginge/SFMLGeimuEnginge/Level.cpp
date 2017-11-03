@@ -39,11 +39,13 @@ sf::View Level::getView() const
 //RESETUJ VIEW
 void Level::resetView(float dt)
 {
-	dt *= 6;
+	dt *= 3;
 
 	// IF FALLING
 	//if (!playerHandle->getFlags().inAir) yFactor = 25;
 	//else yFactor = 0;
+
+	//levelView.getCenter().x + (dt * (playerHandle->getPosition().x + playerHandle->getSize().x/2 - levelView.getCenter().x))
 
 	if (playerHandle)
 	{
@@ -51,15 +53,18 @@ void Level::resetView(float dt)
 		{
 			if (playerHandle->getPosition().x + playerHandle->getSize().x / 2 - levelView.getSize().x / 2 <= 0)
 			{
-				levelView.setCenter(levelView.getSize().x / 2, levelView.getCenter().y + (dt * (playerHandle->getPosition().y - levelView.getCenter().y + playerHandle->getSize().y / 2 - yFactor)));
+				levelView.setCenter(levelView.getCenter().x + (dt * (levelView.getSize().x / 2 - levelView.getCenter().x) ),
+					levelView.getCenter().y + (dt * (playerHandle->getPosition().y - levelView.getCenter().y + playerHandle->getSize().y / 2 - yFactor)));
 			}
 			else if (playerHandle->getPosition().x + playerHandle->getSize().x / 2 + levelView.getSize().x / 2 >= size.x * tileSize)
 			{
-				levelView.setCenter(size.x * tileSize - levelView.getSize().x / 2, levelView.getCenter().y + (dt * (playerHandle->getPosition().y - levelView.getCenter().y + playerHandle->getSize().y / 2 - yFactor)));
+				levelView.setCenter(levelView.getCenter().x + ( dt * (size.x * tileSize - levelView.getSize().x / 2 - levelView.getCenter().x) ),
+					levelView.getCenter().y + (dt * (playerHandle->getPosition().y - levelView.getCenter().y + playerHandle->getSize().y / 2 - yFactor)));
 			}
 			else
 				//currentPos = currentPos + (fraction * (targetPos - currentPos))
-				levelView.setCenter(playerHandle->getPosition().x + playerHandle->getSize().x / 2, levelView.getCenter().y + (dt * (playerHandle->getPosition().y - levelView.getCenter().y + playerHandle->getSize().y / 2 - yFactor)));
+				levelView.setCenter(levelView.getCenter().x + (dt * (playerHandle->getPosition().x + playerHandle->getSize().x/2 - levelView.getCenter().x)),
+					levelView.getCenter().y + (dt * (playerHandle->getPosition().y - levelView.getCenter().y + playerHandle->getSize().y / 2 - yFactor)));
 		}
 		else
 		{
