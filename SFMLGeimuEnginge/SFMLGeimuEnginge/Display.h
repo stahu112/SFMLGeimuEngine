@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <Box2D\Box2D.h>
 #include "InputHandler.h"
 #include "Physics.h"
 
@@ -31,6 +32,6 @@ namespace Display
 	bool pollEvents(sf::Event e);
 
 	const sf::Vector2f screenSize(1280, 720);
-	const std::string title = "Jakies gowno cos";
+	const std::string title = "Jakies cos";
 }
 

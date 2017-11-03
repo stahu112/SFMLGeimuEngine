@@ -31,11 +31,6 @@ class Level
 	Animation backgroundAnimation;
 	bool isAnimated = false;
 
-	sf::Sprite tile;
-
-	std::vector<std::vector<sf::Vector2i>> tileMap;
-	std::vector<std::vector<int>> collisionMap;
-
 	//TEST
 	sf::View levelView;
 
@@ -57,8 +52,6 @@ public:
 	//GetSize
 	sf::Vector2u getSize() const;
 
-	std::vector<std::vector<int>> getCollisionMap() const;
-
 	//View
 	void setView(float dt);
 	sf::View getView() const;
@@ -68,13 +61,8 @@ public:
 	void assignBackgroundTex(Texture_Name name);
 	void updateAnim();
 
-	//Setup Tilemap
-	void loadTilemap(const std::string & path);
-	void loadCollisionmap(const std::string & path);
-
 	//Draw
 	void drawLevel();
 
-	Level(Texture_Name background, Texture_Name tileSet, const std::string & LevelPath, const std::string & LevelCol, bool animated, State::Playing & state);
 	Level(float width, float height, Texture_Name background, bool animated, State::Playing & state);
 };

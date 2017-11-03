@@ -12,10 +12,7 @@ protected:
 
 	struct Flags
 	{
-		bool falling = true;
-		bool jumping = false;
-		bool standing = false;
-		bool staggered = false;
+
 	};
 
 	struct BaseStats
@@ -34,12 +31,6 @@ protected:
 	sf::Sprite spriteSheet;
 
 public:
-
-	float top, bot, left, right;
-	sf::Vector2f expPos;
-
-	std::vector<sf::Vector2i> tiles;
-	sf::Vector2i topLeft, topRight, Right, Left, botLeft, botRight;
 
 	bool appGr = true;
 
