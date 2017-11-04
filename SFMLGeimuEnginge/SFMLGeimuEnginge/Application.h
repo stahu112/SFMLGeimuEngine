@@ -2,6 +2,8 @@
 
 #include "Display.h"
 
+#include <Box2D\Box2D.h>
+
 #include <memory>
 #include <stack>
 
@@ -23,7 +25,10 @@ public:
 
 	void changeState(std::unique_ptr<State::Game_State> state);
 
+	void returnState();
+
 private:
+
 	//Stos STATE'ow
 	std::stack<std::unique_ptr<State::Game_State>> m_states;
 

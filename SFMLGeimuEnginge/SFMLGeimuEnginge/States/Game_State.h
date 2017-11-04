@@ -15,6 +15,7 @@ namespace State
 
 
 		virtual void initState() = 0;
+		virtual void reInit() = 0;
 		virtual void input() = 0;
 		virtual void update(float dt) = 0;
 		virtual void draw() = 0;

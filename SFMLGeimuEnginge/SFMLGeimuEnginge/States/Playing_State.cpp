@@ -1,4 +1,5 @@
 #include "Playing_State.h"
+#include "Menu_State.h"
 
 #include <fstream>
 #include <math.h>
@@ -15,6 +16,10 @@ namespace State
 		initState();
 	}
 	
+	void Playing::reInit()
+	{
+	}
+
 	void Playing::initState()
 	{
 		setPlayer(&Candy);
@@ -34,7 +39,7 @@ namespace State
 		);
 
 		Level level1(
-			20,
+			50,
 			20,
 			Texture_Name::test1,
 			false,
@@ -48,7 +53,24 @@ namespace State
 	//Sterowanie itp.
 	void Playing::input()
 	{
+		if (InputHandler::checkDown(sf::Keyboard::Escape))
+		{
+			m_p_application->popState();
+		}
 
+		if (InputHandler::checkDown(sf::Keyboard::D))
+		{
+			player->goalVelocity.x = 200;
+		}
+		else
+		if (InputHandler::checkDown(sf::Keyboard::A))
+		{
+			player->goalVelocity.x = -200;
+		}
+		else
+		{
+			player->goalVelocity.x = 0;
+		}
 	}
 
 	//Aktualizuj stany

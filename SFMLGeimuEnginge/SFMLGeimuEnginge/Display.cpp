@@ -13,7 +13,7 @@ namespace Display
 	void init()
 	{
 		//Tworz okno o nazwie "title" i wymiarach z wektora "screenSize" VECTOR Z BIBLIOTEKI SFML =/= VECTOR Z BIBLIOTEKI STL
-		window = std::make_unique<sf::RenderWindow>(sf::VideoMode((int)screenSize.x, (int)screenSize.y), title, sf::Style::Close);
+		window = std::make_unique<sf::RenderWindow>(sf::VideoMode((int)screenSize.x, (int)screenSize.y), title, sf::Style::Fullscreen);
 
 		//Ograniczenie fps do 60 metoda okna z biblioteki SFML
 		window->setFramerateLimit(60);
@@ -80,5 +80,9 @@ namespace Display
 	void setView(sf::View& view)
 	{
 		window->setView(view);
+	}
+	const sf::View getView()
+	{
+		return window->getView();
 	}
 }

@@ -36,7 +36,7 @@ namespace State
 
 	public:
 		Splash_Screen(Application& application);
-
+		void reInit() override;
 		void initState() override;
 		void input() override;
 		void update(float dt) override;

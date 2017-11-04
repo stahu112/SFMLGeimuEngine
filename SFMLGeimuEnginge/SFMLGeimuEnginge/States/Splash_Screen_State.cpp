@@ -60,6 +60,10 @@ namespace State
 		initState();
 	}
 
+	void Splash_Screen::reInit()
+	{
+	}
+
 	void Splash_Screen::initState()
 	{
 		//Wrzuc splashe na poczatek kolejki
@@ -99,7 +103,7 @@ namespace State
 		}
 		else		//Jesli nie ma wiecej splashy to wepchnij STATE Menu na stos STATE'ow
 		{
-			m_p_application->changeState(std::make_unique<Playing>(*m_p_application));
+			m_p_application->changeState(std::make_unique<Menu>(*m_p_application));
 		}
 	}
 

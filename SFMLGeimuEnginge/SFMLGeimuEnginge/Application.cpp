@@ -2,6 +2,8 @@
 
 #include "Application.h"
 
+bool showFPS = true;
+
 //Konstruktor
 Application::Application()
 {
@@ -24,7 +26,15 @@ void Application::runMainLoop()
 		sf::Time TimeSinceStart = GameClock.getElapsedTime();
 		sf::Time dt = DeltaClock.restart();
 
-		float fps = 1.f / (dt.asSeconds());
+		float fps = 1.f / dt.asSeconds();
+
+		sf::Text fpst;
+		fpst.setString(std::to_string((int)fps));
+		fpst.setFont(Resource_Holder::get().getFont(Font_Name::Powerfull));
+		fpst.setColor(sf::Color::Black);
+		fpst.setScale(0.4, 0.4);
+		fpst.setOrigin(fpst.getLocalBounds().width, 0);
+		fpst.setPosition(sf::Vector2f(Display::getView().getSize().x / 2 + Display::getView().getCenter().x, 0));
 
 		//EVENTY
 		Display::checkWindowEvents();
@@ -40,6 +50,8 @@ void Application::runMainLoop()
 		if (!InputHandler::down) InputHandler::key = sf::Keyboard::Unknown;
 		if (!InputHandler::jDown) InputHandler::jKey = -1;
 
+		if (showFPS) Display::draw(fpst);
+
 		Display::display();		//Wyswietl rzeczy
 	}
 }
@@ -54,6 +66,7 @@ void Application::pushState(std::unique_ptr<State::Game_State> state)
 void Application::popState()
 {
 	m_states.pop();
+	returnState();
 }
 
 //Wyrzuc poprzedni STATE i wrzuc nowy na stos
@@ -61,4 +74,9 @@ void Application::changeState(std::unique_ptr<State::Game_State> state)
 {
 	m_states.pop();
 	m_states.push(std::move(state));
+}
+
+void Application::returnState()
+{
+	m_states.top()->reInit();
 }

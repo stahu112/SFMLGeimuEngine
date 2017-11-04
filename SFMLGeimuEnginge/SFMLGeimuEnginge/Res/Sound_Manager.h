@@ -6,7 +6,7 @@
 
 enum class Sound_Name
 {
-	
+	menu
 };
 
 class Sound_Manager : public Resource_Manager<Sound_Name, sf::SoundBuffer>

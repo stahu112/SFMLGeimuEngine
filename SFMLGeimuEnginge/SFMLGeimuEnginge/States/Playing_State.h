@@ -20,6 +20,7 @@ namespace State
 	public:
 		Playing(Application& application);
 
+		void reInit() override;
 		void initState() override;
 		Level * getCurrentLevel() const;
 		Character * getPlayer() const;
