@@ -37,8 +37,6 @@ namespace State
 		void addLevel(LevelID id, Level level);
 		void initLevels();
 
-		//SET
-		void setPlayer(Character* chara);
 	
 	private:
 

@@ -1,5 +1,11 @@
 #include "Menu_State.h"
 #include "Playing_State.h"
+#include <fstream>
+
+
+extern bool showFPS, fullON, vsyncON;
+
+
 
 namespace State
 {
@@ -90,10 +96,14 @@ namespace State
 			break;
 			
 		case men::options:
-			opt[0].setString("Vertical sync");
-			opt[1].setString("FullScreen");
-			opt[2].setString("Placeholder");
+			if(vsyncON) opt[0].setString("Vertical sync: ON");
+			else opt[0].setString("Vertical sync: Off");
+			if(fullON) opt[1].setString("FullScreen: ON");
+			else opt[1].setString("FullScreen: off");
+			if(showFPS) opt[2].setString("Show fps: ON");
+			else opt[2].setString("Show fps: Off");
 			opt[3].setString("BACK");
+
 			for (int i = 0; i < opt.size(); i++)
 			{
 				opt[i].setOrigin(opt[i].getLocalBounds().width / 2, opt[i].getLocalBounds().height / 2);
@@ -183,6 +193,7 @@ namespace State
 					break;
 
 				case 3:
+					delete music;
 					exit(0);
 				}
 			}
@@ -193,19 +204,38 @@ namespace State
 				switch (choice)
 				{
 				case 0:
-					Display::setVsync(true);
+					if(vsyncON) Display::setVsync(false);
+					else Display::setVsync(true);
 					break;
 
 				case 1:
 					currMenu = men::main;
 					choice = 0;
-					Display::setFull(true);
+					if(fullON) Display::setFull(false);
+					else Display::setFull(true);
 					break;
 
 				case 2:
+					if (showFPS) showFPS = false;
+					else showFPS = true;
 					break;
 
 				case 3:
+					std::fstream config;
+					config.open("config.txt", std::ios::out);
+
+					if (config.good())
+					{
+						config << fullON << " " << showFPS << " " << vsyncON;
+
+						config.close();
+					}
+					else
+					{
+						config.close();
+						std::cout << "Nie mozna zapisac ustawien" << std::endl;
+					}
+
 					currMenu = men::main;
 					choice = 0;
 					break;

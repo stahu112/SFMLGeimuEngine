@@ -6,12 +6,10 @@
 //Nazwy tekstur
 enum class Texture_Name
 {
-	test,
 	test1,
 	test2,
 	spritesheet,
 	spritesheet1,
-	tilemap
 };
 
 class Texture_Manager : public Resource_Manager<Texture_Name, sf::Texture>

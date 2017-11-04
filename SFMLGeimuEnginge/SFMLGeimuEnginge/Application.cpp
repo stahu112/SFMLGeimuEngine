@@ -2,7 +2,7 @@
 
 #include "Application.h"
 
-bool showFPS = true;
+extern bool showFPS, fullON, vsyncON;
 
 //Konstruktor
 Application::Application()
@@ -31,8 +31,8 @@ void Application::runMainLoop()
 		sf::Text fpst;
 		fpst.setString(std::to_string((int)fps));
 		fpst.setFont(Resource_Holder::get().getFont(Font_Name::Powerfull));
-		fpst.setColor(sf::Color::Black);
-		fpst.setScale(0.4, 0.4);
+		fpst.setColor(sf::Color::Red);
+		fpst.setScale(0.25, 0.25);
 		fpst.setOrigin(fpst.getLocalBounds().width, 0);
 		fpst.setPosition(sf::Vector2f(Display::getView().getSize().x / 2 + Display::getView().getCenter().x, 0));
 

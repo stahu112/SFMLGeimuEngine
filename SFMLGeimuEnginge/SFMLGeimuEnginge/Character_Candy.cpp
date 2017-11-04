@@ -1,13 +1,6 @@
 #include "Character_Candy.h"
 #include "States\Playing_State.h"
 
-#include <algorithm>
-
-Character_Candy::UniqueStats Character_Candy::getUniqueStats() const
-{
-	return uniqueStats;
-}
-
 void Character_Candy::update(float dt)
 {	
 	//TODO REFACTOR
@@ -15,13 +8,13 @@ void Character_Candy::update(float dt)
 	{
 		if (currentAnim != &m_animations.at(AnimationID::RunR)) m_animations.at(AnimationID::RunR).reset();
 		setCurrentAnim(AnimationID::RunR);
-		spriteSheet.setTexture(Resource_Holder::get().getTexture(Texture_Name::spritesheet));
+		sprite.setTexture(Resource_Holder::get().getTexture(Texture_Name::spritesheet));
 	}
 	else if (velocity.x < 0)
 	{
 		if (currentAnim != &m_animations.at(AnimationID::RunL)) m_animations.at(AnimationID::RunL).reset();
 		setCurrentAnim(AnimationID::RunL);
-		spriteSheet.setTexture(Resource_Holder::get().getTexture(Texture_Name::spritesheet1));
+		sprite.setTexture(Resource_Holder::get().getTexture(Texture_Name::spritesheet1));
 	}
 	else
 	{
@@ -34,7 +27,7 @@ void Character_Candy::update(float dt)
 	setPosition(Position + velocity*dt);
 
 	updateAnim();
-	getSprite().setPosition(Position);
+	sprite.setPosition(Position);
 }
 
 void Character_Candy::setCurrentAnim(AnimationID id)
@@ -44,22 +37,21 @@ void Character_Candy::setCurrentAnim(AnimationID id)
 
 void Character_Candy::updateAnim()
 {
-	spriteSheet.setTextureRect(currentAnim->getFrame());
-	spriteSheet.setScale(
-		size.x / spriteSheet.getLocalBounds().width,
-		size.y / spriteSheet.getLocalBounds().height
+	sprite.setTextureRect(currentAnim->getFrame());
+	sprite.setScale(
+		size.x / sprite.getLocalBounds().width,
+		size.y / sprite.getLocalBounds().height
 	);
 }
 
 Character_Candy::Character_Candy()
 {
-	setBaseStats("Candy",1250,1);
-	spriteSheet.setTexture(Resource_Holder::get().getTexture(Texture_Name::spritesheet));
+	sprite.setTexture(Resource_Holder::get().getTexture(Texture_Name::spritesheet));
 	mass = 75;
 	size = { 32,64 };
-	spriteSheet.setScale(
-		size.x / spriteSheet.getLocalBounds().width,
-		size.y / spriteSheet.getLocalBounds().height
+	sprite.setScale(
+		size.x / sprite.getLocalBounds().width,
+		size.y / sprite.getLocalBounds().height
 	);
 	
 	Animation RunRAnim;

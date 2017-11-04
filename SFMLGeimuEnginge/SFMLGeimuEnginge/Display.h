@@ -6,7 +6,7 @@
 
 namespace Display
 {
-	
+
 	void init();
 	void setFull(bool full);
 	void setVsync(bool vsync);
@@ -26,4 +26,3 @@ namespace Display
 	const sf::Vector2f screenSize(1920, 1080);
 	const std::string title = "Jakies cos";
 }
-

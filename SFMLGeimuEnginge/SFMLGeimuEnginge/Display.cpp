@@ -3,22 +3,52 @@
 #include <iostream>
 #include <memory>
 
+#include <fstream>
+
+bool showFPS, fullON, vsyncON;
+
 //Przestrzen nazw dla okna
 namespace Display
 {
 	//Wskaznik do okna
 	std::unique_ptr<sf::RenderWindow> window;
-	
+
+	std::fstream config;
+
 	//Stworz okno
 	void init()
 	{
-		//Tworz okno o nazwie "title" i wymiarach z wektora "screenSize" VECTOR Z BIBLIOTEKI SFML =/= VECTOR Z BIBLIOTEKI STL
-		window = std::make_unique<sf::RenderWindow>(sf::VideoMode((int)screenSize.x, (int)screenSize.y), title, sf::Style::Default);
+		config.open("config.txt", std::ios::in);
+	
+		if (config.good())
+		{
+			bool _s, _f, _v;
+
+			config >> _f >> _s >> _v;
+
+			showFPS = _s;
+			fullON = _f;
+			vsyncON = _v;
+
+			config.close();
+		}
+		else
+		{
+			std::cout << "Chujnia\n";
+			config.close();
+
+			showFPS = false;
+			vsyncON = false;
+			fullON = false;
+		}
+
+		if(fullON) window = std::make_unique<sf::RenderWindow>(sf::VideoMode((int)screenSize.x, (int)screenSize.y), title, sf::Style::Fullscreen);
+		else window = std::make_unique<sf::RenderWindow>(sf::VideoMode((int)screenSize.x, (int)screenSize.y), title, sf::Style::Default);
 
 		//Ograniczenie fps do 60 metoda okna z biblioteki SFML
 		window->setFramerateLimit(60);
 
-		window->setVerticalSyncEnabled(false);
+		setVsync(vsyncON);
 
 		window->setMouseCursorVisible(false);
 
@@ -30,13 +60,14 @@ namespace Display
 	void setFull(bool full)
 	{
 		window->close();
-		if (full) window->create(sf::VideoMode(1920, 1080), title, sf::Style::Fullscreen);
-		else window->create(sf::VideoMode(1920, 1080), title, sf::Style::Default);
+		if (full) { window->create(sf::VideoMode(1920, 1080), title, sf::Style::Fullscreen); fullON = true; }
+		else { window->create(sf::VideoMode(1920, 1080), title, sf::Style::Default);  fullON = false; }
 	}
 
 	void setVsync(bool vsync)
 	{
-		window->setVerticalSyncEnabled(true);
+		if (vsync) { window->setVerticalSyncEnabled(true); vsyncON = true; }
+		else { window->setVerticalSyncEnabled(false); vsyncON = false; }
 	}
 
 	//Czysc okno

@@ -5,8 +5,6 @@
 #include <math.h>
 #include <iostream>
 
-static Character_Candy Candy;
-
 namespace State
 {
 	//Inicjuj STATE, testowo potworzone rozne obiekty, przypisane tekstury, dzwieki itp
@@ -22,7 +20,7 @@ namespace State
 
 	void Playing::initState()
 	{
-		setPlayer(&Candy);
+		player = new Character_Candy;
 		initLevels();
 		changeLevel(LevelID::level1);
 		//currentLevel = &m_levels.at(LevelID::level0);
@@ -33,7 +31,7 @@ namespace State
 		Level level0(
 			30,
 			20,
-			Texture_Name::test,
+			Texture_Name::test2,
 			false,
 			*this
 		);
@@ -113,11 +111,6 @@ namespace State
 	void Playing::addLevel(LevelID id, Level level)
 	{
 		m_levels.insert(std::make_pair(id, level));
-	}
-
-	void Playing::setPlayer(Character * chara)
-	{
-		player = chara;
 	}
 
 	Level * Playing::getCurrentLevel() const
