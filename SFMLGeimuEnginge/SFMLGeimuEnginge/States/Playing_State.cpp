@@ -122,4 +122,9 @@ namespace State
 	{
 		return player;
 	}
+
+//	b2World & Playing::getBox2DWorld()
+//	{
+	//	return physWorld;
+	//}
 }

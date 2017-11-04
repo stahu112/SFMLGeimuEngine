@@ -9,7 +9,6 @@ namespace Display
 
 	void init();
 	void setFull(bool full);
-	void setVsync(bool vsync);
 
 	void clear();
 	void display();

@@ -15,6 +15,7 @@ void Character_Candy::update(float dt)
 		if (currentAnim != &m_animations.at(AnimationID::RunL)) m_animations.at(AnimationID::RunL).reset();
 		setCurrentAnim(AnimationID::RunL);
 		sprite.setTexture(Resource_Holder::get().getTexture(Texture_Name::spritesheet1));
+		sprite.setScale(-sprite.getScale().x, sprite.getScale().y);
 	}
 	else
 	{

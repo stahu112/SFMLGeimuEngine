@@ -1,9 +1,6 @@
 #pragma once
 
 #include <vector>
-#include <fstream>
-#include <cctype>
-#include <string>
 
 #include "Display.h"
 #include "Animation.h"

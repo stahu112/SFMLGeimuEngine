@@ -2,7 +2,7 @@
 
 #include "Application.h"
 
-extern bool showFPS, fullON, vsyncON;
+extern int showFPS, fullON;
 
 //Konstruktor
 Application::Application()

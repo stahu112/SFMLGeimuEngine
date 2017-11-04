@@ -3,9 +3,7 @@
 #include <fstream>
 
 
-extern bool showFPS, fullON, vsyncON;
-
-
+extern int showFPS, fullON, globalVolume;
 
 namespace State
 {
@@ -21,9 +19,17 @@ namespace State
 
 	void Menu::initState()
 	{
+		q = globalVolume;
 		music = new sf::Music;
 		music->openFromFile("Resources/Sound/yam.ogg");
+		music->setVolume(q);
 		music->play();
+
+		vol = "Glosnosc: ";
+		for (int i = 0; i < q*0.1; i++)
+		{
+			vol += "*";
+		}
 
 		font = Resource_Holder::get().getFont(Font_Name::menuFont);
 
@@ -96,8 +102,7 @@ namespace State
 			break;
 			
 		case men::options:
-			if(vsyncON) opt[0].setString("Vertical sync: ON");
-			else opt[0].setString("Vertical sync: Off");
+			opt[0].setString(vol);
 			if(fullON) opt[1].setString("FullScreen: ON");
 			else opt[1].setString("FullScreen: off");
 			if(showFPS) opt[2].setString("Show fps: ON");
@@ -111,6 +116,8 @@ namespace State
 				opt[i].setPosition(sf::Vector2f(Display::screenSize.x / 4, Display::screenSize.y / 2 + i*fs));
 			}
 		}
+
+		music->setVolume(q);
 
 		highlight();
 
@@ -166,6 +173,8 @@ namespace State
 		}
 	}
 
+	std::fstream config;
+
 	void Menu::process()
 	{
 		switch (currMenu)
@@ -194,6 +203,23 @@ namespace State
 
 				case 3:
 					delete music;
+					config.open("config.txt", std::ios::out);
+
+					if (config.good())
+					{
+						config << fullON;
+						config << "\n";
+						config << showFPS;
+						config << "\n";
+						config << globalVolume;
+
+						config.close();
+					}
+					else
+					{
+						config.close();
+						std::cout << "Nie mozna zapisac ustawien" << std::endl;
+					}
 					exit(0);
 				}
 			}
@@ -204,8 +230,18 @@ namespace State
 				switch (choice)
 				{
 				case 0:
-					if(vsyncON) Display::setVsync(false);
-					else Display::setVsync(true);
+					if (q < 100)
+					{
+						q+=10;
+						globalVolume = q;
+						vol += "*";
+					}
+					else
+					{
+						q = 0;
+						globalVolume = q;
+						vol = "Glosnosc: ";
+					}
 					break;
 
 				case 1:
@@ -216,26 +252,11 @@ namespace State
 					break;
 
 				case 2:
-					if (showFPS) showFPS = false;
-					else showFPS = true;
+					if (showFPS) showFPS = 0;
+					else showFPS = 1;
 					break;
 
 				case 3:
-					std::fstream config;
-					config.open("config.txt", std::ios::out);
-
-					if (config.good())
-					{
-						config << fullON << " " << showFPS << " " << vsyncON;
-
-						config.close();
-					}
-					else
-					{
-						config.close();
-						std::cout << "Nie mozna zapisac ustawien" << std::endl;
-					}
-
 					currMenu = men::main;
 					choice = 0;
 					break;

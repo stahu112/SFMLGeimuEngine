@@ -5,7 +5,7 @@
 
 #include <fstream>
 
-bool showFPS, fullON, vsyncON;
+int showFPS, fullON, globalVolume;
 
 //Przestrzen nazw dla okna
 namespace Display
@@ -22,24 +22,24 @@ namespace Display
 	
 		if (config.good())
 		{
-			bool _s, _f, _v;
+			int _s, _f, _v;
 
 			config >> _f >> _s >> _v;
 
 			showFPS = _s;
 			fullON = _f;
-			vsyncON = _v;
+			globalVolume = _v;
 
 			config.close();
 		}
 		else
 		{
-			std::cout << "Chujnia\n";
+			std::cout << "Brak configu, domyslne\n";
 			config.close();
 
-			showFPS = false;
-			vsyncON = false;
-			fullON = false;
+			globalVolume = 50;
+			showFPS = 0;
+			fullON = 0;
 		}
 
 		if(fullON) window = std::make_unique<sf::RenderWindow>(sf::VideoMode((int)screenSize.x, (int)screenSize.y), title, sf::Style::Fullscreen);
@@ -47,8 +47,6 @@ namespace Display
 
 		//Ograniczenie fps do 60 metoda okna z biblioteki SFML
 		window->setFramerateLimit(60);
-
-		setVsync(vsyncON);
 
 		window->setMouseCursorVisible(false);
 
@@ -60,14 +58,8 @@ namespace Display
 	void setFull(bool full)
 	{
 		window->close();
-		if (full) { window->create(sf::VideoMode(1920, 1080), title, sf::Style::Fullscreen); fullON = true; }
-		else { window->create(sf::VideoMode(1920, 1080), title, sf::Style::Default);  fullON = false; }
-	}
-
-	void setVsync(bool vsync)
-	{
-		if (vsync) { window->setVerticalSyncEnabled(true); vsyncON = true; }
-		else { window->setVerticalSyncEnabled(false); vsyncON = false; }
+		if (full) { window->create(sf::VideoMode(1920, 1080), title, sf::Style::Fullscreen); fullON = 1; }
+		else { window->create(sf::VideoMode(1920, 1080), title, sf::Style::Default);  fullON = 0; }
 	}
 
 	//Czysc okno

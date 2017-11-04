@@ -23,7 +23,8 @@ namespace State
 
 		sf::Font font;
 
-		short int choice = 0;
+		short int choice = 0, q;
+		std::string vol;
 		float fs;
 
 		enum class men

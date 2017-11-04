@@ -9,6 +9,7 @@
 #include "../Character.h"
 #include "../Level.h"
 #include "../Character_Candy.h"
+//#include <Box2D\Box2D.h>
 
 #include <map>
 
@@ -24,6 +25,8 @@ namespace State
 		void initState() override;
 		Level * getCurrentLevel() const;
 		Character * getPlayer() const;
+
+		//b2World & getBox2DWorld();
 		
 		void input() override;
 		void update(float dt) override;
@@ -39,6 +42,8 @@ namespace State
 
 	
 	private:
+
+		//b2World physWorld = b2World(b2Vec2(0.f, -10.f));
 
 		std::map<LevelID, Level> m_levels;
 		Level * currentLevel = nullptr;
