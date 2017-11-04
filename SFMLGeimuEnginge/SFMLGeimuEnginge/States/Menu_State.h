@@ -24,9 +24,20 @@ namespace State
 		sf::Font font;
 
 		short int choice = 0;
+		float fs;
+
+		enum class men
+		{
+			main,
+			options,
+			load
+		};
+
+		men currMenu = men::main;
+
 		bool once = false;
 
-		sf::Music music;
+		sf::Music * music;
 
 	public:
 		Menu(Application& application);
@@ -42,8 +53,7 @@ namespace State
 
 		void process();
 
-		void mainM();
-		void optionM();
+		void highlight();
 
 	private:
 	};

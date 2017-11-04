@@ -13,10 +13,12 @@ namespace Display
 	void init()
 	{
 		//Tworz okno o nazwie "title" i wymiarach z wektora "screenSize" VECTOR Z BIBLIOTEKI SFML =/= VECTOR Z BIBLIOTEKI STL
-		window = std::make_unique<sf::RenderWindow>(sf::VideoMode((int)screenSize.x, (int)screenSize.y), title, sf::Style::Fullscreen);
+		window = std::make_unique<sf::RenderWindow>(sf::VideoMode((int)screenSize.x, (int)screenSize.y), title, sf::Style::Default);
 
 		//Ograniczenie fps do 60 metoda okna z biblioteki SFML
 		window->setFramerateLimit(60);
+
+		window->setVerticalSyncEnabled(false);
 
 		window->setMouseCursorVisible(false);
 
@@ -25,11 +27,16 @@ namespace Display
 		window->setJoystickThreshold(1);
 	}
 
-	void reInit()
+	void setFull(bool full)
 	{
 		window->close();
-		window->create(sf::VideoMode(800,600), title, sf::Style::Fullscreen | sf::Style::None);
+		if (full) window->create(sf::VideoMode(1920, 1080), title, sf::Style::Fullscreen);
+		else window->create(sf::VideoMode(1920, 1080), title, sf::Style::Default);
+	}
 
+	void setVsync(bool vsync)
+	{
+		window->setVerticalSyncEnabled(true);
 	}
 
 	//Czysc okno

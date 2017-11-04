@@ -55,7 +55,7 @@ namespace State
 	{
 		if (InputHandler::checkDown(sf::Keyboard::Escape))
 		{
-			m_p_application->popState();
+			m_p_application->changeState(std::make_unique<Menu>(*m_p_application));
 		}
 
 		if (InputHandler::checkDown(sf::Keyboard::D))

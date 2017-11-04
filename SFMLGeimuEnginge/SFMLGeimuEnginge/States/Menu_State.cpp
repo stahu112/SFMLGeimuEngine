@@ -11,14 +11,13 @@ namespace State
 
 	void Menu::reInit()
 	{
-		music.play();
 	}
 
 	void Menu::initState()
 	{
-
-		music.openFromFile("Resources/Sound/hm.ogg");
-		music.play();
+		music = new sf::Music;
+		music->openFromFile("Resources/Sound/yam.ogg");
+		music->play();
 
 		font = Resource_Holder::get().getFont(Font_Name::menuFont);
 
@@ -30,10 +29,12 @@ namespace State
 		backgroundTexture.setSize(Display::screenSize);
 		assignBackgroundTex(Texture_Name::test1);
 
-		opt.push_back(sf::Text("NEW GAME", font, 100));
-		opt.push_back(sf::Text("LOAD", font, 100));
-		opt.push_back(sf::Text("OPTIONS", font, 100));
-		opt.push_back(sf::Text("QUIT", font, 100));
+		fs = Display::screenSize.x / Display::screenSize.y * 50;
+
+		opt.push_back(sf::Text("NEW GAME", font, fs));
+		opt.push_back(sf::Text("LOAD", font, fs));
+		opt.push_back(sf::Text("OPTIONS", font, fs));
+		opt.push_back(sf::Text("QUIT", font, fs));
 
 		for (int i = 0; i < opt.size(); i++)
 		{
@@ -41,8 +42,7 @@ namespace State
 			
 			opt[i].setOrigin(opt[i].getLocalBounds().width / 2, opt[i].getLocalBounds().height / 2);
 
-			opt[i].setPosition(sf::Vector2f(550, 500 + i*140));
-
+			opt[i].setPosition(sf::Vector2f(Display::screenSize.x/4, Display::screenSize.y/2 + i*fs));
 		}
 
 	}
@@ -74,7 +74,35 @@ namespace State
 
 		Display::setView(view);
 
-		mainM();
+		switch (currMenu)
+		{
+		case men::main:
+			opt[0].setString("NEW GAME");
+			opt[1].setString("LOAD");
+			opt[2].setString("OPTIONS");
+			opt[3].setString("QUIT");
+			for (int i = 0; i < opt.size(); i++)
+			{
+				opt[i].setOrigin(opt[i].getLocalBounds().width / 2, opt[i].getLocalBounds().height / 2);
+
+				opt[i].setPosition(sf::Vector2f(Display::screenSize.x / 4, Display::screenSize.y / 2 + i*fs));
+			}
+			break;
+			
+		case men::options:
+			opt[0].setString("Vertical sync");
+			opt[1].setString("FullScreen");
+			opt[2].setString("Placeholder");
+			opt[3].setString("BACK");
+			for (int i = 0; i < opt.size(); i++)
+			{
+				opt[i].setOrigin(opt[i].getLocalBounds().width / 2, opt[i].getLocalBounds().height / 2);
+
+				opt[i].setPosition(sf::Vector2f(Display::screenSize.x / 4, Display::screenSize.y / 2 + i*fs));
+			}
+		}
+
+		highlight();
 
 		process();
 
@@ -93,7 +121,7 @@ namespace State
 		}
 	}
 
-	void Menu::mainM()
+	void Menu::highlight()
 	{
 		switch (choice)
 		{
@@ -128,31 +156,62 @@ namespace State
 		}
 	}
 
-	void Menu::optionM()
-	{
-
-	}
-
 	void Menu::process()
 	{
-		if (InputHandler::checkDown(sf::Keyboard::Return))
+		switch (currMenu)
 		{
-			switch (choice)
+
+
+		case men::main:
+			if (InputHandler::checkUp(sf::Keyboard::Return))
 			{
-			case 0:
-				m_p_application->pushState(std::make_unique<Playing>(*m_p_application));
-				music.stop();
-				break;
+				switch (choice)
+				{
+				case 0:
+					delete music;
+					m_p_application->changeState(std::make_unique<Playing>(*m_p_application));
+					break;
 
-			case 1:
-				break;
+				case 1:
+					//currMenu = men::load;
+					choice = 0;
+					break;
 
-			case 2:
-				break;
+				case 2:
+					currMenu = men::options;
+					choice = 0;
+					break;
 
-			case 3:
-				exit(0);
+				case 3:
+					exit(0);
+				}
 			}
+
+		case men::options:
+			if (InputHandler::checkUp(sf::Keyboard::Return))
+			{
+				switch (choice)
+				{
+				case 0:
+					Display::setVsync(true);
+					break;
+
+				case 1:
+					currMenu = men::main;
+					choice = 0;
+					Display::setFull(true);
+					break;
+
+				case 2:
+					break;
+
+				case 3:
+					currMenu = men::main;
+					choice = 0;
+					break;
+				}
+			}
+
 		}
 	}
 
