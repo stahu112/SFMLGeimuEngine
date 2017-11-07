@@ -6,26 +6,33 @@
 
 class Character_Candy : public Character
 {
+public:
+
+private:
 
 	enum class AnimationID
 	{
 		RunR,
 		RunL,
-		Idle
+		Idle,
+		Jump,
+		Dive
 	};
 
 	Animation * currentAnim = nullptr;
 
+	b2Body* body;
+
 	std::map<AnimationID, Animation> m_animations;
 
 public:
-	
+
 	void update(float dt) override;
 
 	void setCurrentAnim(AnimationID id);
 
 	void updateAnim();
 
-	Character_Candy();
+	Character_Candy(State::Playing & state);
 
 };

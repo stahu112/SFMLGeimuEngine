@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include <memory>
-
+#include "SFMLDebugDraw.h"
 #include <fstream>
 
 int showFPS, fullON, globalVolume;
@@ -53,6 +53,7 @@ namespace Display
 		window->setKeyRepeatEnabled(false);
 
 		window->setJoystickThreshold(1);
+
 	}
 
 	void setFull(bool full)

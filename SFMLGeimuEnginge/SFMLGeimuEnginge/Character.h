@@ -2,6 +2,7 @@
 
 #include "Game_Object.h"
 #include "Display.h"
+#include <Box2D\Box2D.h>
 
 namespace State { class Playing; };
 
@@ -12,11 +13,9 @@ protected:
 
 	sf::Sprite sprite;
 
+	b2World * boxWorldPtr = nullptr;
+
 public:
-
-	sf::Vector2f goalVelocity;
-
-	//Physics Component
 
 	void draw();
 

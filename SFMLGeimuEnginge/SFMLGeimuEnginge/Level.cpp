@@ -1,10 +1,17 @@
 #include "Level.h"
 #include "States\Playing_State.h"
 
-//USTAW PLAYERHANDLE
-void Level::setPlayerHandle(State::Playing state)
+void Level::createRoom()
 {
-	playerHandle = state.getPlayer();
+	b2BodyDef roomDef;
+	roomDef.position.Set(size.x/2, size.y);
+	roomDef.type = b2_staticBody;
+	room = boxWorldPtr->CreateBody(&roomDef);
+
+	b2PolygonShape floor;
+	floor.SetAsBox(size.x/2 , 0.5);
+
+	room->CreateFixture(&floor, 0.0f);
 }
 
 //ZWRACA PLAYERHANDLE
@@ -94,6 +101,14 @@ Level::Level(float width, float height, Texture_Name background, bool animated, 
 	size.x = width;
 	size.y = height;
 	assignBackgroundTex(background);
-	setPlayerHandle(state);
+	playerHandle = state.getPlayer();
+
+	boxWorldPtr = state.getWorld();
+
+	//boxWorldPtr->ShiftOrigin(b2Vec2(0, 0));
+
+	createRoom();
+
 	levelView.reset(sf::FloatRect(0, 0, viewPort.x, viewPort.y));
+
 }

@@ -23,6 +23,8 @@ namespace State
 
 		sf::Font font;
 
+		bool volb = false;
+
 		short int choice = 0, q;
 		std::string vol;
 		float fs;

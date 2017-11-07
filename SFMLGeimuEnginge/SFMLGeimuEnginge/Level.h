@@ -6,6 +6,7 @@
 #include "Animation.h"
 #include "Res\Resource_Holder.h"
 #include "Character.h"
+#include "Box2D\Box2D.h"
 
 constexpr float tileSize = 32;
 
@@ -28,19 +29,24 @@ class Level
 	Animation backgroundAnimation;
 	bool isAnimated = false;
 
+	void createRoom();
+
 	//TEST
 	sf::View levelView;
 
 	//PlayerHandle
-	Character* playerHandle = nullptr;
+	Character * playerHandle = nullptr;
+	b2World * boxWorldPtr = nullptr;
 
 public:
 
 	sf::Vector2f startingPosition = {0,0};
-
+	b2Vec2 gravity = b2Vec2(0, 10.f);
 	//PlayerHandle
-	void setPlayerHandle(State::Playing state);
 	Character* getPlayerHandle();
+
+	b2Body * room = nullptr; //"Pud³o" które jest granicami levelu
+
 
 	float yFactor = 16; //20;
 

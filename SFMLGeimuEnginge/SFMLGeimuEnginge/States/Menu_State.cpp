@@ -25,7 +25,7 @@ namespace State
 		music->setVolume(q);
 		music->play();
 
-		vol = "Glosnosc: ";
+		vol = "Volume: ";
 		for (int i = 0; i < q*0.1; i++)
 		{
 			vol += "*";
@@ -186,6 +186,7 @@ namespace State
 			{
 				switch (choice)
 				{
+			
 				case 0:
 					delete music;
 					m_p_application->changeState(std::make_unique<Playing>(*m_p_application));
@@ -230,28 +231,34 @@ namespace State
 				switch (choice)
 				{
 				case 0:
-					if (q < 100)
+					if (volb)
 					{
-						q+=10;
-						globalVolume = q;
-						vol += "*";
+						if (q < 100)
+						{
+							q += 10;
+							globalVolume = q;
+							vol += "*";
+						}
+						else
+						{
+							q = 0;
+							globalVolume = q;
+							vol = "Volume: ";
+						}
 					}
-					else
-					{
-						q = 0;
-						globalVolume = q;
-						vol = "Glosnosc: ";
-					}
+					volb = true;
 					break;
 
 				case 1:
 					currMenu = men::main;
+					volb = false;
 					choice = 0;
 					if(fullON) Display::setFull(false);
 					else Display::setFull(true);
 					break;
 
 				case 2:
+					volb = false;
 					if (showFPS) showFPS = 0;
 					else showFPS = 1;
 					break;
@@ -259,6 +266,7 @@ namespace State
 				case 3:
 					currMenu = men::main;
 					choice = 0;
+					volb = false;
 					break;
 				}
 			}

@@ -2,11 +2,12 @@
 
 #include <SFML/Graphics.hpp>
 #include "InputHandler.h"
-#include "Physics.h"
+
+constexpr float boxRatio = 32.f; //32px == 1m
 
 namespace Display
 {
-
+	
 	void init();
 	void setFull(bool full);
 

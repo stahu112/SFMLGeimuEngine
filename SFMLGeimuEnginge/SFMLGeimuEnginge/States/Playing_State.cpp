@@ -1,9 +1,12 @@
 #include "Playing_State.h"
 #include "Menu_State.h"
+#include "../SFMLDebugDraw.h"
 
 #include <fstream>
 #include <math.h>
 #include <iostream>
+
+SFMLDebugDraw debugDraw;
 
 namespace State
 {
@@ -20,9 +23,13 @@ namespace State
 
 	void Playing::initState()
 	{
-		player = new Character_Candy;
+		world = new b2World(b2Vec2(0.f, 10.f));
+		//world->ShiftOrigin(b2Vec2(0, 0));
+		player = new Character_Candy(*this);
 		initLevels();
 		changeLevel(LevelID::level1);
+		world->SetDebugDraw(&debugDraw);
+		debugDraw.SetFlags(b2Draw::e_shapeBit);
 		//currentLevel = &m_levels.at(LevelID::level0);
 	}
 
@@ -58,22 +65,29 @@ namespace State
 
 		if (InputHandler::checkDown(sf::Keyboard::D))
 		{
-			player->goalVelocity.x = 200;
+			player->getVelocity().x = 200;
 		}
 		else
 		if (InputHandler::checkDown(sf::Keyboard::A))
 		{
-			player->goalVelocity.x = -200;
+			player->getVelocity().x = -200;
 		}
 		else
 		{
-			player->goalVelocity.x = 0;
+			player->getVelocity().x = 0;
 		}
+		if (InputHandler::checkDown(sf::Keyboard::Space))
+		{
+			player->getVelocity().y = -1;
+		}
+
 	}
 
 	//Aktualizuj stany
 	void Playing::update(float dt)
 	{
+		world->Step(dt, 10, 10);
+		
 		player->update(dt);
 
 		updateLevel(dt);
@@ -84,6 +98,7 @@ namespace State
 	void Playing::draw()
 	{
 		player->draw();
+		world->DrawDebugData();
 	}
 
 	void Playing::resolveCollisions(float dt)
@@ -95,6 +110,8 @@ namespace State
 	void Playing::changeLevel(LevelID level)
 	{
 		currentLevel = &m_levels.at(level);
+		world->SetGravity(currentLevel->gravity);
+		
 		player->setPosition(m_levels.at(level).startingPosition);
 	}
 
@@ -123,8 +140,9 @@ namespace State
 		return player;
 	}
 
-//	b2World & Playing::getBox2DWorld()
-//	{
-	//	return physWorld;
-	//}
+	b2World * Playing::getWorld()
+	{
+		return world;
+	}
+
 }

@@ -15,20 +15,22 @@ void Character_Candy::update(float dt)
 		if (currentAnim != &m_animations.at(AnimationID::RunL)) m_animations.at(AnimationID::RunL).reset();
 		setCurrentAnim(AnimationID::RunL);
 		sprite.setTexture(Resource_Holder::get().getTexture(Texture_Name::spritesheet1));
-		sprite.setScale(-sprite.getScale().x, sprite.getScale().y);
 	}
 	else
 	{
 		setCurrentAnim(AnimationID::Idle);
 	}
 
-	velocity.x = Physics::approach(goalVelocity.x, velocity.x, dt);
-	//velocity.y = Physics::approach(goalVelocity.y, velocity.y, dt);
+	sf::Vector2f pos = sf::Vector2f(body->GetPosition().x*32 - 16, body->GetPosition().y*32 - 32);
 
-	setPosition(Position + velocity*dt);
+	setPosition(pos);
 
+	std::cout << body->GetLocalCenter().x << "   " << body->GetLocalCenter().y << "  ";
+
+	std::cout << Position.x << "  " << Position.y << std::endl;
+
+	sprite.setPosition(pos);
 	updateAnim();
-	sprite.setPosition(Position);
 }
 
 void Character_Candy::setCurrentAnim(AnimationID id)
@@ -45,7 +47,7 @@ void Character_Candy::updateAnim()
 	);
 }
 
-Character_Candy::Character_Candy()
+Character_Candy::Character_Candy(State::Playing & state)
 {
 	sprite.setTexture(Resource_Holder::get().getTexture(Texture_Name::spritesheet));
 	mass = 75;
@@ -54,7 +56,27 @@ Character_Candy::Character_Candy()
 		size.x / sprite.getLocalBounds().width,
 		size.y / sprite.getLocalBounds().height
 	);
+
+	boxWorldPtr = state.getWorld();
+
+	b2BodyDef bodyDef;
+
+	bodyDef.type = b2_dynamicBody;
+
+	bodyDef.position.Set(10,10);
+
+	body = boxWorldPtr->CreateBody(&bodyDef);
 	
+	b2PolygonShape dynamicBox;
+	dynamicBox.SetAsBox( 0.5, 1);
+
+	b2FixtureDef fixtureDef;
+	fixtureDef.shape = &dynamicBox;
+	fixtureDef.density = 1.0f;
+	fixtureDef.friction = 0.1f;
+	
+	body->CreateFixture(&fixtureDef);
+
 	Animation RunRAnim;
 	RunRAnim.addFrames({ 0,0,20,38}, 0.1f);
 	RunRAnim.addFrames({ 20,0,20,38 }, 0.1f);

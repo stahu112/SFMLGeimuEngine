@@ -160,11 +160,11 @@
     <ClCompile Include="Game_Object.cpp" />
     <ClCompile Include="InputHandler.cpp" />
     <ClCompile Include="Level.cpp" />
-    <ClCompile Include="Physics.cpp" />
     <ClCompile Include="Res\Font_Manager.cpp" />
     <ClCompile Include="Res\Resource_Holder.cpp" />
     <ClCompile Include="Res\Sound_Manager.cpp" />
     <ClCompile Include="Res\Texture_Manager.cpp" />
+    <ClCompile Include="SFMLDebugDraw.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="States\Game_State.cpp" />
     <ClCompile Include="States\Menu_State.cpp" />
@@ -181,12 +181,12 @@
     <ClInclude Include="Game_Object.h" />
     <ClInclude Include="InputHandler.h" />
     <ClInclude Include="Level.h" />
-    <ClInclude Include="Physics.h" />
     <ClInclude Include="Res\Font_Manager.h" />
     <ClInclude Include="Res\Resource_Holder.h" />
     <ClInclude Include="Res\Resource_Manager.h" />
     <ClInclude Include="Res\Sound_Manager.h" />
     <ClInclude Include="Res\Texture_Manager.h" />
+    <ClInclude Include="SFMLDebugDraw.h" />
     <ClInclude Include="States\Game_State.h" />
     <ClInclude Include="States\Menu_State.h" />
     <ClInclude Include="States\Playing_State.h" />
