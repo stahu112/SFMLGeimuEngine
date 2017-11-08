@@ -6,6 +6,8 @@
 #include <math.h>
 #include <iostream>
 
+#define DEBUGMODE true
+
 SFMLDebugDraw debugDraw;
 
 namespace State
@@ -65,22 +67,26 @@ namespace State
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 		{
-			player->getVelocity().x = 200;
+			player->getVelocity().x = 1;
 		}
 		else
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 		{
-			player->getVelocity().x = -200;
+			player->getVelocity().x = -1;
 		}
 		else
 		{
 			player->getVelocity().x = 0;
 		}
+
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 		{
 			player->getVelocity().y = -1;
 		}
-
+		else
+		{
+			player->getVelocity().y = 0;
+		}
 	}
 
 	//Aktualizuj stany
@@ -98,7 +104,7 @@ namespace State
 	void Playing::draw()
 	{
 		player->draw();
-		world->DrawDebugData();
+		if(DEBUGMODE) world->DrawDebugData();
 	}
 
 	void Playing::resolveCollisions(float dt)

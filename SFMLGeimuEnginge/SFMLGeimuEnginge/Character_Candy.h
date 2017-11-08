@@ -10,6 +10,15 @@ public:
 
 private:
 
+	enum class CState
+	{
+		RunR,
+		RunL,
+		Idle,
+		Jump,
+		Dive
+	};
+
 	enum class AnimationID
 	{
 		RunR,
@@ -22,6 +31,8 @@ private:
 	Animation * animation = nullptr;
 	AnimationID currentAnim = AnimationID::Idle;
 
+	CState currentState = CState::Idle;
+
 	b2Body* body;
 
 	std::map<AnimationID, Animation> m_animations;
@@ -29,6 +40,7 @@ private:
 public:
 
 	void update(float dt) override;
+	void processStates() override;
 
 	void setCurrentAnim();
 	void changeAnim(AnimationID anim);
@@ -42,5 +54,7 @@ public:
 	void addAnimations(AnimationID id, Animation & animation);
 
 	Character_Candy(State::Playing & state);
+
+	void jump();
 
 };

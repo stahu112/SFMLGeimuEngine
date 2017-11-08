@@ -6,14 +6,114 @@ void Character_Candy::update(float dt)
 
 	sf::Vector2f pos = sf::Vector2f(body->GetPosition().x * 32 - 16, body->GetPosition().y * 32 - 32);
 
-	if (velocity.x > 0) { body->SetLinearVelocity(b2Vec2(20, body->GetLinearVelocity().y)); changeAnim(AnimationID::RunR); sprite.setTexture(Resource_Holder::get().getTexture(Texture_Name::spritesheet)); }
-	else if (velocity.x < 0) { body->SetLinearVelocity(b2Vec2(-20, body->GetLinearVelocity().y)); changeAnim(AnimationID::RunL); sprite.setTexture(Resource_Holder::get().getTexture(Texture_Name::spritesheet1)); }
-	else { changeAnim(AnimationID::Idle); body->SetLinearVelocity(b2Vec2(0, body->GetLinearVelocity().y)); }
+	b2Vec2 vel = body->GetLinearVelocity();
+
+	if (goalVelocity.x > 0) { changeAnim(AnimationID::RunR); sprite.setTexture(Resource_Holder::get().getTexture(Texture_Name::spritesheet)); }
+	else if (goalVelocity.x < 0) { changeAnim(AnimationID::RunL); sprite.setTexture(Resource_Holder::get().getTexture(Texture_Name::spritesheet1)); }
+	else { changeAnim(AnimationID::Idle); }
+
+	float velChange = goalVelocity.x - vel.x;
+	float force = body->GetMass() * velChange / dt;
+	body->ApplyForce(b2Vec2(force, 0), body->GetWorldCenter(), true);
+
+	if (velocity.y < 0 && !inAir) jump();
 
 	setPosition(pos);
+
+	processStates();
+
+	std::cout << (int)currentState << std::endl;
+
 	sprite.setPosition(pos);
 
 	updateAnim();
+}
+
+void Character_Candy::processStates()
+{
+	switch (currentState)
+	{
+	case CState::Idle:
+		if (velocity.x > 0)
+		{
+			currentState = CState::RunR;
+		}
+		if (velocity.x < 0)
+		{
+			currentState = CState::RunL;
+		}
+
+		if (velocity.y < 0)
+		{
+			currentState = CState::Jump;
+			inAir = true;
+		}
+		break;
+
+	case CState::RunR:
+		goalVelocity.x = 5;
+
+		if (velocity.x == 0)
+		{
+			currentState = CState::Idle;
+			goalVelocity.x = 0;
+		}
+
+		if (velocity.x < 0)
+		{
+			currentState = CState::RunL;
+		}
+
+		if (velocity.y < 0)
+		{
+			currentState = CState::Jump;
+			inAir = true;
+		}
+		break;
+
+	case CState::RunL:
+		goalVelocity.x = -5;
+
+		if (velocity.x == 0)
+		{
+			currentState = CState::Idle;
+			goalVelocity.x = 0;
+		}
+
+		if (velocity.x > 0)
+		{
+			currentState = CState::RunR;
+		}
+
+		if (velocity.y < 0)
+		{
+			currentState = CState::Jump;
+			inAir = true;
+		}
+		break;
+
+	case CState::Jump:
+		if (body->GetLinearVelocity().y > 0) currentState = CState::Dive;
+
+		if (velocity.x < 0) goalVelocity.x = -5;
+		if (velocity.x > 0) goalVelocity.x = 5;
+
+		break;
+
+	case CState::Dive:
+		if (body->GetLinearVelocity().y == 0)
+		{
+			currentState = CState::Idle;
+			inAir = false;
+		}
+
+		if (velocity.x < 0) goalVelocity.x = -5;
+		if (velocity.x > 0) goalVelocity.x = 5;
+
+		break;
+	}
+
+	if (velocity.x == 0) goalVelocity.x = 0;
 }
 
 void Character_Candy::setCurrentAnim()
@@ -59,6 +159,9 @@ void Character_Candy::createRigidBody()
 	fixtureDef.friction = 0.1f;
 
 	body->CreateFixture(&fixtureDef);
+	body->SetFixedRotation(true);
+	body->SetGravityScale(2);
+
 }
 
 void Character_Candy::initAnimations()
@@ -107,4 +210,13 @@ Character_Candy::Character_Candy(State::Playing & state)
 	createRigidBody();
 
 	initAnimations();
+}
+
+void Character_Candy::jump()
+{
+	if (!inAir)
+	{
+		float impulse = body->GetMass() * 10;
+		body->ApplyLinearImpulse(b2Vec2(0, -impulse), body->GetWorldCenter(), true);
+	}
 }

@@ -17,8 +17,11 @@ protected:
 
 public:
 
+	bool inAir = false;
+
 	void draw();
 
+	virtual void processStates() = 0;
 	virtual void update(float dt) = 0;
 
 	Character();
