@@ -19,7 +19,8 @@ private:
 		Dive
 	};
 
-	Animation * currentAnim = nullptr;
+	Animation * animation = nullptr;
+	AnimationID currentAnim = AnimationID::Idle;
 
 	b2Body* body;
 
@@ -29,7 +30,8 @@ public:
 
 	void update(float dt) override;
 
-	void setCurrentAnim(AnimationID id);
+	void setCurrentAnim();
+	void changeAnim(AnimationID anim);
 
 	void updateAnim();
 

@@ -63,12 +63,12 @@ namespace State
 			m_p_application->changeState(std::make_unique<Menu>(*m_p_application));
 		}
 
-		if (InputHandler::checkDown(sf::Keyboard::D))
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 		{
 			player->getVelocity().x = 200;
 		}
 		else
-		if (InputHandler::checkDown(sf::Keyboard::A))
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 		{
 			player->getVelocity().x = -200;
 		}
@@ -76,7 +76,7 @@ namespace State
 		{
 			player->getVelocity().x = 0;
 		}
-		if (InputHandler::checkDown(sf::Keyboard::Space))
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 		{
 			player->getVelocity().y = -1;
 		}
