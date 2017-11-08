@@ -45,8 +45,3 @@ sf::Vector2f & Game_Object::getVelocity()
 {
 	return velocity;
 }
-
-float & Game_Object::getMass()
-{
-	return mass;
-}

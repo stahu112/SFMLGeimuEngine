@@ -33,6 +33,12 @@ public:
 
 	void updateAnim();
 
+	//Inicjuj animacje, stworz cialo fizyczne itd
+	void createRigidBody();
+	void initAnimations();
+
+	void addAnimations(AnimationID id, Animation & animation);
+
 	Character_Candy(State::Playing & state);
 
 };

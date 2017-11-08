@@ -20,7 +20,6 @@ public:
 	sf::Vector2f getPosition() const;
 	sf::Vector2f getSize() const;
 	sf::Vector2f & getVelocity();
-	float & getMass();
 
 	void move(sf::Vector2f moveo);
 
@@ -29,8 +28,6 @@ private:
 	static unsigned count;
 
 protected:
-
-	float mass = 10;
 
 	sf::Vector2f size = {1, 1};
 

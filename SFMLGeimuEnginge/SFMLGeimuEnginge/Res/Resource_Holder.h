@@ -5,6 +5,7 @@
 #include "Texture_Manager.h"
 #include "Sound_Manager.h"
 #include "Font_Manager.h"
+#include "../Animation.h"
 
 struct Resource_Holder
 {
