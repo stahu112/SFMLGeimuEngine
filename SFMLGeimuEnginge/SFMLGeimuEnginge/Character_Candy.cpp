@@ -1,8 +1,49 @@
 #include "Character_Candy.h"
 #include "States\Playing_State.h"
 
+#define DEGTORAD 0.01745329252;
+
+void Character_Candy::input()
+{
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+	{
+		velocity.x = 1;
+	}
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+	{
+		velocity.x = -1;
+	}
+	else
+	{			
+		velocity.x = 0;
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+	{
+		velocity.y = -1;
+	}
+	else
+	{
+		velocity.y = 0;
+	}
+
+	if (InputHandler::checkDown(sf::Keyboard::LControl))
+	{
+		if (velocity.x != 0) slide = true;
+		else crouch = true;
+	}
+	else if (InputHandler::checkUp(sf::Keyboard::LControl))
+	{
+		slide = false;
+		crouch = false;
+	}
+
+}
+
 void Character_Candy::update(float dt)
 {
+
+	input();
 
 	sf::Vector2f pos = sf::Vector2f(body->GetPosition().x * 32 - 16, body->GetPosition().y * 32 - 32);
 
@@ -16,7 +57,8 @@ void Character_Candy::update(float dt)
 	float force = body->GetMass() * velChange / dt;
 	body->ApplyForce(b2Vec2(force, 0), body->GetWorldCenter(), true);
 
-	if (velocity.y < 0 && !inAir) jump();
+	if (currentState == CState::Jump && !inAir) jump();
+	if (currentState == CState::Catapult && !inAir) catapult();
 
 	setPosition(pos);
 
@@ -31,6 +73,7 @@ void Character_Candy::update(float dt)
 
 void Character_Candy::processStates()
 {
+
 	switch (currentState)
 	{
 	case CState::Idle:
@@ -43,10 +86,14 @@ void Character_Candy::processStates()
 			currentState = CState::RunL;
 		}
 
+		if (crouch)
+		{
+			currentState = CState::Crouch;
+		}
+
 		if (velocity.y < 0)
 		{
 			currentState = CState::Jump;
-			inAir = true;
 		}
 		break;
 
@@ -59,6 +106,11 @@ void Character_Candy::processStates()
 			goalVelocity.x = 0;
 		}
 
+		if (slide)
+		{
+			currentState = CState::Slide;
+		}
+
 		if (velocity.x < 0)
 		{
 			currentState = CState::RunL;
@@ -67,7 +119,6 @@ void Character_Candy::processStates()
 		if (velocity.y < 0)
 		{
 			currentState = CState::Jump;
-			inAir = true;
 		}
 		break;
 
@@ -80,6 +131,11 @@ void Character_Candy::processStates()
 			goalVelocity.x = 0;
 		}
 
+		if (slide)
+		{
+			currentState = CState::Slide;
+		}
+
 		if (velocity.x > 0)
 		{
 			currentState = CState::RunR;
@@ -88,32 +144,52 @@ void Character_Candy::processStates()
 		if (velocity.y < 0)
 		{
 			currentState = CState::Jump;
-			inAir = true;
 		}
 		break;
 
 	case CState::Jump:
 		if (body->GetLinearVelocity().y > 0) currentState = CState::Dive;
-
-		if (velocity.x < 0) goalVelocity.x = -5;
-		if (velocity.x > 0) goalVelocity.x = 5;
-
 		break;
 
 	case CState::Dive:
 		if (body->GetLinearVelocity().y == 0)
 		{
 			currentState = CState::Idle;
-			inAir = false;
 		}
+		break;
 
-		if (velocity.x < 0) goalVelocity.x = -5;
-		if (velocity.x > 0) goalVelocity.x = 5;
+	case CState::Slide:
+		body->SetTransform(body->GetPosition(), 90 * 0.01745329252);
+		if (velocity.x == 0) currentState = CState::Idle;
+		if (body->GetLinearVelocity().x != 0 && velocity.y < 0)
+		{
+			currentState = CState::Catapult;
+		}
+		break;
 
+	case CState::Crouch:
+		if (!crouch) currentState = CState::Idle;
+		body->SetTransform(body->GetPosition(), 90 * 0.01745329252);
+		break;
+
+	case CState::Catapult:
+		if (body->GetLinearVelocity().y > 0) currentState = CState::Dive;
 		break;
 	}
 
-	if (velocity.x == 0) goalVelocity.x = 0;
+	if (inAir)
+	{
+		body->SetLinearVelocity(b2Vec2(body->GetLinearVelocity().x + goalVelocity.x*0.2, body->GetLinearVelocity().y));
+	}
+	else if (velocity.x == 0) goalVelocity.x = 0;
+	if ((currentState != CState::Catapult ||
+		currentState != CState::Jump ||
+		currentState != CState::Dive) &&
+		body->GetLinearVelocity().y == 0)
+	{
+		inAir = false;
+	}
+	if (currentState != CState::Slide && currentState != CState::Crouch) body->SetTransform(body->GetPosition(), 0);
 }
 
 void Character_Candy::setCurrentAnim()
@@ -146,12 +222,12 @@ void Character_Candy::createRigidBody()
 
 	bodyDef.type = b2_dynamicBody;
 
-	bodyDef.position.Set(10, 10);
+	bodyDef.position.Set(Position.x/32, Position.y/32);
 
 	body = boxWorldPtr->CreateBody(&bodyDef);
 
 	b2PolygonShape dynamicBox;
-	dynamicBox.SetAsBox(0.5, 1);
+	dynamicBox.SetAsBox(0.35, 0.95);
 
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &dynamicBox;
@@ -218,5 +294,16 @@ void Character_Candy::jump()
 	{
 		float impulse = body->GetMass() * 10;
 		body->ApplyLinearImpulse(b2Vec2(0, -impulse), body->GetWorldCenter(), true);
+		inAir = true;
+	}
+}
+
+void Character_Candy::catapult()
+{
+	if (!inAir)
+	{
+		float impulse = body->GetMass() * 12;
+		body->ApplyLinearImpulse(b2Vec2(0, -impulse), body->GetWorldCenter(), true);
+		inAir = true;
 	}
 }

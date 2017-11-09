@@ -16,7 +16,10 @@ private:
 		RunL,
 		Idle,
 		Jump,
-		Dive
+		Dive,
+		Slide,
+		Crouch,
+		Catapult
 	};
 
 	enum class AnimationID
@@ -25,7 +28,8 @@ private:
 		RunL,
 		Idle,
 		Jump,
-		Dive
+		Dive,
+		Slide
 	};
 
 	Animation * animation = nullptr;
@@ -37,7 +41,11 @@ private:
 
 	std::map<AnimationID, Animation> m_animations;
 
+	bool inAir = false, slide = false, crouch = false;
+
 public:
+
+	void input();
 
 	void update(float dt) override;
 	void processStates() override;
@@ -55,6 +63,7 @@ public:
 
 	Character_Candy(State::Playing & state);
 
+	//Commands
 	void jump();
-
+	void catapult();
 };

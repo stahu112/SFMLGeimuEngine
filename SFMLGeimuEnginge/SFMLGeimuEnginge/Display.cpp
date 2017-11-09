@@ -48,6 +48,8 @@ namespace Display
 		//Ograniczenie fps do 60 metoda okna z biblioteki SFML
 		window->setFramerateLimit(60);
 
+		window->setVerticalSyncEnabled(true);
+
 		window->setMouseCursorVisible(false);
 
 		window->setKeyRepeatEnabled(false);

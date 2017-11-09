@@ -29,7 +29,7 @@ class Level
 	Animation backgroundAnimation;
 	bool isAnimated = false;
 
-	void createRoom();
+	std::vector<b2Body *> platforms; //"Pud³o" które jest granicami levelu
 
 	//TEST
 	sf::View levelView;
@@ -45,8 +45,9 @@ public:
 	//PlayerHandle
 	Character* getPlayerHandle();
 
-	b2Body * room = nullptr; //"Pud³o" które jest granicami levelu
+	void createRoom();
 
+	void createPlatform(float x, float y, float w, float h, b2BodyType type);
 
 	float yFactor = 16; //20;
 

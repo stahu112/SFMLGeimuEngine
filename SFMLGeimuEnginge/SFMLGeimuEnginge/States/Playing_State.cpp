@@ -10,6 +10,37 @@
 
 SFMLDebugDraw debugDraw;
 
+//global scope
+int numFootContacts = 0;
+
+//in constructor
+class MyContactListener : public b2ContactListener
+{
+	void BeginContact(b2Contact* contact) {
+		//check if fixture A was the foot sensor
+		void* fixtureUserData = contact->GetFixtureA()->GetUserData();
+		if ((int)fixtureUserData == 3)
+			numFootContacts++;
+		//check if fixture B was the foot sensor
+		fixtureUserData = contact->GetFixtureB()->GetUserData();
+		if ((int)fixtureUserData == 3)
+			numFootContacts++;
+	}
+
+	void EndContact(b2Contact* contact) {
+		//check if fixture A was the foot sensor
+		void* fixtureUserData = contact->GetFixtureA()->GetUserData();
+		if ((int)fixtureUserData == 3)
+			numFootContacts--;
+		//check if fixture B was the foot sensor
+		fixtureUserData = contact->GetFixtureB()->GetUserData();
+		if ((int)fixtureUserData == 3)
+			numFootContacts--;
+	}
+};
+
+MyContactListener * conlist = new MyContactListener;
+
 namespace State
 {
 	//Inicjuj STATE, testowo potworzone rozne obiekty, przypisane tekstury, dzwieki itp
@@ -29,9 +60,10 @@ namespace State
 		//world->ShiftOrigin(b2Vec2(0, 0));
 		player = new Character_Candy(*this);
 		initLevels();
-		changeLevel(LevelID::level1);
+		changeLevel(LevelID::level0);
 		world->SetDebugDraw(&debugDraw);
 		debugDraw.SetFlags(b2Draw::e_shapeBit);
+		world->SetContactListener(conlist);
 		//currentLevel = &m_levels.at(LevelID::level0);
 	}
 
@@ -44,6 +76,11 @@ namespace State
 			false,
 			*this
 		);
+
+		level0.createPlatform(10, level0.getSize().y - 2, 2, 1, b2_staticBody);
+		level0.createPlatform(15, level0.getSize().y - 6, 5, 1, b2_staticBody);
+		level0.createPlatform(10, level0.getSize().y - 8, 4, 1, b2_staticBody);
+		level0.createPlatform(29, level0.getSize().y - 6, 1, 10, b2_staticBody);
 
 		Level level1(
 			50,
@@ -63,29 +100,6 @@ namespace State
 		if (InputHandler::checkDown(sf::Keyboard::Escape))
 		{
 			m_p_application->changeState(std::make_unique<Menu>(*m_p_application));
-		}
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-		{
-			player->getVelocity().x = 1;
-		}
-		else
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-		{
-			player->getVelocity().x = -1;
-		}
-		else
-		{
-			player->getVelocity().x = 0;
-		}
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-		{
-			player->getVelocity().y = -1;
-		}
-		else
-		{
-			player->getVelocity().y = 0;
 		}
 	}
 

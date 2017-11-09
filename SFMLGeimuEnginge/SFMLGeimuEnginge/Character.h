@@ -17,8 +17,6 @@ protected:
 
 public:
 
-	bool inAir = false;
-
 	void draw();
 
 	virtual void processStates() = 0;

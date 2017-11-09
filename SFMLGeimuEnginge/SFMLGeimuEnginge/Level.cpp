@@ -6,12 +6,29 @@ void Level::createRoom()
 	b2BodyDef roomDef;
 	roomDef.position.Set(size.x/2, size.y);
 	roomDef.type = b2_staticBody;
-	room = boxWorldPtr->CreateBody(&roomDef);
+	b2Body * room = boxWorldPtr->CreateBody(&roomDef);
 
 	b2PolygonShape floor;
 	floor.SetAsBox(size.x/2 , 0.5);
 
 	room->CreateFixture(&floor, 0.0f);
+
+	platforms.push_back(room);
+}
+
+void Level::createPlatform(float x, float y, float w, float h, b2BodyType type)
+{
+	b2BodyDef platDef;
+	platDef.position.Set(x, y);
+	platDef.type = type;
+	b2Body * plat = boxWorldPtr->CreateBody(&platDef);
+
+	b2PolygonShape platShape;
+	platShape.SetAsBox(w / 2, h/2);
+
+	plat->CreateFixture(&platShape, 1.0f);
+
+	platforms.push_back(plat);
 }
 
 //ZWRACA PLAYERHANDLE
