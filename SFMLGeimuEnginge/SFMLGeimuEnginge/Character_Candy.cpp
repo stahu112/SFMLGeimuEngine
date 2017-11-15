@@ -57,9 +57,6 @@ void Character_Candy::update(float dt)
 	float force = body->GetMass() * velChange / dt;
 	body->ApplyForce(b2Vec2(force, 0), body->GetWorldCenter(), true);
 
-	if (currentState == CState::Jump && !inAir) jump();
-	if (currentState == CState::Catapult && !inAir) catapult();
-
 	setPosition(pos);
 
 	processStates();
@@ -177,18 +174,7 @@ void Character_Candy::processStates()
 		break;
 	}
 
-	if (inAir)
-	{
-		body->SetLinearVelocity(b2Vec2(body->GetLinearVelocity().x + goalVelocity.x*0.2, body->GetLinearVelocity().y));
-	}
-	else if (velocity.x == 0) goalVelocity.x = 0;
-	if ((currentState != CState::Catapult ||
-		currentState != CState::Jump ||
-		currentState != CState::Dive) &&
-		body->GetLinearVelocity().y == 0)
-	{
-		inAir = false;
-	}
+	if (velocity.x == 0) goalVelocity.x = 0;
 	if (currentState != CState::Slide && currentState != CState::Crouch) body->SetTransform(body->GetPosition(), 0);
 }
 
@@ -227,7 +213,7 @@ void Character_Candy::createRigidBody()
 	body = boxWorldPtr->CreateBody(&bodyDef);
 
 	b2PolygonShape dynamicBox;
-	dynamicBox.SetAsBox(0.35, 0.95);
+	dynamicBox.SetAsBox(0.45, 1);
 
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &dynamicBox;
@@ -237,6 +223,33 @@ void Character_Candy::createRigidBody()
 	body->CreateFixture(&fixtureDef);
 	body->SetFixedRotation(true);
 	body->SetGravityScale(2);
+
+	b2PolygonShape sensorLow;
+	sensorLow.SetAsBox(0.45, 0.1, b2Vec2(Position.x/32, Position.y/32 + 1.05), 0);
+
+	b2FixtureDef sensorLowFix;
+	sensorLowFix.shape = &sensorLow;
+	sensorLowFix.isSensor = true;
+	
+	b2PolygonShape sensorLWall;
+
+	sensorLWall.SetAsBox(0.1, 1, b2Vec2(Position.x / 32 + 0.5, Position.y / 32 ), 0);
+
+	b2FixtureDef sensorLWallFix;
+	sensorLWallFix.shape = &sensorLWall;
+	sensorLWallFix.isSensor = true;
+
+	b2PolygonShape sensorRWall;
+
+	sensorRWall.SetAsBox(0.1, 1, b2Vec2(Position.x / 32 - 0.5, Position.y / 32), 0);
+
+	b2FixtureDef sensorRWallFix;
+	sensorRWallFix.shape = &sensorRWall;
+	sensorRWallFix.isSensor = true;
+
+	body->CreateFixture(&sensorLowFix);
+	body->CreateFixture(&sensorLWallFix);
+	body->CreateFixture(&sensorRWallFix);
 
 }
 
@@ -290,20 +303,20 @@ Character_Candy::Character_Candy(State::Playing & state)
 
 void Character_Candy::jump()
 {
-	if (!inAir)
+	if (onGround)
 	{
 		float impulse = body->GetMass() * 10;
 		body->ApplyLinearImpulse(b2Vec2(0, -impulse), body->GetWorldCenter(), true);
-		inAir = true;
+		onGround = false;
 	}
 }
 
 void Character_Candy::catapult()
 {
-	if (!inAir)
+	if (onGround)
 	{
 		float impulse = body->GetMass() * 12;
 		body->ApplyLinearImpulse(b2Vec2(0, -impulse), body->GetWorldCenter(), true);
-		inAir = true;
+		onGround = false;
 	}
 }

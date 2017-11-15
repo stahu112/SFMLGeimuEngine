@@ -41,7 +41,7 @@ private:
 
 	std::map<AnimationID, Animation> m_animations;
 
-	bool inAir = false, slide = false, crouch = false;
+	bool onGround = true, slide = false, crouch = false;
 
 public:
 
