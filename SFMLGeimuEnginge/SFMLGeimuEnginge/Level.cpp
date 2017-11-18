@@ -1,4 +1,5 @@
 #include "Level.h"
+#include "ColFilters.h"
 #include "States\Playing_State.h"
 
 void Level::createRoom()
@@ -22,9 +23,14 @@ void Level::createPlatform(float x, float y, float w, float h, b2BodyType type)
 	platDef.position.Set(x, y);
 	platDef.type = type;
 	b2Body * plat = boxWorldPtr->CreateBody(&platDef);
-
+	
 	b2PolygonShape platShape;
 	platShape.SetAsBox(w / 2, h/2);
+
+	b2FixtureDef fix;
+	fix.density = 1.0f;
+	fix.shape = &platShape;
+	fix.filter.categoryBits = ColFilters::Walls;
 
 	plat->CreateFixture(&platShape, 1.0f);
 
