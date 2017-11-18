@@ -17,6 +17,8 @@ protected:
 
 public:
 
+	bool onGround = false, slide = false, crouch = false;
+
 	void draw();
 
 	virtual void processStates() = 0;

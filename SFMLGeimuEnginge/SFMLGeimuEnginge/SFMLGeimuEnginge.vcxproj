@@ -178,6 +178,7 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="Character_Candy.h" />
+    <ClInclude Include="ColFilters.h" />
     <ClInclude Include="Display.h" />
     <ClInclude Include="Game_Object.h" />
     <ClInclude Include="InputHandler.h" />

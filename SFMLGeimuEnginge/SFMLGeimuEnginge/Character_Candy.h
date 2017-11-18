@@ -41,8 +41,6 @@ private:
 
 	std::map<AnimationID, Animation> m_animations;
 
-	bool onGround = true, slide = false, crouch = false;
-
 public:
 
 	void input();

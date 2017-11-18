@@ -137,5 +137,8 @@
     <ClInclude Include="MyColCallback.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ColFilters.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

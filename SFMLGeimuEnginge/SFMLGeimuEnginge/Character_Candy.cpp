@@ -1,7 +1,10 @@
 #include "Character_Candy.h"
 #include "States\Playing_State.h"
+#include "ColFilters.h"
 
 #define DEGTORAD 0.01745329252;
+
+bool once = false;
 
 void Character_Candy::input()
 {
@@ -18,14 +21,16 @@ void Character_Candy::input()
 		velocity.x = 0;
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && !once)
 	{
-		velocity.y = -1;
+		jump();
+		once = true;
 	}
 	else
 	{
-		velocity.y = 0;
+		once = false;
 	}
+	
 
 	if (InputHandler::checkDown(sf::Keyboard::LControl))
 	{
@@ -49,8 +54,17 @@ void Character_Candy::update(float dt)
 
 	b2Vec2 vel = body->GetLinearVelocity();
 
-	if (goalVelocity.x > 0) { changeAnim(AnimationID::RunR); sprite.setTexture(Resource_Holder::get().getTexture(Texture_Name::spritesheet)); }
-	else if (goalVelocity.x < 0) { changeAnim(AnimationID::RunL); sprite.setTexture(Resource_Holder::get().getTexture(Texture_Name::spritesheet1)); }
+	if (goalVelocity.x > 0) 
+	{
+		changeAnim(AnimationID::RunR);
+		sprite.setTexture(Resource_Holder::get().getTexture(Texture_Name::spritesheet));
+	}
+	
+	else if (goalVelocity.x < 0)
+	{ 
+		changeAnim(AnimationID::RunL);
+		sprite.setTexture(Resource_Holder::get().getTexture(Texture_Name::spritesheet1));
+	}
 	else { changeAnim(AnimationID::Idle); }
 
 	float velChange = goalVelocity.x - vel.x;
@@ -61,7 +75,7 @@ void Character_Candy::update(float dt)
 
 	processStates();
 
-	std::cout << (int)currentState << std::endl;
+	std::cout << onGround << std::endl;
 
 	sprite.setPosition(pos);
 
@@ -206,6 +220,11 @@ void Character_Candy::createRigidBody()
 {
 	b2BodyDef bodyDef;
 
+	b2FixtureDef fixtureDef;
+	b2FixtureDef sensorLowFix;
+	b2FixtureDef sensorLWallFix;
+	b2FixtureDef sensorRWallFix;
+
 	bodyDef.type = b2_dynamicBody;
 
 	bodyDef.position.Set(Position.x/32, Position.y/32);
@@ -213,43 +232,40 @@ void Character_Candy::createRigidBody()
 	body = boxWorldPtr->CreateBody(&bodyDef);
 
 	b2PolygonShape dynamicBox;
-	dynamicBox.SetAsBox(0.45, 1);
-
-	b2FixtureDef fixtureDef;
+	dynamicBox.SetAsBox(0.40, 0.95);
+	
 	fixtureDef.shape = &dynamicBox;
 	fixtureDef.density = 1.0f;
-	fixtureDef.friction = 0.1f;
+	fixtureDef.friction = 0.f;
 
 	body->CreateFixture(&fixtureDef);
 	body->SetFixedRotation(true);
 	body->SetGravityScale(2);
 
 	b2PolygonShape sensorLow;
-	sensorLow.SetAsBox(0.45, 0.1, b2Vec2(Position.x/32, Position.y/32 + 1.05), 0);
+	sensorLow.SetAsBox(0.38, 0.1, b2Vec2(Position.x/32, Position.y/32 + 0.95), 0);
 
-	b2FixtureDef sensorLowFix;
 	sensorLowFix.shape = &sensorLow;
 	sensorLowFix.isSensor = true;
 	
-	b2PolygonShape sensorLWall;
-
-	sensorLWall.SetAsBox(0.1, 1, b2Vec2(Position.x / 32 + 0.5, Position.y / 32 ), 0);
-
-	b2FixtureDef sensorLWallFix;
-	sensorLWallFix.shape = &sensorLWall;
-	sensorLWallFix.isSensor = true;
-
 	b2PolygonShape sensorRWall;
 
-	sensorRWall.SetAsBox(0.1, 1, b2Vec2(Position.x / 32 - 0.5, Position.y / 32), 0);
+	sensorRWall.SetAsBox(0.1, 0.5, b2Vec2(Position.x / 32 + 0.41, Position.y / 32 + size.y / 32 / 6), 0);
 
-	b2FixtureDef sensorRWallFix;
 	sensorRWallFix.shape = &sensorRWall;
 	sensorRWallFix.isSensor = true;
 
-	body->CreateFixture(&sensorLowFix);
-	body->CreateFixture(&sensorLWallFix);
+	b2PolygonShape sensorLWall;
+
+	sensorLWall.SetAsBox(0.1, 0.5, b2Vec2(Position.x / 32 - 0.41, Position.y / 32 + size.y / 32 / 6), 0);
+
+	sensorLWallFix.shape = &sensorLWall;
+	sensorLWallFix.isSensor = true;
+
+	b2Fixture* footSensorFixture = body->CreateFixture(&sensorLowFix);
+	footSensorFixture->SetUserData((void*)3);
 	body->CreateFixture(&sensorRWallFix);
+	body->CreateFixture(&sensorLWallFix);
 
 }
 
@@ -307,7 +323,6 @@ void Character_Candy::jump()
 	{
 		float impulse = body->GetMass() * 10;
 		body->ApplyLinearImpulse(b2Vec2(0, -impulse), body->GetWorldCenter(), true);
-		onGround = false;
 	}
 }
 
@@ -317,6 +332,5 @@ void Character_Candy::catapult()
 	{
 		float impulse = body->GetMass() * 12;
 		body->ApplyLinearImpulse(b2Vec2(0, -impulse), body->GetWorldCenter(), true);
-		onGround = false;
 	}
 }

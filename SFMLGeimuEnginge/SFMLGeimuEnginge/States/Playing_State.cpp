@@ -1,6 +1,7 @@
 #include "Playing_State.h"
 #include "Menu_State.h"
 #include "../SFMLDebugDraw.h"
+#include "../MyColCallback.h"
 
 #include <fstream>
 #include <math.h>
@@ -9,37 +10,7 @@
 #define DEBUGMODE true
 
 SFMLDebugDraw debugDraw;
-
-//global scope
-int numFootContacts = 0;
-
-//in constructor
-class MyContactListener : public b2ContactListener
-{
-	void BeginContact(b2Contact* contact) {
-		//check if fixture A was the foot sensor
-		void* fixtureUserData = contact->GetFixtureA()->GetUserData();
-		if ((int)fixtureUserData == 3)
-			numFootContacts++;
-		//check if fixture B was the foot sensor
-		fixtureUserData = contact->GetFixtureB()->GetUserData();
-		if ((int)fixtureUserData == 3)
-			numFootContacts++;
-	}
-
-	void EndContact(b2Contact* contact) {
-		//check if fixture A was the foot sensor
-		void* fixtureUserData = contact->GetFixtureA()->GetUserData();
-		if ((int)fixtureUserData == 3)
-			numFootContacts--;
-		//check if fixture B was the foot sensor
-		fixtureUserData = contact->GetFixtureB()->GetUserData();
-		if ((int)fixtureUserData == 3)
-			numFootContacts--;
-	}
-};
-
-MyContactListener * conlist = new MyContactListener;
+MyColCallback colCall;
 
 namespace State
 {
@@ -48,6 +19,7 @@ namespace State
 		: Game_State(application)
 	{
 		initState();
+		colCall.state = this;
 	}
 	
 	void Playing::reInit()
@@ -63,7 +35,7 @@ namespace State
 		changeLevel(LevelID::level0);
 		world->SetDebugDraw(&debugDraw);
 		debugDraw.SetFlags(b2Draw::e_shapeBit);
-		world->SetContactListener(conlist);
+		world->SetContactListener(&colCall);
 		//currentLevel = &m_levels.at(LevelID::level0);
 	}
 
