@@ -140,5 +140,8 @@
     <ClInclude Include="ColFilters.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="UtilFunc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

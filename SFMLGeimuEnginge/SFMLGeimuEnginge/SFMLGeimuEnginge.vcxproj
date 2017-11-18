@@ -194,6 +194,7 @@
     <ClInclude Include="States\Menu_State.h" />
     <ClInclude Include="States\Playing_State.h" />
     <ClInclude Include="States\Splash_Screen_State.h" />
+    <ClInclude Include="UtilFunc.h" />
     <ClInclude Include="Util\Random.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

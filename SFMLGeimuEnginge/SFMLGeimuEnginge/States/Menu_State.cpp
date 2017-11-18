@@ -62,9 +62,6 @@ namespace State
 	//##############
 	void Menu::input()
 	{
-		
-		if (InputHandler::checkUp(sf::Keyboard::Unknown)) once = false;
-
 		if (choice < 0) choice = 0;
 		if (choice > 3) choice = 3;
 
@@ -78,6 +75,8 @@ namespace State
 			choice++;
 			once = true;
 		}
+		else if (InputHandler::checkUp(sf::Keyboard::S) || InputHandler::checkUp(sf::Keyboard::Down) ||
+			InputHandler::checkUp(sf::Keyboard::W) || InputHandler::checkUp(sf::Keyboard::Up)) once = false;
 	}
 
 	void Menu::update(float dt)
@@ -250,9 +249,9 @@ namespace State
 					break;
 
 				case 1:
-					currMenu = men::main;
 					volb = false;
 					choice = 0;
+					currMenu = men::main;
 					if(fullON) Display::setFull(false);
 					else Display::setFull(true);
 					break;

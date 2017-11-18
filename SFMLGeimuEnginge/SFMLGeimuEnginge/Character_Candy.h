@@ -32,6 +32,10 @@ private:
 		Slide
 	};
 
+	float force = 0, force1 = 0;
+	float velChange = 0;
+	b2Vec2 vel = { 0, 0 };
+
 	Animation * animation = nullptr;
 	AnimationID currentAnim = AnimationID::Idle;
 
@@ -43,10 +47,10 @@ private:
 
 public:
 
-	void input();
+	void input(float dt);
 
 	void update(float dt) override;
-	void processStates() override;
+	void processStates(float dt) override;
 
 	void setCurrentAnim();
 	void changeAnim(AnimationID anim);

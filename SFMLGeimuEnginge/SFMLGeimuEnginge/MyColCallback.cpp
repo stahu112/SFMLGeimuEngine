@@ -10,15 +10,15 @@ void MyColCallback::BeginContact(b2Contact * contact)
 	void* fixtureUserDataA = contact->GetFixtureA()->GetUserData();
 	void* fixtureUserDataB = contact->GetFixtureB()->GetUserData();
 
-	std::cout << "Begin" << std::endl;
-
 	if ( (int)fixtureUserDataA == 3)
 	{
 		state->getPlayer()->onGround = true;
+		state->getPlayer()->goalVelocity.x = 0;
 	}
 	if ((int)fixtureUserDataB == 3)
 	{
 		state->getPlayer()->onGround = true;
+		state->getPlayer()->goalVelocity.x = 0;
 	}
 
 }
@@ -30,8 +30,6 @@ void MyColCallback::EndContact(b2Contact * contact)
 
 	void* fixtureUserDataA = contact->GetFixtureA()->GetUserData();
 	void* fixtureUserDataB = contact->GetFixtureB()->GetUserData();
-
-	std::cout << "End" << std::endl;
 
 	if ((int)fixtureUserDataA == 3)
 	{

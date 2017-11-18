@@ -1,58 +1,70 @@
 #include "Character_Candy.h"
 #include "States\Playing_State.h"
 #include "ColFilters.h"
+#include "UtilFunc.h"
 
 #define DEGTORAD 0.01745329252;
 
 bool once = false;
 
-void Character_Candy::input()
+void Character_Candy::input(float dt)
 {
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+	if (onGround)
 	{
-		velocity.x = 1;
-	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-	{
-		velocity.x = -1;
-	}
-	else
-	{			
-		velocity.x = 0;
-	}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+		{
+			jump();
+		}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && !once)
-	{
-		jump();
-		once = true;
-	}
-	else
-	{
-		once = false;
-	}
-	
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+		{
+			goalVelocity.x = 5;
+		}
+		else if (InputHandler::checkUp(sf::Keyboard::D))
+		{
+			goalVelocity.x = 0;
+		}
 
-	if (InputHandler::checkDown(sf::Keyboard::LControl))
-	{
-		if (velocity.x != 0) slide = true;
-		else crouch = true;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+		{
+			goalVelocity.x = -5;
+		}
+		else if (InputHandler::checkUp(sf::Keyboard::A))
+		{
+			goalVelocity.x = 0;
+		}
 	}
-	else if (InputHandler::checkUp(sf::Keyboard::LControl))
+	else if (!onGround && !crouch)
 	{
-		slide = false;
-		crouch = false;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+		{
+			goalVelocity.x += 10*dt;
+			if(goalVelocity.x >= 5) goalVelocity.x = 5;
+		}
+		else
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+		{
+			goalVelocity.x -= 10*dt;
+			if (goalVelocity.x <= -5) goalVelocity.x = -5;
+		}
+		else 
+		{
+			if(goalVelocity.x > 0) goalVelocity.x -= 5*dt;
+			if (goalVelocity.x < 0) goalVelocity.x += 5 * dt;
+		}
 	}
-
 }
 
 void Character_Candy::update(float dt)
 {
 
-	input();
+	input(dt);
 
 	sf::Vector2f pos = sf::Vector2f(body->GetPosition().x * 32 - 16, body->GetPosition().y * 32 - 32);
 
-	b2Vec2 vel = body->GetLinearVelocity();
+	vel = body->GetLinearVelocity();
+
+	processStates(dt);
 
 	if (goalVelocity.x > 0) 
 	{
@@ -67,32 +79,28 @@ void Character_Candy::update(float dt)
 	}
 	else { changeAnim(AnimationID::Idle); }
 
-	float velChange = goalVelocity.x - vel.x;
-	float force = body->GetMass() * velChange / dt;
-	body->ApplyForce(b2Vec2(force, 0), body->GetWorldCenter(), true);
+	body->SetLinearVelocity(b2Vec2(Utils::approach(goalVelocity.x, vel.x, dt), vel.y));
 
 	setPosition(pos);
 
-	processStates();
-
-	std::cout << onGround << std::endl;
-
-	sprite.setPosition(pos);
+	//std::cout << onGround << std::endl;
 
 	updateAnim();
+	sprite.setPosition(pos);
+
 }
 
-void Character_Candy::processStates()
+void Character_Candy::processStates(float dt)
 {
 
 	switch (currentState)
 	{
 	case CState::Idle:
-		if (velocity.x > 0)
+		if (vel.x > 0)
 		{
 			currentState = CState::RunR;
 		}
-		if (velocity.x < 0)
+		if (vel.x < 0)
 		{
 			currentState = CState::RunL;
 		}
@@ -102,85 +110,83 @@ void Character_Candy::processStates()
 			currentState = CState::Crouch;
 		}
 
-		if (velocity.y < 0)
+		if (vel.y < 0)
 		{
 			currentState = CState::Jump;
 		}
 		break;
 
 	case CState::RunR:
-		goalVelocity.x = 5;
 
-		if (velocity.x == 0)
+		if (vel.x == 0)
 		{
 			currentState = CState::Idle;
-			goalVelocity.x = 0;
 		}
 
-		if (slide)
+		if (crouch)
 		{
-			currentState = CState::Slide;
+			currentState = CState::Crouch;
 		}
 
-		if (velocity.x < 0)
+		if (vel.x < 0)
 		{
 			currentState = CState::RunL;
 		}
 
-		if (velocity.y < 0)
+		if (vel.y < 0)
 		{
 			currentState = CState::Jump;
 		}
 		break;
 
 	case CState::RunL:
-		goalVelocity.x = -5;
 
-		if (velocity.x == 0)
+		if (vel.x == 0)
 		{
 			currentState = CState::Idle;
-			goalVelocity.x = 0;
 		}
 
-		if (slide)
+		if (crouch)
 		{
-			currentState = CState::Slide;
+			currentState = CState::Crouch;
 		}
 
-		if (velocity.x > 0)
+		if (vel.x > 0)
 		{
 			currentState = CState::RunR;
 		}
 
-		if (velocity.y < 0)
+		if (vel.y < 0)
 		{
 			currentState = CState::Jump;
 		}
 		break;
 
 	case CState::Jump:
-		if (body->GetLinearVelocity().y > 0) currentState = CState::Dive;
-		break;
-
-	case CState::Dive:
-		if (body->GetLinearVelocity().y == 0)
+	
+		if (vel.y > 0)
 		{
-			currentState = CState::Idle;
+			currentState = CState::Dive;
 		}
 		break;
 
-	case CState::Slide:
-		body->SetTransform(body->GetPosition(), 90 * 0.01745329252);
-		if (velocity.x == 0) currentState = CState::Idle;
-		if (body->GetLinearVelocity().x != 0 && velocity.y < 0)
+	case CState::Dive:
+		
+		if (vel.y == 0)
 		{
-			currentState = CState::Catapult;
+			currentState = CState::Idle;
 		}
 		break;
 
 	case CState::Crouch:
 		if (!crouch) currentState = CState::Idle;
 		body->SetTransform(body->GetPosition(), 90 * 0.01745329252);
+
+		if (vel.y < 0)
+		{
+			currentState = CState::Catapult;
+		}
+
 		break;
 
 	case CState::Catapult:
@@ -188,8 +194,7 @@ void Character_Candy::processStates()
 		break;
 	}
 
-	if (velocity.x == 0) goalVelocity.x = 0;
-	if (currentState != CState::Slide && currentState != CState::Crouch) body->SetTransform(body->GetPosition(), 0);
+	if (currentState != CState::Crouch) body->SetTransform(body->GetPosition(), 0);
 }
 
 void Character_Candy::setCurrentAnim()
@@ -264,9 +269,12 @@ void Character_Candy::createRigidBody()
 
 	b2Fixture* footSensorFixture = body->CreateFixture(&sensorLowFix);
 	footSensorFixture->SetUserData((void*)3);
-	body->CreateFixture(&sensorRWallFix);
-	body->CreateFixture(&sensorLWallFix);
 
+	b2Fixture* WallLFixture = body->CreateFixture(&sensorLWallFix);
+	WallLFixture->SetUserData((void*)2);
+
+	b2Fixture* WallRFixture = body->CreateFixture(&sensorRWallFix);
+	WallRFixture->SetUserData((void*)1);
 }
 
 void Character_Candy::initAnimations()
@@ -321,16 +329,13 @@ void Character_Candy::jump()
 {
 	if (onGround)
 	{
-		float impulse = body->GetMass() * 10;
+		float impulse = body->GetMass() * 3.5;
 		body->ApplyLinearImpulse(b2Vec2(0, -impulse), body->GetWorldCenter(), true);
 	}
 }
 
 void Character_Candy::catapult()
 {
-	if (onGround)
-	{
-		float impulse = body->GetMass() * 12;
-		body->ApplyLinearImpulse(b2Vec2(0, -impulse), body->GetWorldCenter(), true);
-	}
+	float impulse = body->GetMass() * 5;
+	body->ApplyLinearImpulse(b2Vec2(0, -impulse), body->GetWorldCenter(), true);
 }

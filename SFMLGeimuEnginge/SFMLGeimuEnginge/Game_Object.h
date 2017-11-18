@@ -21,6 +21,8 @@ public:
 	sf::Vector2f getSize() const;
 	sf::Vector2f & getVelocity();
 
+	sf::Vector2f goalVelocity = { 0,0 };
+
 	void move(sf::Vector2f moveo);
 
 private:
@@ -31,7 +33,6 @@ protected:
 
 	sf::Vector2f size = {1, 1};
 
-	sf::Vector2f goalVelocity = {0,0};
 	sf::Vector2f velocity = {0,0};
 
 	sf::Vector2f Position = {0,0};

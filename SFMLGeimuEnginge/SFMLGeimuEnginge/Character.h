@@ -21,7 +21,7 @@ public:
 
 	void draw();
 
-	virtual void processStates() = 0;
+	virtual void processStates(float dt) = 0;
 	virtual void update(float dt) = 0;
 
 	Character();
