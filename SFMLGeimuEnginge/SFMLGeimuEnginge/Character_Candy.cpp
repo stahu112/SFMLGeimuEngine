@@ -16,6 +16,11 @@ void Character_Candy::input(float dt)
 			jump();
 		}
 
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl))
+		{
+			catapult();
+		}
+
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 		{
 			goalVelocity.x = 5;
@@ -32,25 +37,6 @@ void Character_Candy::input(float dt)
 		else if (InputHandler::checkUp(sf::Keyboard::A))
 		{
 			goalVelocity.x = 0;
-		}
-	}
-	else if (!onGround && !crouch)
-	{
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-		{
-			goalVelocity.x += 10*dt;
-			if(goalVelocity.x >= 5) goalVelocity.x = 5;
-		}
-		else
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-		{
-			goalVelocity.x -= 10*dt;
-			if (goalVelocity.x <= -5) goalVelocity.x = -5;
-		}
-		else 
-		{
-			if(goalVelocity.x > 0) goalVelocity.x -= 5*dt;
-			if (goalVelocity.x < 0) goalVelocity.x += 5 * dt;
 		}
 	}
 }
@@ -79,7 +65,9 @@ void Character_Candy::update(float dt)
 	}
 	else { changeAnim(AnimationID::Idle); }
 
-	body->SetLinearVelocity(b2Vec2(Utils::approach(goalVelocity.x, vel.x, dt), vel.y));
+	vel.x = Utils::approach(goalVelocity.x, vel.x, dt);
+
+	body->SetLinearVelocity(vel);
 
 	setPosition(pos);
 
@@ -105,11 +93,6 @@ void Character_Candy::processStates(float dt)
 			currentState = CState::RunL;
 		}
 
-		if (crouch)
-		{
-			currentState = CState::Crouch;
-		}
-
 		if (vel.y < 0)
 		{
 			currentState = CState::Jump;
@@ -121,11 +104,6 @@ void Character_Candy::processStates(float dt)
 		if (vel.x == 0)
 		{
 			currentState = CState::Idle;
-		}
-
-		if (crouch)
-		{
-			currentState = CState::Crouch;
 		}
 
 		if (vel.x < 0)
@@ -144,11 +122,6 @@ void Character_Candy::processStates(float dt)
 		if (vel.x == 0)
 		{
 			currentState = CState::Idle;
-		}
-
-		if (crouch)
-		{
-			currentState = CState::Crouch;
 		}
 
 		if (vel.x > 0)
@@ -178,23 +151,10 @@ void Character_Candy::processStates(float dt)
 		}
 		break;
 
-	case CState::Crouch:
-		if (!crouch) currentState = CState::Idle;
-		body->SetTransform(body->GetPosition(), 90 * 0.01745329252);
-
-		if (vel.y < 0)
-		{
-			currentState = CState::Catapult;
-		}
-
-		break;
-
 	case CState::Catapult:
-		if (body->GetLinearVelocity().y > 0) currentState = CState::Dive;
+		if (vel.y > 0) currentState = CState::Dive;
 		break;
 	}
-
-	if (currentState != CState::Crouch) body->SetTransform(body->GetPosition(), 0);
 }
 
 void Character_Candy::setCurrentAnim()

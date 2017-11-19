@@ -5,7 +5,7 @@ namespace Utils
 	float approach(float goal, float current, float dt)
 	{
 
-		dt *= 1200;
+		dt *= 50;
 
 		float delta = goal - current;
 
