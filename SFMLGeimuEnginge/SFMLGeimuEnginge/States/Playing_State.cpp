@@ -53,6 +53,7 @@ namespace State
 		level0.createPlatform(15, level0.getSize().y - 6, 5, 1, b2_staticBody);
 		level0.createPlatform(10, level0.getSize().y - 8, 4, 1, b2_staticBody);
 		level0.createPlatform(29, level0.getSize().y - 6, 1, 10, b2_staticBody);
+		level0.createPlatform(26, level0.getSize().y - 8, 1, 10, b2_staticBody);
 
 		Level level1(
 			50,

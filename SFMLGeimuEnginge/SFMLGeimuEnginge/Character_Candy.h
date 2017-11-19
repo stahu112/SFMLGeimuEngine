@@ -68,4 +68,6 @@ public:
 	//Commands
 	void jump();
 	void catapult();
+
+	void wallJump();
 };

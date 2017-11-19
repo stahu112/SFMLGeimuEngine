@@ -17,7 +17,8 @@ protected:
 
 public:
 
-	bool onGround = false, slide = false, crouch = false;
+	bool onGround = false, wallL = false, wallR = false, wallDone = false;
+	int tim = 0;
 
 	void draw();
 

@@ -39,6 +39,69 @@ void Character_Candy::input(float dt)
 			goalVelocity.x = 0;
 		}
 	}
+	else
+	{
+		if (wallR)
+		{
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+			{
+				if (goalVelocity.x < -5) goalVelocity.x = -5;
+				goalVelocity.x -= dt * 10;
+			}
+			else
+			{
+				goalVelocity.x += dt * 10; 
+				if (goalVelocity.x > 0) goalVelocity.x = 0;
+			}
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+			{
+				float impulse = body->GetMass() * 4;
+				goalVelocity.x = -5;
+				body->ApplyLinearImpulse(b2Vec2(-impulse*1.5, -impulse), body->GetWorldCenter(), true);
+				wallDone = true;
+			}
+		}
+
+		if (wallL)
+		{
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+			{
+				if (goalVelocity.x > 5) goalVelocity.x = 5;
+				goalVelocity.x += dt * 10;
+			}
+			else
+			{
+				goalVelocity.x -= dt * 10;
+				if (goalVelocity.x < 0) goalVelocity.x = 0; 
+			}
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+			{
+				float impulse = body->GetMass() * 4;
+				goalVelocity.x = 5;
+				body->ApplyLinearImpulse(b2Vec2(impulse*1.5, -impulse), body->GetWorldCenter(), true);
+				wallDone = true;
+			}
+		}
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+		{
+			if (goalVelocity.x > 5) goalVelocity.x = 5;
+			goalVelocity.x += dt * 10;
+		}
+		else
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+		{
+			if (goalVelocity.x < -5) goalVelocity.x = -5;
+			goalVelocity.x -= dt * 10;
+		}
+		else
+		{
+			if (goalVelocity.x < 0) { goalVelocity.x += dt * 10; if (goalVelocity.x > 0) goalVelocity.x = 0; }
+			else if (goalVelocity.x > 0) { goalVelocity.x -= dt * 10; if (goalVelocity.x < 0) goalVelocity.x = 0; }
+		}
+	}
 }
 
 void Character_Candy::update(float dt)
@@ -49,6 +112,8 @@ void Character_Candy::update(float dt)
 	sf::Vector2f pos = sf::Vector2f(body->GetPosition().x * 32 - 16, body->GetPosition().y * 32 - 32);
 
 	vel = body->GetLinearVelocity();
+
+	if (vel.y < -10) vel.y = -10;
 
 	processStates(dt);
 
@@ -64,6 +129,8 @@ void Character_Candy::update(float dt)
 		sprite.setTexture(Resource_Holder::get().getTexture(Texture_Name::spritesheet1));
 	}
 	else { changeAnim(AnimationID::Idle); }
+
+	if (wallL || wallR) wallJump();
 
 	vel.x = Utils::approach(goalVelocity.x, vel.x, dt);
 
@@ -215,14 +282,14 @@ void Character_Candy::createRigidBody()
 	
 	b2PolygonShape sensorRWall;
 
-	sensorRWall.SetAsBox(0.1, 0.5, b2Vec2(Position.x / 32 + 0.41, Position.y / 32 + size.y / 32 / 6), 0);
+	sensorRWall.SetAsBox(0.02, 0.5, b2Vec2(Position.x / 32 + 0.41, Position.y / 32 + size.y / 32 / 6), 0);
 
 	sensorRWallFix.shape = &sensorRWall;
 	sensorRWallFix.isSensor = true;
 
 	b2PolygonShape sensorLWall;
 
-	sensorLWall.SetAsBox(0.1, 0.5, b2Vec2(Position.x / 32 - 0.41, Position.y / 32 + size.y / 32 / 6), 0);
+	sensorLWall.SetAsBox(0.02, 0.5, b2Vec2(Position.x / 32 - 0.41, Position.y / 32 + size.y / 32 / 6), 0);
 
 	sensorLWallFix.shape = &sensorLWall;
 	sensorLWallFix.isSensor = true;
@@ -289,13 +356,18 @@ void Character_Candy::jump()
 {
 	if (onGround)
 	{
-		float impulse = body->GetMass() * 3.5;
+		float impulse = body->GetMass() * 3.2;
 		body->ApplyLinearImpulse(b2Vec2(0, -impulse), body->GetWorldCenter(), true);
 	}
 }
 
 void Character_Candy::catapult()
 {
-	float impulse = body->GetMass() * 5;
+	float impulse = body->GetMass() * 4;
 	body->ApplyLinearImpulse(b2Vec2(0, -impulse), body->GetWorldCenter(), true);
+}
+
+void Character_Candy::wallJump()
+{
+	if (!wallDone) { vel.y = 0; }
 }
