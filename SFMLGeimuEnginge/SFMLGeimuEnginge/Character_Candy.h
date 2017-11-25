@@ -19,7 +19,9 @@ private:
 		Dive,
 		Slide,
 		Crouch,
-		Catapult
+		Catapult,
+		WallJumpR,
+		WallJumpL
 	};
 
 	enum class AnimationID
@@ -67,7 +69,6 @@ public:
 
 	//Commands
 	void jump();
-	void catapult();
 
-	void wallJump();
+	void wallJump(float dt);
 };

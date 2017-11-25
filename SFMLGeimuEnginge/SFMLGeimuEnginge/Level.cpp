@@ -1,26 +1,28 @@
+#include <fstream>
 #include "Level.h"
 #include "ColFilters.h"
 #include "States\Playing_State.h"
 
 void Level::createRoom()
 {
-	b2BodyDef roomDef;
-	roomDef.position.Set(size.x/2, size.y);
-	roomDef.type = b2_staticBody;
-	b2Body * room = boxWorldPtr->CreateBody(&roomDef);
+	b2BodyDef floorDef;
+	floorDef.position.Set(size.x/2, size.y + 0.5);
+	floorDef.type = b2_staticBody;
+	b2Body * floor = boxWorldPtr->CreateBody(&floorDef);
 
-	b2PolygonShape floor;
-	floor.SetAsBox(size.x/2 , 0.5);
+	b2PolygonShape floorShape;
+	floorShape.SetAsBox(size.x/2 , 0.5);
 
-	room->CreateFixture(&floor, 0.0f);
+	floor->CreateFixture(&floorShape, 0.0f);
 
-	platforms.push_back(room);
+	platforms.push_back(floor);
 }
 
+//STWORZ TILE'A
 void Level::createPlatform(float x, float y, float w, float h, b2BodyType type)
 {
 	b2BodyDef platDef;
-	platDef.position.Set(x, y);
+	platDef.position.Set(x+w/2, y+h/2);
 	platDef.type = type;
 	b2Body * plat = boxWorldPtr->CreateBody(&platDef);
 	
@@ -116,6 +118,38 @@ void Level::drawLevel()
 {
 	if (isAnimated) { updateAnim(); }
 	Display::draw(backgroundTexture);
+}
+
+bool Level::loadLevel(std::string path)
+{
+	std::fstream file;
+
+	file.open(path, std::ios::in);
+
+	if (!file.good())
+	{
+		std::cout << "File not good";
+		return false;
+	}
+	else
+	{
+
+		for (int i = 0; i < size.y; i++)
+		{
+			for (int j = 0; j < size.x; j++)
+			{
+				int val;
+
+				file >> val;
+				
+				if (val) createPlatform(j, i, 1, 1, b2_staticBody);
+			}
+		}
+	}
+
+	file.close();
+
+	return true;
 }
 
 Level::Level(float width, float height, Texture_Name background, bool animated, State::Playing & state) :

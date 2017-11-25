@@ -34,7 +34,8 @@ void Application::runMainLoop()
 		fpst.setColor(sf::Color::Red);
 		fpst.setScale(0.25, 0.25);
 		fpst.setOrigin(fpst.getLocalBounds().width, 0);
-		fpst.setPosition(sf::Vector2f(Display::getView().getSize().x / 2 + Display::getView().getCenter().x, 0));
+		fpst.setPosition(sf::Vector2f(Display::getView().getSize().x / 2 + Display::getView().getCenter().x,
+			Display::getView().getCenter().y - Display::getView().getSize().y/2));
 
 		//EVENTY
 		Display::checkWindowEvents();

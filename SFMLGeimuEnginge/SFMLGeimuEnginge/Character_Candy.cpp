@@ -7,6 +7,8 @@
 
 bool once = false;
 
+float timer = 0;
+
 void Character_Candy::input(float dt)
 {
 	if (onGround)
@@ -16,32 +18,22 @@ void Character_Candy::input(float dt)
 			jump();
 		}
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl))
-		{
-			catapult();
-		}
-
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 		{
 			goalVelocity.x = 5;
 		}
-		else if (InputHandler::checkUp(sf::Keyboard::D))
-		{
-			goalVelocity.x = 0;
-		}
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 		{
 			goalVelocity.x = -5;
 		}
-		else if (InputHandler::checkUp(sf::Keyboard::A))
+		else 
 		{
 			goalVelocity.x = 0;
 		}
 	}
 	else
 	{
-		if (wallR)
+		if (wallR && !falling)
 		{
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 			{
@@ -56,14 +48,14 @@ void Character_Candy::input(float dt)
 
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 			{
-				float impulse = body->GetMass() * 4;
+				float impulse = body->GetMass();
 				goalVelocity.x = -5;
-				body->ApplyLinearImpulse(b2Vec2(-impulse*1.5, -impulse), body->GetWorldCenter(), true);
-				wallDone = true;
+				body->ApplyLinearImpulse(b2Vec2(-5, -impulse * 40), body->GetWorldCenter(), true);
+				wallDone = false;
 			}
 		}
 
-		if (wallL)
+		if (wallL && !falling)
 		{
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 			{
@@ -78,10 +70,10 @@ void Character_Candy::input(float dt)
 
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 			{
-				float impulse = body->GetMass() * 4;
+				float impulse = body->GetMass();
 				goalVelocity.x = 5;
-				body->ApplyLinearImpulse(b2Vec2(impulse*1.5, -impulse), body->GetWorldCenter(), true);
-				wallDone = true;
+				body->ApplyLinearImpulse(b2Vec2(5, -impulse * 40), body->GetWorldCenter(), true);
+				wallDone = false;
 			}
 		}
 
@@ -130,12 +122,55 @@ void Character_Candy::update(float dt)
 	}
 	else { changeAnim(AnimationID::Idle); }
 
-	if (wallL || wallR) wallJump();
-
 	vel.x = Utils::approach(goalVelocity.x, vel.x, dt);
 
-	body->SetLinearVelocity(vel);
+	//GROUND CONTACTS
+	//#############################
+	if (numContacts > 0)
+	{
+		onGround = true;
+		falling = false;
+	}
+	else
+	{
+		onGround = false;
+	}
 
+	//WALL CONTACTS
+	//#############################
+	if (numWallRContacts > 0)
+	{
+		wallR = true;
+	}
+	else
+	{
+		wallR = false;
+		wallDone = true;
+	}
+
+	if (numWallLContacts > 0)
+	{
+		wallL = true;
+	}
+	else
+	{
+		wallL = false;
+		wallDone = true;
+	}
+
+	body->SetLinearVelocity(vel);
+	
+	if (wallL || wallR)
+	{
+		wallJump(dt);
+	}
+	else
+	{
+		timer = 0;
+	}
+
+	std::cout << "numContacts" << numContacts << " numWallL" << numWallLContacts << " numWallR" << numWallRContacts << std::endl;
+	 
 	setPosition(pos);
 
 	//std::cout << onGround << std::endl;
@@ -218,10 +253,34 @@ void Character_Candy::processStates(float dt)
 		}
 		break;
 
-	case CState::Catapult:
-		if (vel.y > 0) currentState = CState::Dive;
+	case CState::WallJumpL:
+		
+		if (vel.y > 0)
+		{
+			currentState = CState::Dive;
+		}
+		else if (vel.y < 0)
+		{
+			currentState = CState::Jump;
+		}
 		break;
+
+	case CState::WallJumpR:
+
+		if (vel.y > 0)
+		{
+			currentState = CState::Dive;
+		}
+		else if (vel.y < 0)
+		{
+			currentState = CState::Jump;
+		}
+		break;
+
 	}
+
+	if (!onGround && numWallLContacts > 1) currentState = CState::WallJumpL;
+	if (!onGround && numWallRContacts > 1) currentState = CState::WallJumpR;
 }
 
 void Character_Candy::setCurrentAnim()
@@ -261,10 +320,23 @@ void Character_Candy::createRigidBody()
 
 	bodyDef.position.Set(Position.x/32, Position.y/32);
 
-	body = boxWorldPtr->CreateBody(&bodyDef);
+	body = boxWorldPtr->CreateBody(&bodyDef); 
+	
+	//0,8 1,9
+	//0,4 0,95
+
+	b2Vec2 vert[8];
+	vert[0].Set(-0.4, 0.94);
+	vert[1].Set(-0.35, 0.95);
+	vert[2].Set(0.35, 0.95);
+	vert[3].Set(0.4, 0.94);
+	vert[4].Set(0.4, -0.94);
+	vert[5].Set(0.35, -0.95);
+	vert[6].Set(-0.35, -0.95);
+	vert[7].Set(-0.4, -0.94);
 
 	b2PolygonShape dynamicBox;
-	dynamicBox.SetAsBox(0.40, 0.95);
+	dynamicBox.Set(vert, 8);
 	
 	fixtureDef.shape = &dynamicBox;
 	fixtureDef.density = 1.0f;
@@ -275,21 +347,21 @@ void Character_Candy::createRigidBody()
 	body->SetGravityScale(2);
 
 	b2PolygonShape sensorLow;
-	sensorLow.SetAsBox(0.38, 0.1, b2Vec2(Position.x/32, Position.y/32 + 0.95), 0);
+	sensorLow.SetAsBox(0.38, 0.05, b2Vec2(Position.x/32, Position.y/32 + 0.95), 0);
 
 	sensorLowFix.shape = &sensorLow;
 	sensorLowFix.isSensor = true;
 	
 	b2PolygonShape sensorRWall;
 
-	sensorRWall.SetAsBox(0.02, 0.5, b2Vec2(Position.x / 32 + 0.41, Position.y / 32 + size.y / 32 / 6), 0);
+	sensorRWall.SetAsBox(0.03, 0.4, b2Vec2(Position.x / 32 + 0.41, Position.y / 32), 0);
 
 	sensorRWallFix.shape = &sensorRWall;
 	sensorRWallFix.isSensor = true;
 
 	b2PolygonShape sensorLWall;
 
-	sensorLWall.SetAsBox(0.02, 0.5, b2Vec2(Position.x / 32 - 0.41, Position.y / 32 + size.y / 32 / 6), 0);
+	sensorLWall.SetAsBox(0.03, 0.4, b2Vec2(Position.x / 32 - 0.41, Position.y / 32), 0);
 
 	sensorLWallFix.shape = &sensorLWall;
 	sensorLWallFix.isSensor = true;
@@ -356,18 +428,24 @@ void Character_Candy::jump()
 {
 	if (onGround)
 	{
-		float impulse = body->GetMass() * 3.2;
+		float impulse = body->GetMass() * 5;
 		body->ApplyLinearImpulse(b2Vec2(0, -impulse), body->GetWorldCenter(), true);
 	}
 }
 
-void Character_Candy::catapult()
+void Character_Candy::wallJump(float dt)
 {
-	float impulse = body->GetMass() * 4;
-	body->ApplyLinearImpulse(b2Vec2(0, -impulse), body->GetWorldCenter(), true);
-}
+	if (wallDone && !falling)
+	{
+		timer += dt;
 
-void Character_Candy::wallJump()
-{
-	if (!wallDone) { vel.y = 0; }
+		if (timer < 20.f * dt && !onGround)
+		{
+			body->SetLinearVelocity(b2Vec2(vel.x, 0));
+		}
+		else
+		{
+			falling = true;
+		}
+	}
 }

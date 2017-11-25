@@ -10,33 +10,39 @@ void MyColCallback::BeginContact(b2Contact * contact)
 	void* fixtureUserDataA = contact->GetFixtureA()->GetUserData();
 	void* fixtureUserDataB = contact->GetFixtureB()->GetUserData();
 
+	//ONGROUND
 	if ( (int)fixtureUserDataA == 3)
 	{
-		state->getPlayer()->onGround = true;
-		state->getPlayer()->goalVelocity.x = 0;
+		//state->getPlayer()->onGround = true;
+		//state->getPlayer()->falling = false;
+		state->getPlayer()->numContacts++;
 	}
 	if ((int)fixtureUserDataB == 3)
 	{
-		state->getPlayer()->onGround = true;
-		state->getPlayer()->goalVelocity.x = 0;
+		//state->getPlayer()->onGround = true;
+		//state->getPlayer()->falling = false;
+		state->getPlayer()->numContacts++;
 	}
 
+	///////////////////////////////////////////////////////
+
+	//WALLJUMP
 	if ((int)fixtureUserDataA == 1)
 	{
-		if(!state->getPlayer()->onGround) state->getPlayer()->wallR = true;
+		state->getPlayer()->numWallRContacts++;
 	}
 	if ((int)fixtureUserDataB == 1)
 	{
-		if (!state->getPlayer()->onGround) state->getPlayer()->wallR = true;
+		state->getPlayer()->numWallRContacts++;
 	}
 
 	if ((int)fixtureUserDataA == 2)
 	{
-		if (!state->getPlayer()->onGround) state->getPlayer()->wallL = true;
+		state->getPlayer()->numWallLContacts++;
 	}
 	if ((int)fixtureUserDataB == 2)
 	{
-		if (!state->getPlayer()->onGround) state->getPlayer()->wallL = true;
+		state->getPlayer()->numWallLContacts++;
 	}
 
 }
@@ -49,35 +55,39 @@ void MyColCallback::EndContact(b2Contact * contact)
 	void* fixtureUserDataA = contact->GetFixtureA()->GetUserData();
 	void* fixtureUserDataB = contact->GetFixtureB()->GetUserData();
 
+
+	//ONGROUND
 	if ((int)fixtureUserDataA == 3)
 	{
-		state->getPlayer()->onGround = false;
+		//state->getPlayer()->onGround = false;
+		state->getPlayer()->numContacts--;
 	}
 	if ((int)fixtureUserDataB == 3)
 	{
-		state->getPlayer()->onGround = false;
+		//state->getPlayer()->onGround = false;
+		state->getPlayer()->numContacts--;
 	}
+	
 
+	///////////////////////////////////////////////////////
+
+	//WALLJUMP
 	if ((int)fixtureUserDataA == 1)
 	{
-		state->getPlayer()->wallDone = false;
-		state->getPlayer()->wallR = false;
+		state->getPlayer()->numWallRContacts--;
 	}
 	 if ((int)fixtureUserDataB == 1)
 	{
-		state->getPlayer()->wallR = false;
-		state->getPlayer()->wallDone = false;
+		state->getPlayer()->numWallRContacts--;
 	}
 
 	if ((int)fixtureUserDataA == 2)
 	{
-		state->getPlayer()->wallL = false;
-		state->getPlayer()->wallDone = false;
+		state->getPlayer()->numWallLContacts--;
 	}
 	if ((int)fixtureUserDataB == 2)
 	{
-		state->getPlayer()->wallL = false;
-		state->getPlayer()->wallDone = false;
+		state->getPlayer()->numWallLContacts--;
 	}
 
 }

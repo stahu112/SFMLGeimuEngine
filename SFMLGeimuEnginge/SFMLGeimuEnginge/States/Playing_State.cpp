@@ -42,18 +42,14 @@ namespace State
 	void Playing::initLevels()
 	{
 		Level level0(
-			30,
+			100,
 			20,
 			Texture_Name::test2,
 			false,
 			*this
 		);
 
-		level0.createPlatform(10, level0.getSize().y - 2, 2, 1, b2_staticBody);
-		level0.createPlatform(15, level0.getSize().y - 6, 5, 1, b2_staticBody);
-		level0.createPlatform(10, level0.getSize().y - 8, 4, 1, b2_staticBody);
-		level0.createPlatform(29, level0.getSize().y - 6, 1, 10, b2_staticBody);
-		level0.createPlatform(26, level0.getSize().y - 8, 1, 10, b2_staticBody);
+		level0.loadLevel("lev0.txt");
 
 		Level level1(
 			50,
@@ -78,9 +74,9 @@ namespace State
 
 	//Aktualizuj stany
 	void Playing::update(float dt)
-	{
+	{	
 		world->Step(dt, 10, 10);
-		
+
 		player->update(dt);
 
 		updateLevel(dt);

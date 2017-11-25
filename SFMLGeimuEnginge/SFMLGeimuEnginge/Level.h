@@ -68,5 +68,7 @@ public:
 	//Draw
 	void drawLevel();
 
+	bool loadLevel(std::string path);
+
 	Level(float width, float height, Texture_Name background, bool animated, State::Playing & state);
 };
