@@ -27,7 +27,20 @@ void Level::createPlatform(float x, float y, float w, float h, b2BodyType type)
 	b2Body * plat = boxWorldPtr->CreateBody(&platDef);
 	
 	b2PolygonShape platShape;
-	platShape.SetAsBox(w / 2, h/2);
+	//platShape.SetAsBox(w / 2, h/2);
+
+	b2Vec2 vert[8];
+	vert[0].Set(-w/2, -h/2 + 0.05);
+	vert[1].Set(-w/2 + 0.05, -h/2);
+	vert[2].Set(w/2 - 0.05, -h/2);
+	vert[3].Set(w/2, -h/2 + 0.05);
+	vert[4].Set(w/2, h/2 - 0.05);
+	vert[5].Set(w/2 - 0.05, h/2);
+	vert[6].Set(-w/2 + 0.05, h/2);
+	vert[7].Set(-w/2, h/2 - 0.05);
+
+	platShape.Set(vert, 8);
+
 
 	b2FixtureDef fix;
 	fix.density = 1.0f;

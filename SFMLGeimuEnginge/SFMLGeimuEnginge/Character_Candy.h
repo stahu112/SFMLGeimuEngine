@@ -71,4 +71,6 @@ public:
 	void jump();
 
 	void wallJump(float dt);
+
+	void pullUp(float dt);
 };

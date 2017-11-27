@@ -42,7 +42,7 @@ namespace State
 	void Playing::initLevels()
 	{
 		Level level0(
-			100,
+			50,
 			20,
 			Texture_Name::test2,
 			false,

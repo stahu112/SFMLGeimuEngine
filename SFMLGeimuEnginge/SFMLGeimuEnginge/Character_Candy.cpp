@@ -50,7 +50,7 @@ void Character_Candy::input(float dt)
 			{
 				float impulse = body->GetMass();
 				goalVelocity.x = -5;
-				body->ApplyLinearImpulse(b2Vec2(-5, -impulse * 40), body->GetWorldCenter(), true);
+				body->ApplyLinearImpulse(b2Vec2(-3, -impulse * 30), body->GetWorldCenter(), true);
 				wallDone = false;
 			}
 		}
@@ -72,8 +72,9 @@ void Character_Candy::input(float dt)
 			{
 				float impulse = body->GetMass();
 				goalVelocity.x = 5;
-				body->ApplyLinearImpulse(b2Vec2(5, -impulse * 40), body->GetWorldCenter(), true);
+				body->ApplyLinearImpulse(b2Vec2(3, -impulse * 30), body->GetWorldCenter(), true);
 				wallDone = false;
+
 			}
 		}
 
@@ -138,9 +139,17 @@ void Character_Candy::update(float dt)
 
 	//WALL CONTACTS
 	//#############################
+
+	body->SetLinearVelocity(vel);
+	
 	if (numWallRContacts > 0)
 	{
 		wallR = true;
+		if (numWallRContacts == 1)
+		{	
+			wallR = false;
+			pullUp(dt);
+		}
 	}
 	else
 	{
@@ -151,6 +160,11 @@ void Character_Candy::update(float dt)
 	if (numWallLContacts > 0)
 	{
 		wallL = true;
+		if (numWallLContacts == 1)
+		{
+			wallL = false;
+			pullUp(dt);
+		}
 	}
 	else
 	{
@@ -158,8 +172,6 @@ void Character_Candy::update(float dt)
 		wallDone = true;
 	}
 
-	body->SetLinearVelocity(vel);
-	
 	if (wallL || wallR)
 	{
 		wallJump(dt);
@@ -309,8 +321,10 @@ void Character_Candy::updateAnim()
 
 void Character_Candy::createRigidBody()
 {
+	//BODYDEF
 	b2BodyDef bodyDef;
 
+	//FIXTURES
 	b2FixtureDef fixtureDef;
 	b2FixtureDef sensorLowFix;
 	b2FixtureDef sensorLWallFix;
@@ -325,6 +339,8 @@ void Character_Candy::createRigidBody()
 	//0,8 1,9
 	//0,4 0,95
 
+
+	//MAIN BOX
 	b2Vec2 vert[8];
 	vert[0].Set(-0.4, 0.94);
 	vert[1].Set(-0.35, 0.95);
@@ -335,33 +351,39 @@ void Character_Candy::createRigidBody()
 	vert[6].Set(-0.35, -0.95);
 	vert[7].Set(-0.4, -0.94);
 
+	//SETBOX
 	b2PolygonShape dynamicBox;
 	dynamicBox.Set(vert, 8);
-	
+
+	//dynamicBox.SetAsBox(0.3, 0.750);
+
+	//SET FIXUTRE
 	fixtureDef.shape = &dynamicBox;
 	fixtureDef.density = 1.0f;
 	fixtureDef.friction = 0.f;
 
 	body->CreateFixture(&fixtureDef);
+
+	//SET ROTATION AND GRAV SCALE
 	body->SetFixedRotation(true);
-	body->SetGravityScale(2);
+	body->SetGravityScale(2.25);
 
 	b2PolygonShape sensorLow;
-	sensorLow.SetAsBox(0.38, 0.05, b2Vec2(Position.x/32, Position.y/32 + 0.95), 0);
+	sensorLow.SetAsBox(0.39, 0.05, b2Vec2(Position.x/32, Position.y/32 + 0.95), 0);
 
 	sensorLowFix.shape = &sensorLow;
 	sensorLowFix.isSensor = true;
 	
 	b2PolygonShape sensorRWall;
 
-	sensorRWall.SetAsBox(0.03, 0.4, b2Vec2(Position.x / 32 + 0.41, Position.y / 32), 0);
+	sensorRWall.SetAsBox(0.05, 0.45, b2Vec2(Position.x / 32 + 0.41, Position.y / 32 + 0.475), 0);
 
 	sensorRWallFix.shape = &sensorRWall;
 	sensorRWallFix.isSensor = true;
 
 	b2PolygonShape sensorLWall;
 
-	sensorLWall.SetAsBox(0.03, 0.4, b2Vec2(Position.x / 32 - 0.41, Position.y / 32), 0);
+	sensorLWall.SetAsBox(0.05, 0.45, b2Vec2(Position.x / 32 - 0.41, Position.y / 32 + 0.475), 0);
 
 	sensorLWallFix.shape = &sensorLWall;
 	sensorLWallFix.isSensor = true;
@@ -426,11 +448,8 @@ Character_Candy::Character_Candy(State::Playing & state)
 
 void Character_Candy::jump()
 {
-	if (onGround)
-	{
-		float impulse = body->GetMass() * 5;
-		body->ApplyLinearImpulse(b2Vec2(0, -impulse), body->GetWorldCenter(), true);
-	}
+	float impulse = body->GetMass() * 5;
+	body->ApplyLinearImpulse(b2Vec2(0, -impulse), body->GetWorldCenter(), true);
 }
 
 void Character_Candy::wallJump(float dt)
@@ -449,3 +468,15 @@ void Character_Candy::wallJump(float dt)
 		}
 	}
 }
+
+void Character_Candy::pullUp(float dt)
+{
+	if (!onGround)
+	{
+		body->SetLinearVelocity(b2Vec2(vel.x, 0));
+		
+		float impulse = body->GetMass() * 8;
+		body->ApplyLinearImpulse(b2Vec2(0, -impulse), body->GetWorldCenter(), true);
+	}
+}
+
