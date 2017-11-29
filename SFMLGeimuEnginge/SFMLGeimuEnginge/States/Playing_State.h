@@ -32,8 +32,6 @@ namespace State
 		void update(float dt) override;
 		void draw() override;
 
-		void resolveCollisions(float dt);
-		
 		//LEVELS
 		void changeLevel(LevelID level);
 		void updateLevel(float dt);

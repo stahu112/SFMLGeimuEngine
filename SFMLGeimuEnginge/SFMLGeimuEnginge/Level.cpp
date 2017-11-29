@@ -175,8 +175,6 @@ Level::Level(float width, float height, Texture_Name background, bool animated, 
 
 	boxWorldPtr = state.getWorld();
 
-	//boxWorldPtr->ShiftOrigin(b2Vec2(0, 0));
-
 	createRoom();
 
 	levelView.reset(sf::FloatRect(0, 0, viewPort.x, viewPort.y));

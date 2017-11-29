@@ -46,7 +46,7 @@ namespace Display
 		else window = std::make_unique<sf::RenderWindow>(sf::VideoMode((int)screenSize.x, (int)screenSize.y), title, sf::Style::Default);
 
 		//Ograniczenie fps do 60 metoda okna z biblioteki SFML
-		window->setFramerateLimit(60);
+		//window->setFramerateLimit(60);
 
 		window->setVerticalSyncEnabled(true);
 

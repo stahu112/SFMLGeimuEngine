@@ -21,7 +21,7 @@ enum class LevelID
 class Level
 {
 	//ID n Size
-	LevelID ID;
+	std::string ID;
 	sf::Vector2u size;
 
 	//Background
@@ -29,7 +29,7 @@ class Level
 	Animation backgroundAnimation;
 	bool isAnimated = false;
 
-	std::vector<b2Body *> platforms; //"Pud³o" które jest granicami levelu
+	std::vector<b2Body *> platforms;
 
 	//TEST
 	sf::View levelView;

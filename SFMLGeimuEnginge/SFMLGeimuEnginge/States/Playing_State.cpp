@@ -29,7 +29,7 @@ namespace State
 	void Playing::initState()
 	{
 		world = new b2World(b2Vec2(0.f, 10.f));
-		//world->ShiftOrigin(b2Vec2(0, 0));
+
 		player = new Character_Candy(*this);
 		initLevels();
 		changeLevel(LevelID::level0);
@@ -89,12 +89,6 @@ namespace State
 		player->draw();
 		if(DEBUGMODE) world->DrawDebugData();
 	}
-
-	void Playing::resolveCollisions(float dt)
-	{
-
-	}
-
 	
 	void Playing::changeLevel(LevelID level)
 	{
