@@ -34,7 +34,7 @@ private:
 		Slide
 	};
 
-	float force = 0, force1 = 0;
+	float force1 = 0;
 	float velChange = 0;
 	b2Vec2 vel = { 0, 0 };
 

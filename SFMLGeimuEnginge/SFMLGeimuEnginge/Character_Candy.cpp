@@ -81,13 +81,13 @@ void Character_Candy::input(float dt)
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 		{
 			if (goalVelocity.x > 5) goalVelocity.x = 5;
-			goalVelocity.x += dt * 10;
+			goalVelocity.x += dt * 20;
 		}
 		else
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 		{
 			if (goalVelocity.x < -5) goalVelocity.x = -5;
-			goalVelocity.x -= dt * 10;
+			goalVelocity.x -= dt * 20;
 		}
 		else
 		{
@@ -376,14 +376,14 @@ void Character_Candy::createRigidBody()
 	
 	b2PolygonShape sensorRWall;
 
-	sensorRWall.SetAsBox(0.05, 0.45, b2Vec2(Position.x / 32 + 0.41, Position.y / 32 + 0.475), 0);
+	sensorRWall.SetAsBox(0.05, 0.51, b2Vec2(Position.x / 32 + 0.41, Position.y / 32 + 0.42), 0);
 
 	sensorRWallFix.shape = &sensorRWall;
 	sensorRWallFix.isSensor = true;
 
 	b2PolygonShape sensorLWall;
 
-	sensorLWall.SetAsBox(0.05, 0.45, b2Vec2(Position.x / 32 - 0.41, Position.y / 32 + 0.475), 0);
+	sensorLWall.SetAsBox(0.05, 0.51, b2Vec2(Position.x / 32 - 0.41, Position.y / 32 + 0.42), 0);
 
 	sensorLWallFix.shape = &sensorLWall;
 	sensorLWallFix.isSensor = true;
@@ -443,6 +443,8 @@ Character_Candy::Character_Candy(State::Playing & state)
 
 	createRigidBody();
 
+	force = body->GetMass() * 5;
+
 	initAnimations();
 }
 
@@ -475,8 +477,9 @@ void Character_Candy::pullUp(float dt)
 	{
 		body->SetLinearVelocity(b2Vec2(vel.x, 0));
 		
-		float impulse = body->GetMass() * 8;
-		body->ApplyLinearImpulse(b2Vec2(0, -impulse), body->GetWorldCenter(), true);
+		float impulse = body->GetMass() * 5;
+
+		body->ApplyLinearImpulse(b2Vec2(0.7 * force, -impulse), body->GetWorldCenter(), true);
 	}
 }
 

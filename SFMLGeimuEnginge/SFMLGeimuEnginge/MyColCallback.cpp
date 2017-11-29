@@ -39,10 +39,12 @@ void MyColCallback::BeginContact(b2Contact * contact)
 	if ((int)fixtureUserDataA == 2)
 	{
 		state->getPlayer()->numWallLContacts++;
+		state->getPlayer()->force *= -1;
 	}
 	if ((int)fixtureUserDataB == 2)
 	{
 		state->getPlayer()->numWallLContacts++;
+		state->getPlayer()->force *= -1;
 	}
 
 }
@@ -84,10 +86,12 @@ void MyColCallback::EndContact(b2Contact * contact)
 	if ((int)fixtureUserDataA == 2)
 	{
 		state->getPlayer()->numWallLContacts--;
+		state->getPlayer()->force *= -1;
 	}
 	if ((int)fixtureUserDataB == 2)
 	{
 		state->getPlayer()->numWallLContacts--;
+		state->getPlayer()->force *= -1;
 	}
 
 }

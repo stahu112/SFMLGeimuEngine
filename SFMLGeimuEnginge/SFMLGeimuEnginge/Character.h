@@ -20,6 +20,8 @@ public:
 	bool onGround = false, wallL = false, wallR = false, wallDone = false, falling = false;
 	int numContacts = 0, numWallLContacts = 0, numWallRContacts = 0;
 
+	float force;
+
 	void draw();
 
 	virtual void processStates(float dt) = 0;
