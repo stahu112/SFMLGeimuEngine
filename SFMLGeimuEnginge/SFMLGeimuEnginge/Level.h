@@ -24,6 +24,12 @@ class Level
 	std::string ID;
 	sf::Vector2u size;
 
+	//TILE MAP
+	sf::Sprite tile;
+	std::vector<sf::Vector2i> tempMap;
+	std::vector<std::vector<sf::Vector2i>> tileMap;
+
+
 	//Background
 	sf::RectangleShape backgroundTexture;
 	Animation backgroundAnimation;
@@ -55,6 +61,9 @@ public:
 
 	//GetSize
 	sf::Vector2u getSize() const;
+
+	//Setup Tilemap
+	void loadTilemap(const std::string & path);
 
 	//View
 	void setView(float dt);

@@ -63,6 +63,34 @@ sf::Vector2u Level::getSize() const
 	return size;
 }
 
+void Level::loadTilemap(const std::string & path)
+{
+	tileMap.clear();
+	tempMap.clear();
+
+	std::ifstream openFile(path);
+	if (openFile.is_open())
+	{
+		while (!openFile.eof())
+		{
+			std::string str;
+			openFile >> str;
+			char x = str[0], y = str[2];
+			if (!isdigit(x) || !isdigit(y))
+				tempMap.push_back(sf::Vector2i(-1, -1));
+			else
+				tempMap.push_back(sf::Vector2i(x - '0', y - '0'));
+
+			if (openFile.peek() == '\n')
+			{
+				tileMap.push_back(tempMap);
+				tempMap.clear();
+			}
+		}
+		tileMap.push_back(tempMap);
+	}
+}
+
 //USTAW VIEW
 void Level::setView(float dt)
 {
@@ -131,6 +159,20 @@ void Level::drawLevel()
 {
 	if (isAnimated) { updateAnim(); }
 	Display::draw(backgroundTexture);
+
+	for (int i = 0; i < tileMap.size(); i++)
+	{
+		for (int j = 0; j < tileMap[i].size(); j++)
+		{
+			if (tileMap[i][j].x != -1 && tileMap[i][j].y != -1)
+			{
+				tile.setPosition(j * tileSize, i * tileSize);
+				tile.setTextureRect(sf::IntRect(tileMap[i][j].x * tileSize, tileMap[i][j].y * tileSize, tileSize, tileSize));
+				Display::draw(tile);
+			}
+		}
+	}
+
 }
 
 bool Level::loadLevel(std::string path)

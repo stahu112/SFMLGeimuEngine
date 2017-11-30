@@ -170,6 +170,7 @@
     <ClCompile Include="States\Game_State.cpp" />
     <ClCompile Include="States\Menu_State.cpp" />
     <ClCompile Include="States\Playing_State.cpp" />
+    <ClCompile Include="States\Play_Menu.cpp" />
     <ClCompile Include="States\Splash_Screen_State.cpp" />
     <ClCompile Include="Util\Random.cpp" />
   </ItemGroup>
@@ -193,6 +194,7 @@
     <ClInclude Include="States\Game_State.h" />
     <ClInclude Include="States\Menu_State.h" />
     <ClInclude Include="States\Playing_State.h" />
+    <ClInclude Include="States\Play_Menu.h" />
     <ClInclude Include="States\Splash_Screen_State.h" />
     <ClInclude Include="UtilFunc.h" />
     <ClInclude Include="Util\Random.h" />

@@ -1,5 +1,6 @@
 #include "Playing_State.h"
 #include "Menu_State.h"
+#include "Play_Menu.h"
 #include "../SFMLDebugDraw.h"
 #include "../MyColCallback.h"
 
@@ -66,9 +67,9 @@ namespace State
 	//Sterowanie itp.
 	void Playing::input()
 	{
-		if (InputHandler::checkDown(sf::Keyboard::Escape))
+		if (InputHandler::checkUp(sf::Keyboard::Escape))
 		{
-			m_p_application->changeState(std::make_unique<Menu>(*m_p_application));
+			m_p_application->pushState(std::make_unique<Play_Menu>(*m_p_application));
 		}
 	}
 

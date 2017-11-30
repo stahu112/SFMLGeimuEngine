@@ -442,7 +442,7 @@ void Character_Candy::wallJump(float dt)
 	{
 		timer += dt;
 
-		if (timer < 30.f * dt && !onGround)
+		if (timer < 0.8f && !onGround)
 		{
 			body->SetLinearVelocity(b2Vec2(vel.x, 0));
 		}
