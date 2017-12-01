@@ -158,7 +158,7 @@ void Character_Candy::update(float dt)
 		timer = 0;
 	}
 
-	std::cout << "numContacts" << numContacts << " numWallL" << numWallLContacts << " numWallR" << numWallRContacts << std::endl;
+	//std::cout << "numContacts" << numContacts << " numWallL" << numWallLContacts << " numWallR" << numWallRContacts << std::endl;
 	 
 	if (vel.y < -10)
 	{

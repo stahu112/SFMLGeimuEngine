@@ -46,16 +46,19 @@ namespace State
 			50,
 			20,
 			Texture_Name::test2,
+			Texture_Name::tilemap,
 			false,
 			*this
 		);
 
 		level0.loadLevel("lev0.txt");
+		level0.loadTileMap(Texture_Name::tilemap, "level0.txt");
 
 		Level level1(
 			50,
 			20,
 			Texture_Name::test1,
+			Texture_Name::tilemap,
 			false,
 			*this
 		);
@@ -104,7 +107,7 @@ namespace State
 		if (currentLevel)
 		{
 			currentLevel->drawLevel();
-			currentLevel->setView(dt);
+			//currentLevel->setView(dt);
 		}
 	}
 

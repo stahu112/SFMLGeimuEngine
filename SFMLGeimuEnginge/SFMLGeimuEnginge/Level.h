@@ -20,64 +20,62 @@ enum class LevelID
 
 class Level
 {
-	//ID n Size
-	std::string ID;
+	//Size
 	sf::Vector2u size;
 
-	//TILE MAP
-	sf::Sprite tile;
-	std::vector<sf::Vector2i> tempMap;
+	//tilemap
 	std::vector<std::vector<sf::Vector2i>> tileMap;
+	std::vector<sf::Vector2i> tempMap;
 
 
 	//Background
 	sf::RectangleShape backgroundTexture;
 	Animation backgroundAnimation;
+
+	sf::Sprite tile;
+
 	bool isAnimated = false;
 
 	std::vector<b2Body *> platforms;
 
-	//TEST
+	float yFactor = 16; //20;
 	sf::View levelView;
+	sf::Vector2f viewPort = { 20 * tileSize, 12 * tileSize };
 
 	//PlayerHandle
 	Character * playerHandle = nullptr;
 	b2World * boxWorldPtr = nullptr;
 
 public:
-
-	sf::Vector2f startingPosition = {0,0};
-	b2Vec2 gravity = b2Vec2(0, 10.f);
-	//PlayerHandle
-	Character* getPlayerHandle();
-
-	void createRoom();
-
-	void createPlatform(float x, float y, float w, float h, b2BodyType type);
-
-	float yFactor = 16; //20;
-
-	sf::Vector2f viewPort = { 20 * tileSize, 12 * tileSize };
-
-	//GetSize
+	
 	sf::Vector2u getSize() const;
+	
+	sf::Vector2f startingPosition = {0,0};
+	
+	b2Vec2 gravity = b2Vec2(0, 10.f);
 
-	//Setup Tilemap
-	void loadTilemap(const std::string & path);
 
-	//View
-	void setView(float dt);
-	sf::View getView() const;
-	void resetView(float dt);
+	Character* getPlayerHandle();
 
 	//Background
 	void assignBackgroundTex(Texture_Name name);
 	void updateAnim();
 
+	void createPlatform(float x, float y, float w, float h, b2BodyType type);
+	void createRoom();
+
+
+
+	sf::View getView() const;
+	void resetView(float dt);
+	void setView(float dt);
+
+
 	//Draw
 	void drawLevel();
 
 	bool loadLevel(std::string path);
+	void loadTileMap(Texture_Name tex, std::string path);
 
-	Level(float width, float height, Texture_Name background, bool animated, State::Playing & state);
+	Level(float width, float height, Texture_Name background, Texture_Name tileMap, bool animated, State::Playing & state);
 };

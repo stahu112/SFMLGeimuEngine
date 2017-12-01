@@ -1,7 +1,32 @@
 #include <fstream>
+#include <cctype>
 #include "Level.h"
 #include "ColFilters.h"
 #include "States\Playing_State.h"
+
+//ZWRACA PLAYERHANDLE
+Character * Level::getPlayerHandle()
+{
+	return playerHandle;
+}
+
+sf::Vector2u Level::getSize() const
+{
+	return size;
+}
+
+//USTAW VIEW
+void Level::setView(float dt)
+{
+	if(playerHandle) resetView(dt);
+	Display::setView(this->levelView);
+}
+
+//ZWRACA VIEW
+sf::View Level::getView() const
+{
+	return levelView;
+}
 
 void Level::createRoom()
 {
@@ -52,36 +77,35 @@ void Level::createPlatform(float x, float y, float w, float h, b2BodyType type)
 	platforms.push_back(plat);
 }
 
-//ZWRACA PLAYERHANDLE
-Character * Level::getPlayerHandle()
+void Level::loadTileMap(Texture_Name tex, std::string path)
 {
-	return playerHandle;
-}
+	std::fstream file;
+	file.open(path, std::ios::in);
 
-sf::Vector2u Level::getSize() const
-{
-	return size;
-}
-
-void Level::loadTilemap(const std::string & path)
-{
-	tileMap.clear();
-	tempMap.clear();
-
-	std::ifstream openFile(path);
-	if (openFile.is_open())
+	if(!file.good())
 	{
-		while (!openFile.eof())
+		std::cout << "Blad z Tilemap" << std::endl;
+	}
+	else
+	{
+		while (!file.eof())
 		{
 			std::string str;
-			openFile >> str;
-			char x = str[0], y = str[2];
-			if (!isdigit(x) || !isdigit(y))
-				tempMap.push_back(sf::Vector2i(-1, -1));
-			else
-				tempMap.push_back(sf::Vector2i(x - '0', y - '0'));
 
-			if (openFile.peek() == '\n')
+			file >> str;
+
+			char x = str[0], y = str[2];
+
+			if (!isdigit(x) || !isdigit(y))
+			{
+				tempMap.push_back(sf::Vector2i(-1, -1));
+			}
+			else
+			{
+				tempMap.push_back(sf::Vector2i(x - '0', y - '0'));
+			}
+
+			if (file.peek() == '\n')
 			{
 				tileMap.push_back(tempMap);
 				tempMap.clear();
@@ -91,18 +115,6 @@ void Level::loadTilemap(const std::string & path)
 	}
 }
 
-//USTAW VIEW
-void Level::setView(float dt)
-{
-	if(playerHandle) resetView(dt);
-	Display::setView(this->levelView);
-}
-
-//ZWRACA VIEW
-sf::View Level::getView() const
-{
-	return levelView;
-}
 
 //RESETUJ VIEW
 void Level::resetView(float dt)
@@ -166,8 +178,9 @@ void Level::drawLevel()
 		{
 			if (tileMap[i][j].x != -1 && tileMap[i][j].y != -1)
 			{
-				tile.setPosition(j * tileSize, i * tileSize);
-				tile.setTextureRect(sf::IntRect(tileMap[i][j].x * tileSize, tileMap[i][j].y * tileSize, tileSize, tileSize));
+
+				tile.setPosition(j * 32, i * 32);
+				tile.setTextureRect(sf::IntRect(tileMap[i][j].x * 32, tileMap[i][j].y * 32, 32, 32));
 				Display::draw(tile);
 			}
 		}
@@ -207,13 +220,15 @@ bool Level::loadLevel(std::string path)
 	return true;
 }
 
-Level::Level(float width, float height, Texture_Name background, bool animated, State::Playing & state) :
+Level::Level(float width, float height, Texture_Name background, Texture_Name tex, bool animated, State::Playing & state) :
 	isAnimated(animated)
 {
 	size.x = width;
 	size.y = height;
 	assignBackgroundTex(background);
 	playerHandle = state.getPlayer();
+
+	tile.setTexture(Resource_Holder::get().getTexture(tex));
 
 	boxWorldPtr = state.getWorld();
 

@@ -10,6 +10,7 @@ enum class Texture_Name
 	test2,
 	spritesheet,
 	spritesheet1,
+	tilemap
 };
 
 class Texture_Manager : public Resource_Manager<Texture_Name, sf::Texture>
