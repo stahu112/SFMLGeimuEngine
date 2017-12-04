@@ -107,7 +107,7 @@ namespace State
 		if (currentLevel)
 		{
 			currentLevel->drawLevel();
-			//currentLevel->setView(dt);
+			currentLevel->setView(dt);
 		}
 	}
 

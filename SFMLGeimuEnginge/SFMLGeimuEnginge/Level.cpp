@@ -94,13 +94,13 @@ void Level::loadTileMap(Texture_Name tex, std::string path)
 
 			file >> str;
 
-			char x = str[0], y = str[2];
+			char x = str[0], y = str[2], z = str[1];
 
 			if (!isdigit(x) || !isdigit(y))
 			{
 				tempMap.push_back(sf::Vector2i(-1, -1));
 			}
-			else
+			else 
 			{
 				tempMap.push_back(sf::Vector2i(x - '0', y - '0'));
 			}
