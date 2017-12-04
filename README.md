@@ -1,3 +1,3 @@
 # SFMLGeimuEngine
 
-Coś w rodzaju indywidualnego projektu, komentarze raz po ang raz po pl, niekonsekwencja moim znakiem rozpoznawczym hehe
+Coś w rodzaju indywidualnego projektu, gry dla nauki wzorców
