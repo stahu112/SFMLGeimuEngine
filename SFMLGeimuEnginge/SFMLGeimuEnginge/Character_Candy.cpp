@@ -8,6 +8,7 @@
 bool once = false;
 
 float timer = 0, timer1 = 0;
+float timerGround = 0;
 
 void Character_Candy::input(float dt)
 {
@@ -15,7 +16,7 @@ void Character_Candy::input(float dt)
 	{
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 		{
-			jump();
+			jump(dt);
 		}
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
@@ -39,7 +40,7 @@ void Character_Candy::input(float dt)
 			{
 				pullUp(dt);
 			}
-			else
+			else if (vel.y >= 0)
 			{
 				wallJump(dt);
 			}
@@ -59,7 +60,7 @@ void Character_Candy::input(float dt)
 			{
 				pullUp(dt);
 			}
-			else if (vel.y <= 0)
+			else if (vel.y >= 0)
 			{
 				wallJump(dt);
 			}
@@ -101,6 +102,8 @@ void Character_Candy::update(float dt)
 
 	vel = body->GetLinearVelocity();
 
+	//if (body->GetLinearVelocity().y < -8) body->SetLinearVelocity(b2Vec2(body->GetLinearVelocity().x, -8));
+
 	processStates(dt);
 
 	vel.x = Utils::approach(goalVelocity.x, vel.x, dt);
@@ -111,11 +114,19 @@ void Character_Candy::update(float dt)
 	{
 		onGround = true;
 		falling = false;
-		once = false;
 	}
 	else
 	{
 		onGround = false;
+	}
+
+	if (onGround)
+	{
+		timerGround += dt;
+	}
+	else
+	{
+		timerGround = 0;
 	}
 
 	//WALL CONTACTS
@@ -162,6 +173,8 @@ void Character_Candy::update(float dt)
 
 	updateAnim();
 	sprite.setPosition(pos);
+
+	debugData();
 
 }
 
@@ -434,7 +447,7 @@ Character_Candy::Character_Candy(State::Playing & state)
 	initAnimations();
 }
 
-void Character_Candy::jump()
+void Character_Candy::jump(float dt)
 {
 	float impulse = body->GetMass() * 6;
 	body->ApplyLinearImpulse(b2Vec2(0, -impulse), body->GetWorldCenter(), true);
@@ -458,6 +471,55 @@ void Character_Candy::wallJump(float dt)
 	}
 }
 
+void Character_Candy::debugData()
+{
+	sf::Text text;
+
+	std::string linVelX, linVelY,
+		velX, velY,
+		x, y,
+		onGroundS,
+		wallRS,
+		wallLS,
+		wallDoneS,
+		onceS,
+		stateS,
+		animS;
+
+
+	text.setFont(Resource_Holder::get().getFont(Font_Name::Powerfull));
+
+	text.setScale(0.2, 0.2);
+
+	x = std::to_string((int)body->GetPosition().x);
+	y = std::to_string((int)body->GetPosition().y);
+
+	onGroundS = std::to_string(onGround);
+	wallRS = std::to_string(wallR);
+	wallLS = std::to_string(wallL);
+	wallDoneS = std::to_string(wallDone);
+	onceS = std::to_string(once);
+
+	stateS = std::to_string((int)currentState);
+
+	animS = std::to_string((int)currentAnim);
+
+	linVelX = std::to_string((int)body->GetLinearVelocity().x);
+	linVelY = std::to_string((int)body->GetLinearVelocity().y);
+	
+	velX = std::to_string((int)vel.x);
+	velY = std::to_string((int)vel.y);
+
+	text.setString("X: " + x + "\n\nY: " + y + "\n\nGROUND: " + onGroundS + "\n\nWALL L: " + wallLS + "\n\nWALL R: " + wallRS +"\n\nWALL DONE: " + wallDoneS + "\n\nOnce: " + onceS);
+
+	text.setFillColor(sf::Color(0, 0, 0, 255));
+
+	text.setPosition(Display::getView().getCenter().x, Display::getView().getCenter().y - 5);
+
+	Display::draw(text);
+
+}
+
 //WALLRUN UP
 void Character_Candy::pullUp(float dt)
 {
@@ -471,11 +533,11 @@ void Character_Candy::pullUp(float dt)
 		once = true;
 	}
 
-	if (vel.y < -6)
+	if (vel.y < -4)
 	{
-		body->SetLinearVelocity(b2Vec2(vel.x, -6));
+		body->SetLinearVelocity(b2Vec2(vel.x, -4));
 	}
 
-	if (timer1 < 0.5f) body->ApplyLinearImpulse(b2Vec2(0, -impulse), body->GetWorldCenter(), true);
+	if (timer1 < 0.4f) body->ApplyLinearImpulse(b2Vec2(0, -impulse), body->GetWorldCenter(), true);
 }
 

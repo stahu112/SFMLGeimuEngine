@@ -81,9 +81,10 @@ namespace State
 	{	
 		world->Step(dt, 10, 10);
 
-		player->update(dt);
 
 		updateLevel(dt);
+
+		player->update(dt);
 	}
 
 

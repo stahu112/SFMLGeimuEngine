@@ -68,9 +68,11 @@ public:
 	Character_Candy(State::Playing & state);
 
 	//Commands
-	void jump();
+	void jump(float dt);
 
 	void wallJump(float dt);
+
+	void debugData();
 
 	void pullUp(float dt);
 };
