@@ -8,6 +8,7 @@ void Character::draw()
 	Display::draw(sprite);
 }
 
+
 Character::Character()
 {	
 }

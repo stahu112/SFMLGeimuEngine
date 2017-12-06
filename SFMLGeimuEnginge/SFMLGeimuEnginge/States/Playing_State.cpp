@@ -100,7 +100,7 @@ namespace State
 		currentLevel = &m_levels.at(level);
 		world->SetGravity(currentLevel->gravity);
 		
-		player->setPosition(m_levels.at(level).startingPosition);
+		player->changePosition(m_levels.at(level).startingPosition);
 	}
 
 	void Playing::updateLevel(float dt)

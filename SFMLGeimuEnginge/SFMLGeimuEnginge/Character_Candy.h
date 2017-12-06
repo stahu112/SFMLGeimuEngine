@@ -51,6 +51,8 @@ public:
 
 	void input(float dt);
 
+	void changePosition(b2Vec2 newPos) override;
+
 	void update(float dt) override;
 	void processStates(float dt) override;
 

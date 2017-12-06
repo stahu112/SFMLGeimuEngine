@@ -50,7 +50,7 @@ public:
 	
 	sf::Vector2u getSize() const;
 	
-	sf::Vector2f startingPosition = {0,0};
+	b2Vec2 startingPosition = { 2,2 };
 	
 	b2Vec2 gravity = b2Vec2(0, 10.f);
 

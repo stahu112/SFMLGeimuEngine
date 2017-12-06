@@ -24,6 +24,8 @@ public:
 
 	void draw();
 
+	virtual void changePosition(b2Vec2 newPos) = 0;
+
 	virtual void processStates(float dt) = 0;
 	virtual void update(float dt) = 0;
 
