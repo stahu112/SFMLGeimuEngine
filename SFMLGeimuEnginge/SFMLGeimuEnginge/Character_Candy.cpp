@@ -14,7 +14,7 @@ void Character_Candy::input(float dt)
 {
 	if (onGround)
 	{
-		if (wallR && !falling)
+		if ((wallR || wallL) && !falling)
 		{
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 			{
@@ -404,13 +404,13 @@ void Character_Candy::createRigidBody()
 	sensorLWallFix.isSensor = true;
 
 	b2Fixture* footSensorFixture = body->CreateFixture(&sensorLowFix);
-	footSensorFixture->SetUserData((void*)3);
+	footSensorFixture->SetUserData((void*)"GroundSensor");
 
 	b2Fixture* WallLFixture = body->CreateFixture(&sensorLWallFix);
-	WallLFixture->SetUserData((void*)2);
+	WallLFixture->SetUserData((void*)"WallL");
 
 	b2Fixture* WallRFixture = body->CreateFixture(&sensorRWallFix);
-	WallRFixture->SetUserData((void*)1);
+	WallRFixture->SetUserData((void*)"WallR");
 }
 
 //Initialize animations
@@ -554,11 +554,11 @@ void Character_Candy::pullUp(float dt)
 		once = true;
 	}
 
-	if (vel.y < -4)
+	if (vel.y < -5.5)
 	{
-		body->SetLinearVelocity(b2Vec2(vel.x, -4));
+		body->SetLinearVelocity(b2Vec2(vel.x, -5.5));
 	}
 
-	if (timer1 < 0.4f) body->ApplyLinearImpulse(b2Vec2(0, -impulse), body->GetWorldCenter(), true);
+	if (timer1 < 0.5f) body->ApplyLinearImpulse(b2Vec2(0, -impulse), body->GetWorldCenter(), true);
 }
 

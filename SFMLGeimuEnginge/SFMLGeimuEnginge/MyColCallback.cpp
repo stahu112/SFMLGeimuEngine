@@ -11,13 +11,13 @@ void MyColCallback::BeginContact(b2Contact * contact)
 	void* fixtureUserDataB = contact->GetFixtureB()->GetUserData();
 
 	//ONGROUND
-	if ( (int)fixtureUserDataA == 3)
+	if ( fixtureUserDataA == "GroundSensor")
 	{
 		//state->getPlayer()->onGround = true;
 		//state->getPlayer()->falling = false;
 		state->getPlayer()->numContacts++;
 	}
-	if ((int)fixtureUserDataB == 3)
+	if (fixtureUserDataB == "GroundSensor")
 	{
 		//state->getPlayer()->onGround = true;
 		//state->getPlayer()->falling = false;
@@ -27,24 +27,22 @@ void MyColCallback::BeginContact(b2Contact * contact)
 	///////////////////////////////////////////////////////
 
 	//WALLJUMP
-	if ((int)fixtureUserDataA == 1)
+	if (fixtureUserDataA == "WallR")
 	{
 		state->getPlayer()->numWallRContacts++;
 	}
-	if ((int)fixtureUserDataB == 1)
+	if (fixtureUserDataB == "WallR")
 	{
 		state->getPlayer()->numWallRContacts++;
 	}
 
-	if ((int)fixtureUserDataA == 2)
+	if (fixtureUserDataA == "WallL")
 	{
 		state->getPlayer()->numWallLContacts++;
-		state->getPlayer()->force *= -1;
 	}
-	if ((int)fixtureUserDataB == 2)
+	if (fixtureUserDataB == "WallL")
 	{
 		state->getPlayer()->numWallLContacts++;
-		state->getPlayer()->force *= -1;
 	}
 
 }
@@ -59,12 +57,12 @@ void MyColCallback::EndContact(b2Contact * contact)
 
 
 	//ONGROUND
-	if ((int)fixtureUserDataA == 3)
+	if (fixtureUserDataA == "GroundSensor")
 	{
 		//state->getPlayer()->onGround = false;
 		state->getPlayer()->numContacts--;
 	}
-	if ((int)fixtureUserDataB == 3)
+	if (fixtureUserDataB == "GroundSensor")
 	{
 		//state->getPlayer()->onGround = false;
 		state->getPlayer()->numContacts--;
@@ -74,24 +72,22 @@ void MyColCallback::EndContact(b2Contact * contact)
 	///////////////////////////////////////////////////////
 
 	//WALLJUMP
-	if ((int)fixtureUserDataA == 1)
+	if (fixtureUserDataA == "WallR")
 	{
 		state->getPlayer()->numWallRContacts--;
 	}
-	 if ((int)fixtureUserDataB == 1)
+	 if (fixtureUserDataB == "WallR")
 	{
 		state->getPlayer()->numWallRContacts--;
 	}
 
-	if ((int)fixtureUserDataA == 2)
+	if (fixtureUserDataA == "WallL")
 	{
 		state->getPlayer()->numWallLContacts--;
-		state->getPlayer()->force *= -1;
 	}
-	if ((int)fixtureUserDataB == 2)
+	if (fixtureUserDataB == "WallL")
 	{
 		state->getPlayer()->numWallLContacts--;
-		state->getPlayer()->force *= -1;
 	}
 
 }
