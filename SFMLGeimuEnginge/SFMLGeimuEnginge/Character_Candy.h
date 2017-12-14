@@ -17,9 +17,6 @@ private:
 		Idle,
 		Jump,
 		Dive,
-		Slide,
-		Crouch,
-		Catapult,
 		WallJumpR,
 		WallJumpL
 	};
@@ -72,7 +69,7 @@ public:
 	//Commands
 	void jump(float dt);
 
-	void wallJump(float dt);
+	void wallJump(float dt, bool right);
 
 	void debugData();
 

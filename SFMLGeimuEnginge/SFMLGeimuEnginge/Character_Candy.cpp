@@ -52,17 +52,10 @@ void Character_Candy::input(float dt)
 			{
 				pullUp(dt);
 			}
-			else if (vel.y >= 0)
-			{
-				wallJump(dt);
-			}
 
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 			{
-				float impulse = body->GetMass();
-				goalVelocity.x = -5;
-				body->ApplyLinearImpulse(b2Vec2(-3, -impulse * 30), body->GetWorldCenter(), true);
-				wallDone = false;
+				wallJump(dt, 1);
 			}
 		}
 
@@ -72,27 +65,20 @@ void Character_Candy::input(float dt)
 			{
 				pullUp(dt);
 			}
-			else if (vel.y >= 0)
-			{
-				wallJump(dt);
-			}
-
+		
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 			{
-				float impulse = body->GetMass();
-				goalVelocity.x = 5;
-				body->ApplyLinearImpulse(b2Vec2(3, -impulse * 30), body->GetWorldCenter(), true);
-				wallDone = false;
+				wallJump(dt, 0);
 			}
 		}
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+	
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && !wallR)
 		{
 			if (goalVelocity.x > 5) goalVelocity.x = 5;
 			goalVelocity.x += dt * 12;
 		}
 		else
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && !wallL)
 		{
 			if (goalVelocity.x < -5) goalVelocity.x = -5;
 			goalVelocity.x -= dt * 12;
@@ -184,6 +170,16 @@ void Character_Candy::update(float dt)
 
 	//std::cout << "numContacts" << numContacts << " numWallL" << numWallLContacts << " numWallR" << numWallRContacts << std::endl;
 	 
+
+	if (vel.y > 0)
+	{
+		body->SetGravityScale(4);
+	}
+	else
+	{
+		body->SetGravityScale(2.5);
+	}
+
 	if (vel.y < -10)
 	{
 		body->SetLinearVelocity(b2Vec2(vel.x, -10));
@@ -313,13 +309,13 @@ void Character_Candy::updateAnim()
 	if (body->GetLinearVelocity().x > 0.1)
 	{
 		changeAnim(AnimationID::RunR);
-		sprite.setTexture(Resource_Holder::get().getTexture(Texture_Name::spritesheet));
+		sprite.setTexture(Resource_Holder::get().getTexture(Texture_Name::spritesheet1));
 	}
 
 	else if (body->GetLinearVelocity().x < -0.1)
 	{
 		changeAnim(AnimationID::RunL);
-		sprite.setTexture(Resource_Holder::get().getTexture(Texture_Name::spritesheet1));
+		sprite.setTexture(Resource_Holder::get().getTexture(Texture_Name::spritesheet));
 	}
 	else { changeAnim(AnimationID::Idle); }
 
@@ -390,7 +386,7 @@ void Character_Candy::createRigidBody()
 	//RightWallActions
 	b2PolygonShape sensorRWall;
 
-	sensorRWall.SetAsBox(0.05, 0.40, b2Vec2(Position.x / 32 + 0.41, Position.y / 32 + 0.4 ), 0);
+	sensorRWall.SetAsBox(0.05, 0.40, b2Vec2(Position.x / 32 + 0.41, Position.y / 32 + 0.4f), 0);
 
 	sensorRWallFix.shape = &sensorRWall;
 	sensorRWallFix.isSensor = true;
@@ -398,11 +394,11 @@ void Character_Candy::createRigidBody()
 	//LeftWallActions
 	b2PolygonShape sensorLWall;
 
-	sensorLWall.SetAsBox(0.05, 0.40, b2Vec2(Position.x / 32 - 0.41, Position.y / 32 + 0.4 ), 0);
+	sensorLWall.SetAsBox(0.05, 0.40, b2Vec2(Position.x / 32 - 0.41, Position.y / 32 + 0.4f), 0);
 
 	sensorLWallFix.shape = &sensorLWall;
 	sensorLWallFix.isSensor = true;
-
+	
 	b2Fixture* footSensorFixture = body->CreateFixture(&sensorLowFix);
 	footSensorFixture->SetUserData((void*)"GroundSensor");
 
@@ -435,7 +431,7 @@ void Character_Candy::initAnimations()
 	addAnimations(AnimationID::RunL, RunLAnim);
 
 	Animation Idle;
-	Idle.addFrames({ 0,0,20,38 }, 0.f);
+	Idle.addFrames({ 0,0,20,38 }, 0.1f);
 	addAnimations(AnimationID::Idle, Idle);
 
 	setCurrentAnim();
@@ -524,41 +520,41 @@ void Character_Candy::jump(float dt)
 }
 
 //WALLJUMP
-void Character_Candy::wallJump(float dt)
+void Character_Candy::wallJump(float dt, bool right)
 {
-	if (wallDone && !falling)
+	if (wallDone && !falling && timer1 > 0.2f)
 	{
-		timer += dt;
-
-		if (timer < 0.2f && !onGround)
-		{
-		}
-		else
-		{
-			falling = true;
-		}
+		float impulse = body->GetMass();
+		if(right) goalVelocity.x = -5;
+		else goalVelocity.x = 5;
+		if (right) body->ApplyLinearImpulse(b2Vec2(-3, -impulse * 30), body->GetWorldCenter(), true);
+		else body->ApplyLinearImpulse(b2Vec2(3, -impulse * 30), body->GetWorldCenter(), true);
+		wallDone = false;
 	}
 }
-
 
 //WALLRUN UP
 void Character_Candy::pullUp(float dt)
 {
-	timer1 += dt;
-
-	float impulse = body->GetMass();
-
-	if (!once)
+	if (!falling)
 	{
-		body->SetLinearVelocity(b2Vec2(vel.x, 0));
-		once = true;
-	}
+		timer1 += dt;
 
-	if (vel.y < -5.5)
-	{
-		body->SetLinearVelocity(b2Vec2(vel.x, -5.5));
-	}
+		float impulse = body->GetMass();
 
-	if (timer1 < 0.5f) body->ApplyLinearImpulse(b2Vec2(0, -impulse), body->GetWorldCenter(), true);
+		if (!once)
+		{
+			body->SetLinearVelocity(b2Vec2(vel.x, 0));
+			once = true;
+		}
+
+		if (vel.y < -5.5)
+		{
+			body->SetLinearVelocity(b2Vec2(vel.x, -5.5));
+		}
+
+		if (timer1 < 0.4f) body->ApplyLinearImpulse(b2Vec2(0, -impulse), body->GetWorldCenter(), true);
+		if (timer1 > 0.8f) falling = true;
+	}
 }
 

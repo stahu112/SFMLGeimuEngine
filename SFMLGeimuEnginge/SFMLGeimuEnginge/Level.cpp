@@ -52,7 +52,7 @@ void Level::createPlatform(float x, float y, float w, float h, b2BodyType type)
 	b2Body * plat = boxWorldPtr->CreateBody(&platDef);
 	
 	b2PolygonShape platShape;
-	//platShape.SetAsBox(w / 2, h/2);
+	//platShape.SetAsBox((w / 2) + 1 / 32, (h / 2) + 1 / 32);
 
 	b2Vec2 vert[8];
 	vert[0].Set(-w/2, -h/2 + 0.05);
