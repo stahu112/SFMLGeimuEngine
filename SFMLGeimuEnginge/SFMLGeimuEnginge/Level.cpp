@@ -10,6 +10,11 @@ Character * Level::getPlayerHandle()
 	return playerHandle;
 }
 
+std::vector<b2Body*>& Level::getPlatforms()
+{
+	return platforms;
+}
+
 sf::Vector2u Level::getSize() const
 {
 	return size;
@@ -71,8 +76,10 @@ void Level::createPlatform(float x, float y, float w, float h, b2BodyType type)
 	fix.density = 1.0f;
 	fix.shape = &platShape;
 	fix.filter.categoryBits = ColFilters::Walls;
+	//fix.userData = ((void*)"Platform");
 
 	plat->CreateFixture(&platShape, 1.0f);
+
 
 	platforms.push_back(plat);
 }

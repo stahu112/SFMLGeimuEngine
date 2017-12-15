@@ -74,6 +74,18 @@ namespace State
 		{
 			m_p_application->pushState(std::make_unique<Play_Menu>(*m_p_application));
 		}
+
+		if (InputHandler::checkUp(sf::Keyboard::O))
+		{
+			for (b2Body* b = world->GetBodyList(); b;)
+			{
+				b2Body* next = b->GetNext();
+				
+				if(b->GetType() == b2_staticBody) world->DestroyBody(b);
+				
+				b = next;
+			}
+		}
 	}
 
 	//Aktualizuj stany

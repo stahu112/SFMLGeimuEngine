@@ -57,6 +57,8 @@ public:
 
 	Character* getPlayerHandle();
 
+	std::vector<b2Body *> & getPlatforms();
+
 	//Background
 	void assignBackgroundTex(Texture_Name name);
 	void updateAnim();

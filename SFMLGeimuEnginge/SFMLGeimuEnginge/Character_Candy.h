@@ -6,6 +6,7 @@
 
 class Character_Candy : public Character
 {
+
 public:
 
 private:
@@ -59,7 +60,7 @@ public:
 	void updateAnim();
 
 	//Inicjuj animacje, stworz cialo fizyczne itd
-	void createRigidBody();
+	void createRigidBody() override;
 	void initAnimations();
 
 	void addAnimations(AnimationID id, Animation & animation);

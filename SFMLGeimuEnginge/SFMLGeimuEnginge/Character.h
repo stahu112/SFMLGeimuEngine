@@ -8,7 +8,8 @@ namespace State { class Playing; };
 
 class Character : public Game_Object
 {
-	
+
+
 protected:
 
 	sf::Sprite sprite;
@@ -20,9 +21,15 @@ public:
 	bool onGround = false, wallL = false, wallR = false, wallDone = false, falling = false;
 	int numContacts = 0, numWallLContacts = 0, numWallRContacts = 0;
 
+	int maxJumps = 1;
+
+	float speedX = 5.f;
+
 	float force;
 
 	void draw();
+
+	virtual void createRigidBody() = 0;
 
 	virtual void changePosition(b2Vec2 newPos) = 0;
 

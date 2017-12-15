@@ -6,6 +6,7 @@
 #define DEGTORAD 0.01745329252;
 
 bool once = false, debug = false;
+bool canDo = false;
 
 float timer = 0, timer1 = 0;
 float timerGround = 0;
@@ -33,11 +34,11 @@ void Character_Candy::input(float dt)
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 		{
-			goalVelocity.x = 5;
+			goalVelocity.x = speedX;
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 		{
-			goalVelocity.x = -5;
+			goalVelocity.x = -speedX;
 		}
 		else 
 		{
@@ -74,19 +75,19 @@ void Character_Candy::input(float dt)
 	
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && !wallR)
 		{
-			if (goalVelocity.x > 5) goalVelocity.x = 5;
-			goalVelocity.x += dt * 12;
+			if (goalVelocity.x > speedX) goalVelocity.x = speedX;
+			goalVelocity.x += dt * 13;
 		}
 		else
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && !wallL)
 		{
-			if (goalVelocity.x < -5) goalVelocity.x = -5;
-			goalVelocity.x -= dt * 12;
+			if (goalVelocity.x < -speedX) goalVelocity.x = -speedX;
+			goalVelocity.x -= dt * 13;
 		}
 		else
 		{
-			if (goalVelocity.x < 0) { goalVelocity.x += dt * 10; if (goalVelocity.x > 0) goalVelocity.x = 0; }
-			else if (goalVelocity.x > 0) { goalVelocity.x -= dt * 10; if (goalVelocity.x < 0) goalVelocity.x = 0; }
+			if (goalVelocity.x < 0) { goalVelocity.x += dt * 16; if (goalVelocity.x > 0) goalVelocity.x = 0; }
+			else if (goalVelocity.x > 0) { goalVelocity.x -= dt * 16; if (goalVelocity.x < 0) goalVelocity.x = 0; }
 		}
 	}
 
@@ -97,6 +98,7 @@ void Character_Candy::input(float dt)
 void Character_Candy::changePosition(b2Vec2 newPos)
 {
 	body->SetTransform(b2Vec2(newPos),0);
+	Position = sf::Vector2f(newPos.x, newPos.y);
 }
 
 //UPDATE
@@ -106,6 +108,8 @@ void Character_Candy::update(float dt)
 	input(dt);
 
 	sf::Vector2f pos = sf::Vector2f(body->GetPosition().x * 32 - 16, body->GetPosition().y * 32 - 32);
+
+	Position = pos;
 
 	vel = body->GetLinearVelocity();
 
@@ -121,6 +125,7 @@ void Character_Candy::update(float dt)
 	{
 		onGround = true;
 		falling = false;
+		canDo = false;
 	}
 	else
 	{
@@ -177,12 +182,17 @@ void Character_Candy::update(float dt)
 	}
 	else
 	{
-		body->SetGravityScale(2.5);
+		body->SetGravityScale(2.25);
 	}
 
 	if (vel.y < -10)
 	{
 		body->SetLinearVelocity(b2Vec2(vel.x, -10));
+	}
+
+	if (vel.y > 16)
+	{
+		body->SetLinearVelocity(b2Vec2(vel.x, 16));
 	}
 
 	setPosition(pos);
@@ -347,17 +357,36 @@ void Character_Candy::createRigidBody()
 	//0,8 1,9
 	//0,4 0,95
 
+	b2CircleShape shape;
+	shape.m_radius = 0.2;
+	shape.m_p.x = -0.15;
+
+	b2CircleShape shape1;
+	shape1.m_radius = 0.2;
+	shape1.m_p.x = 0.15;
+
+	b2FixtureDef shapef;
+	b2FixtureDef shape1f;
+
+	shapef.shape = &shape;
+	shape1f.shape = &shape1;
+
+	shapef.density = 1;
+	shape1f.density = 1;
+
+	shapef.friction = 0;
+	shape1f.friction = 0;
 
 	//MAIN BOX
 	b2Vec2 vert[8];
-	vert[0].Set(-0.4, 0.85);
-	vert[1].Set(-0.30, 0.95);
-	vert[2].Set(0.30, 0.95);
-	vert[3].Set(0.4, 0.85);
-	vert[4].Set(0.4, -0.85);
-	vert[5].Set(0.30, -0.95);
-	vert[6].Set(-0.30, -0.95);
-	vert[7].Set(-0.4, -0.85);
+	vert[0].Set(-0.35, 0.80);
+	vert[1].Set(-0.28, 0.95);
+	vert[2].Set(0.28, 0.95);
+	vert[3].Set(0.35, 0.80);
+	vert[4].Set(0.35, -0.80);
+	vert[5].Set(0.28, -0.95);
+	vert[6].Set(-0.28, -0.95);
+	vert[7].Set(-0.35, -0.80);
 
 	//SETBOX
 	b2PolygonShape dynamicBox;
@@ -371,6 +400,8 @@ void Character_Candy::createRigidBody()
 	fixtureDef.friction = 0.f;
 
 	body->CreateFixture(&fixtureDef);
+	body->CreateFixture(&shapef);
+	body->CreateFixture(&shape1f);
 
 	//SET ROTATION AND GRAV SCALE
 	body->SetFixedRotation(true);
@@ -378,7 +409,7 @@ void Character_Candy::createRigidBody()
 
 	//GroundSensor
 	b2PolygonShape sensorLow;
-	sensorLow.SetAsBox(0.39, 0.08, b2Vec2(Position.x/32, Position.y/32 + 0.95), 0);
+	sensorLow.SetAsBox(0.32, 0.08, b2Vec2(Position.x/32, Position.y/32 + 0.95), 0);
 
 	sensorLowFix.shape = &sensorLow;
 	sensorLowFix.isSensor = true;
@@ -386,7 +417,7 @@ void Character_Candy::createRigidBody()
 	//RightWallActions
 	b2PolygonShape sensorRWall;
 
-	sensorRWall.SetAsBox(0.05, 0.40, b2Vec2(Position.x / 32 + 0.41, Position.y / 32 + 0.4f), 0);
+	sensorRWall.SetAsBox(0.05, 0.40, b2Vec2(Position.x / 32 + 0.35, Position.y / 32 + 0.4f), 0);
 
 	sensorRWallFix.shape = &sensorRWall;
 	sensorRWallFix.isSensor = true;
@@ -394,7 +425,7 @@ void Character_Candy::createRigidBody()
 	//LeftWallActions
 	b2PolygonShape sensorLWall;
 
-	sensorLWall.SetAsBox(0.05, 0.40, b2Vec2(Position.x / 32 - 0.41, Position.y / 32 + 0.4f), 0);
+	sensorLWall.SetAsBox(0.05, 0.40, b2Vec2(Position.x / 32 - 0.35, Position.y / 32 + 0.4f), 0);
 
 	sensorLWallFix.shape = &sensorLWall;
 	sensorLWallFix.isSensor = true;
@@ -452,6 +483,8 @@ Character_Candy::Character_Candy(State::Playing & state)
 		size.x / sprite.getLocalBounds().width,
 		size.y / sprite.getLocalBounds().height
 	);
+
+	speedX = 5;
 
 	boxWorldPtr = state.getWorld();
 
@@ -519,18 +552,21 @@ void Character_Candy::jump(float dt)
 	body->ApplyLinearImpulse(b2Vec2(0, -impulse), body->GetWorldCenter(), true);
 }
 
+
 //WALLJUMP
 void Character_Candy::wallJump(float dt, bool right)
 {
-	if (wallDone && !falling && timer1 > 0.2f)
+	if (wallDone && !falling && canDo)
 	{
 		float impulse = body->GetMass();
-		if(right) goalVelocity.x = -5;
-		else goalVelocity.x = 5;
-		if (right) body->ApplyLinearImpulse(b2Vec2(-3, -impulse * 30), body->GetWorldCenter(), true);
-		else body->ApplyLinearImpulse(b2Vec2(3, -impulse * 30), body->GetWorldCenter(), true);
+		if(right) goalVelocity.x = -speedX;
+		else goalVelocity.x = speedX;
+		if (right) body->ApplyLinearImpulse(b2Vec2(-3, -impulse * 40), body->GetWorldCenter(), true);
+		else body->ApplyLinearImpulse(b2Vec2(3, -impulse * 40), body->GetWorldCenter(), true);
 		wallDone = false;
 	}
+
+	if (timer1 > 0.2f) canDo = true;
 }
 
 //WALLRUN UP
@@ -553,8 +589,8 @@ void Character_Candy::pullUp(float dt)
 			body->SetLinearVelocity(b2Vec2(vel.x, -5.5));
 		}
 
-		if (timer1 < 0.4f) body->ApplyLinearImpulse(b2Vec2(0, -impulse), body->GetWorldCenter(), true);
-		if (timer1 > 0.8f) falling = true;
+		if (timer1 < 0.3f) body->ApplyLinearImpulse(b2Vec2(0, -impulse), body->GetWorldCenter(), true);
+		else if (timer1 > 0.5f) body->SetLinearVelocity(b2Vec2(vel.x, 2));
 	}
 }
 
