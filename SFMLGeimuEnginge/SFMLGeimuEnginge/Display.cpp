@@ -25,11 +25,10 @@ namespace Display
 
 		if (config.good())
 		{
-			int _s, _f, _v, str1, str2;
+			int _s, _f, _v;
 
-			config >> str1 >> str2 >> _f >> _s >> _v;
+			config >> _f >> _s >> _v;
 
-			std::cout << str1 << " " << str2;
 
 			showFPS = _s;
 			fullON = _f;

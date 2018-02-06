@@ -207,18 +207,6 @@ namespace State
 
 					if (config.good())
 					{
-						/*if (Display::screenSize == Display::resolutions.at("1920x1080")) config << "1920x1080";
-						if (Display::screenSize == Display::resolutions.at("1600x900")) config << "1600x900";
-						if (Display::screenSize == Display::resolutions.at("1366x768")) config << "1366x768";
-						if (Display::screenSize == Display::resolutions.at("1280x720")) config << "1280x720";
-						*/
-						
-						config << Display::screenSize.x;
-						config << "\n";
-						config << Display::screenSize.y;
-
-						config << "\n";
-						
 						config << fullON;
 						config << "\n";
 						config << showFPS;

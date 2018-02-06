@@ -8,7 +8,7 @@
 #include <math.h>
 #include <iostream>
 
-#define DEBUGMODE true
+#define DEBUGMODE false
 
 SFMLDebugDraw debugDraw;
 MyColCallback colCall;
