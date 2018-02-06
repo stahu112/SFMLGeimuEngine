@@ -15,7 +15,7 @@ namespace State
 		Animation backgroundAnimation;
 		sf::Text pauseText;
 
-		sf::View view = sf::View(sf::Vector2f(Display::screenSize.x / 2, Display::screenSize.y / 2), Display::screenSize);
+		sf::View view = sf::View(sf::Vector2f((float)Display::screenSize.x / 2, (float)Display::screenSize.y / 2), (sf::Vector2f)Display::screenSize);
 
 	public:
 

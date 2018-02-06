@@ -16,10 +16,10 @@ namespace State
 
 		bool isAnimated = false;
 
-		sf::View view = sf::View(sf::Vector2f(Display::screenSize.x/2, Display::screenSize.y/2), Display::screenSize);
+		sf::View view = sf::View(sf::Vector2f((float)Display::screenSize.x/2, (float)Display::screenSize.y/2), (sf::Vector2f)Display::screenSize);
 
 		std::vector<sf::Text> opt;
-		sf::Text title = sf::Text("THE BREAKERS", Resource_Holder::get().getFont(Font_Name::Powerfull), 140);
+		sf::Text title = sf::Text("THE BREAKERS", Resource_Holder::get().getFont(Font_Name::Powerfull), 140 );
 
 		sf::Font font;
 

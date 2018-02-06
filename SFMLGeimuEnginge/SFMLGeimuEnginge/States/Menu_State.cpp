@@ -38,10 +38,10 @@ namespace State
 		title.setOrigin(title.getLocalBounds().width / 2, title.getLocalBounds().height / 2);
 		title.setPosition(sf::Vector2f(Display::screenSize.x/2, 200));
 
-		backgroundTexture.setSize(Display::screenSize);
+		backgroundTexture.setSize((sf::Vector2f)Display::screenSize);
 		assignBackgroundTex(Texture_Name::test1);
 
-		fs = Display::screenSize.x / Display::screenSize.y * 50;
+		fs = (float)Display::screenSize.x / (float)Display::screenSize.y * 50;
 
 		opt.push_back(sf::Text("NEW GAME", font, fs));
 		opt.push_back(sf::Text("LOAD", font, fs));
@@ -207,6 +207,18 @@ namespace State
 
 					if (config.good())
 					{
+						/*if (Display::screenSize == Display::resolutions.at("1920x1080")) config << "1920x1080";
+						if (Display::screenSize == Display::resolutions.at("1600x900")) config << "1600x900";
+						if (Display::screenSize == Display::resolutions.at("1366x768")) config << "1366x768";
+						if (Display::screenSize == Display::resolutions.at("1280x720")) config << "1280x720";
+						*/
+						
+						config << Display::screenSize.x;
+						config << "\n";
+						config << Display::screenSize.y;
+
+						config << "\n";
+						
 						config << fullON;
 						config << "\n";
 						config << showFPS;

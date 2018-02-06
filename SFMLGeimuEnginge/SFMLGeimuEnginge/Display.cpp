@@ -18,13 +18,18 @@ namespace Display
 	//Stworz okno
 	void init()
 	{
+
+
 		config.open("config.txt", std::ios::in);
 	
+
 		if (config.good())
 		{
-			int _s, _f, _v;
+			int _s, _f, _v, str1, str2;
 
-			config >> _f >> _s >> _v;
+			config >> str1 >> str2 >> _f >> _s >> _v;
+
+			std::cout << str1 << " " << str2;
 
 			showFPS = _s;
 			fullON = _f;
@@ -40,13 +45,14 @@ namespace Display
 			globalVolume = 50;
 			showFPS = 0;
 			fullON = 0;
+
 		}
 
-		if(fullON) window = std::make_unique<sf::RenderWindow>(sf::VideoMode((int)screenSize.x, (int)screenSize.y), title, sf::Style::Fullscreen);
-		else window = std::make_unique<sf::RenderWindow>(sf::VideoMode((int)screenSize.x, (int)screenSize.y), title, sf::Style::Default);
+		if(fullON) window = std::make_unique<sf::RenderWindow>(sf::VideoMode(screenSize.x, screenSize.y), title, sf::Style::Fullscreen | sf::Style::Close);
+		else window = std::make_unique<sf::RenderWindow>(sf::VideoMode(screenSize.x, screenSize.y), title, sf::Style::Close);
 
 		//Ograniczenie fps do 60 metoda okna z biblioteki SFML
-		//window->setFramerateLimit(60);
+		window->setFramerateLimit(60);
 
 		window->setVerticalSyncEnabled(true);
 
@@ -61,8 +67,8 @@ namespace Display
 	void setFull(bool full)
 	{
 		window->close();
-		if (full) { window->create(sf::VideoMode(1920, 1080), title, sf::Style::Fullscreen); fullON = 1; }
-		else { window->create(sf::VideoMode(1920, 1080), title, sf::Style::Default);  fullON = 0; }
+		if (full) { window->create(sf::VideoMode(screenSize.x, screenSize.y), title, sf::Style::Fullscreen | sf::Style::Close); fullON = 1; }
+		else { window->create(sf::VideoMode(screenSize.x, screenSize.y), title, sf::Style::Close);  fullON = 0; }
 	}
 
 	//Czysc okno
@@ -89,8 +95,7 @@ namespace Display
 		while (window->pollEvent(e))
 		{
 			InputHandler::updateInput(e);
-			//Jesli event = proba zamkniecia okna to zamknij
-			//TODO komunikat czy chcesz zamknac, jakis zapis save'a itp.
+			
 			if (e.type == sf::Event::Closed)
 			{
 				window->close();

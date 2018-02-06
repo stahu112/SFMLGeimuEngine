@@ -98,7 +98,7 @@ void Level::loadTileMap(Texture_Name tex, std::string path)
 		while (!file.eof())
 		{
 			std::string str;
-
+			
 			file >> str;
 
 			char x = str[0], y = str[2], z = str[1];

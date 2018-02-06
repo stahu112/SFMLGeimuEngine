@@ -45,7 +45,7 @@ void Application::runMainLoop()
 
 		//Wywolaj funkcje ze STATE'a
 		m_states.top()->input();		//Sterowanie itp.
-		m_states.top()->update(dt.asSeconds());	//Aktualizuj stany obiektow
+		m_states.top()->update(dt.asSeconds() * timeScale);	//Aktualizuj stany obiektow
 		m_states.top()->draw();			//Rysuj obiekty
 
 		if (!InputHandler::down) InputHandler::key = sf::Keyboard::Unknown;

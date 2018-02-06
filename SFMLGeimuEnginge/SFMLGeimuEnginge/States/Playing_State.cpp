@@ -43,8 +43,8 @@ namespace State
 	void Playing::initLevels()
 	{
 		Level level0(
-			50,
-			20,
+			80,
+			42,
 			Texture_Name::test2,
 			Texture_Name::tilemap,
 			false,
@@ -55,8 +55,8 @@ namespace State
 		level0.loadTileMap(Texture_Name::tilemap, "level0.txt");
 
 		Level level1(
-			50,
-			20,
+			100,
+			42,
 			Texture_Name::test1,
 			Texture_Name::tilemap,
 			false,

@@ -3,11 +3,16 @@
 #include <SFML/Graphics.hpp>
 #include "InputHandler.h"
 
+
 constexpr float boxRatio = 32.f; //32px == 1m
+
+static float timeScale = 1.f;
 
 namespace Display
 {
-	
+
+	static std::vector<sf::Vector2f> resolutions;
+
 	void init();
 	void setFull(bool full);
 
@@ -23,6 +28,6 @@ namespace Display
 	bool isOpen();
 	bool pollEvents(sf::Event e);
 
-	const sf::Vector2f screenSize(1920, 1080);
+	static sf::Vector2f screenSize = { 1920, 1080 };
 	const std::string title = "Jakies cos";
 }
