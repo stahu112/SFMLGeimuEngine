@@ -1,3 +1,3 @@
 # SFMLGeimuEngine
 
-Coś w rodzaju indywidualnego projektu, gry dla nauki wzorców
+Project for learning patterns and other stuff
